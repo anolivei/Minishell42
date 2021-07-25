@@ -1,4 +1,5 @@
-<h1 align="center">Minishell 🐚 </h1>
+<h1 align="center">Minishell 🐚</h1>
+<h4 align="center">As beautiful as a shell </h4>
 
 <p align="center">
 
