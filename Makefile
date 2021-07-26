@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/07/25 15:07:42 by anolivei         ###   ########.fr        #
+#    Updated: 2021/07/26 17:19:53 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 CC = clang
 HEAD = -I./includes -I./$(LIBFT_DIR)
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
-LFLAGS = -L ./$(LIBFT_DIR) -lft
+LFLAGS = -L ./$(LIBFT_DIR) -lft -lreadline
 RM = /bin/rm -rf
 
 all: $(NAME)
