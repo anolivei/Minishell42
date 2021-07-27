@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/27 18:37:42 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:14:12 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_struct
 {
 	char	*line_read;
 	char	*cmd;
-	char	**args;
+	char	**tokens;
 	int		status;
 }			t_struct;
 

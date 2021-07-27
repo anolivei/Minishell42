@@ -6,21 +6,11 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/27 19:00:14 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:23:35 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	compare(t_struct *mini)
-{
-	if (!ft_strncmp(mini->line_read, "exit", 4)
-		&& (ft_strlen(mini->line_read) == 4 || mini->line_read[4] == ' '))
-		exit(0);
-	if (!ft_strncmp(mini->line_read, "pwd", 3)
-		&& (ft_strlen(mini->line_read) == 3 || mini->line_read[3] == ' '))
-		pwd(mini);
-}
 
 void free_line(char *line_read)
 {
@@ -29,6 +19,30 @@ void free_line(char *line_read)
 		free(line_read);
 		line_read = (char * )NULL;
 	}
+}
+
+void free_char_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != 0)
+		free(array[i++]);
+	free(array);
+}
+
+static void	compare(t_struct *mini)
+{
+	if (!ft_strncmp(mini->line_read, "exit", 4)
+		&& (ft_strlen(mini->line_read) == 4 || mini->line_read[4] == ' '))
+		{
+			free_char_array(mini->tokens);
+			free_line(mini->line_read);
+			exit(0);
+		}
+	if (!ft_strncmp(mini->line_read, "pwd", 3)
+		&& (ft_strlen(mini->line_read) == 3 || mini->line_read[3] == ' '))
+		pwd(mini);
 }
 
 char *get_line(char *line_read)
@@ -58,18 +72,20 @@ void run_builtin(t_struct *mini)
 int main(void)
 {
 	pid_t		child_pid;
-	char		**tokens;
 	int			stat_loc;
 	t_struct	mini;
 
 	mini.line_read = (char *) NULL;
+	mini.tokens = (char **) NULL;
 	while (1)
 	{
 		mini.line_read= get_line(mini.line_read);
 		if(mini.line_read && *mini.line_read)
 		{
-			tokens = ft_split(mini.line_read, ' ');
-			mini.cmd = tokens[0];
+			if (mini.tokens)
+				free_char_array(mini.tokens);
+			mini.tokens = ft_split(mini.line_read, ' ');
+			mini.cmd = mini.tokens [0];
 			if (is_builtin(mini.cmd))
 			{
 				run_builtin(&mini);
@@ -79,7 +95,7 @@ int main(void)
 				child_pid = fork();
 				if (child_pid == 0)
 				{
-					execve(mini.cmd, tokens, NULL);
+					execve(mini.cmd, mini.tokens, NULL);
 					printf("child\n");
 				}
 				else
