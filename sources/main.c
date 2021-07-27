@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/27 19:23:35 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:39:03 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ int main(void)
 				child_pid = fork();
 				if (child_pid == 0)
 				{
-					execve(mini.cmd, mini.tokens, NULL);
+					if (execve(mini.cmd, mini.tokens, NULL) < 0)
+						printf("bash: %s: comando não encontrado\n"
+						, mini.line_read);
 					printf("child\n");
 				}
 				else
