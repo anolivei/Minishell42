@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/26 23:26:25 by anolivei         ###   ########.fr       */
+/*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
+/*   Updated: 2021/07/26 23:30:34 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "libft.h"
-# include <stdlib.h>
-# include <stdbool.h>
-# include <limits.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-/*
-** Structures
-*/
-
-typedef struct s_struct
+void	pwd(t_struct *mini)
 {
-	char	*line_read;
-	int		status;
-}			t_struct;
+	size_t	size;
+	char	*buf;
 
-/*
-** Functions
-*/
-
-void	pwd(t_struct *mini);
-
-#endif
+	size = 2000;
+	buf = NULL;
+	buf = getcwd(buf, size);
+	printf("%s\n", buf);
+	if (buf == NULL)
+		mini->status = 1;
+	else
+		mini->status = 0;
+	free(buf);
+}

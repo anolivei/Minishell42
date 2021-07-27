@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/07/26 17:19:53 by wbertoni         ###   ########.fr        #
+#    Updated: 2021/07/26 22:51:59 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ OBJ_DIR = .objs
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC =	$(SRC_DIR)/main.c
+SRC =	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/builtins.c 
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
