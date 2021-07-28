@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/27 19:14:12 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/07/28 00:08:28 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 /*
 ** Structures
@@ -32,12 +33,14 @@ typedef struct s_struct
 	char	*cmd;
 	char	**tokens;
 	int		status;
+	bool	is_builtin;
 }			t_struct;
 
 /*
 ** Functions
 */
 
-void	pwd(t_struct *mini);
+void	ft_pwd(t_struct *mini);
+void	ft_echo(t_struct *mini);
 
 #endif
