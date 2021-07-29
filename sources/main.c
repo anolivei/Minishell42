@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/28 00:49:03 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/07/28 23:46:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	compare(t_struct *mini)
 char *get_line(char *line_read)
 {
 	free_line(line_read);
-	line_read = readline("\033[1;36mMinishell42>\033[0;37m");
+	line_read = readline("\033[1;36mMinishell42> \033[0;37m");
 	if (line_read && *line_read)
 		add_history(line_read);
 	return (line_read);

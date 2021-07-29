@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/28 00:52:43 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/07/28 23:57:17 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,25 @@ void	ft_echo(t_struct *mini)
 				i = 4;
 				while (mini->line_read[i] == ' ')
 					i++;
-				printf("%s", &mini->line_read[i + 3]);
+				i += 3;
+				while (mini->line_read[i] == ' ')
+					i++;
+				//TODO " " AND ' '
+				if (mini->line_read[i] == 34 || mini->line_read[i] == 39)
+					i++;
+				printf("%s", &mini->line_read[i]);
 			}
 		}
 		else
-			printf("%s\n", &mini->line_read[5]);
+		{
+			i = 5;
+			while (mini->line_read[i] == ' ')
+				i++;
+			//TODO " " AND ' '
+			if (mini->line_read[i] == 34 || mini->line_read[i] == 39)
+				i++;
+			printf("%s\n", &mini->line_read[i]);
+		}
+
 	}
 }
