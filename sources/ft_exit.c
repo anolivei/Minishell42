@@ -1,42 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/26 05:41:44 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/04 23:21:44 by anolivei         ###   ########.fr       */
+/*   Created: 2021/08/04 23:55:50 by anolivei          #+#    #+#             */
+/*   Updated: 2021/08/04 23:59:52 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	ft_exit(t_struct *mini)
 {
-	char		*string;
-	size_t		i;
-	size_t		j;
+	free_char_array(mini->tokens);
+	free_line(mini->line_read);
+	free_char_array(mini->path);
+	exit(0);
+}
 
-	if (s1 == 0 || s2 == 0)
-		return (0);
+void	free_line(char *line_read)
+{
+	if (line_read)
+	{
+		free(line_read);
+		line_read = (char *) NULL;
+	}
+}
+
+void	free_char_array(char **array)
+{
+	int	i;
+
 	i = 0;
-	string = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(*string));
-	if (string == 0)
-		return (0);
-	while (s1[i] != '\0')
+	while (array[i] != 0)
 	{
-		string[i] = s1[i];
+		free(array[i]);
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		string[i] = s2[j];
-		i++;
-		j++;
-	}
-	free((char *)s1);
-	string[i] = '\0';
-	return (string);
+	free(array);
 }

@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/26 05:41:44 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/04 23:21:44 by anolivei         ###   ########.fr       */
+/*   Created: 2021/08/04 21:52:48 by anolivei          #+#    #+#             */
+/*   Updated: 2021/08/04 23:48:47 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*find_env(t_struct *mini, char *needle)
 {
-	char		*string;
-	size_t		i;
-	size_t		j;
+	int	i;
+	int	len;
+	int	len_needle;
 
-	if (s1 == 0 || s2 == 0)
-		return (0);
 	i = 0;
-	string = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(*string));
-	if (string == 0)
-		return (0);
-	while (s1[i] != '\0')
+	len_needle = ft_strlen(needle);
+	while (mini->env.key[i])
 	{
-		string[i] = s1[i];
+		len = ft_strlen(mini->env.key[i]);
+		if (!ft_strncmp(mini->env.key[i], needle, len_needle)
+			&& len == len_needle)
+			return (mini->env.content[i]);
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		string[i] = s2[j];
-		i++;
-		j++;
-	}
-	free((char *)s1);
-	string[i] = '\0';
-	return (string);
+	return (0);
 }

@@ -6,46 +6,13 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/07/28 23:46:09 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/05 00:28:53 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_line(char *line_read)
-{
-	if(line_read)
-	{
-		free(line_read);
-		line_read = (char * )NULL;
-	}
-}
-
-void free_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != 0)
-		free(array[i++]);
-	free(array);
-}
-
-static void	compare(t_struct *mini)
-{
-	if (!ft_strncmp(mini->cmd, "exit", 4))
-		{
-			free_char_array(mini->tokens);
-			free_line(mini->line_read);
-			exit(0);
-		}
-	if (!ft_strncmp(mini->cmd, "pwd", 3))
-		ft_pwd(mini);
-	if (!ft_strncmp(mini->cmd, "echo", 4))
-		ft_echo(mini);
-}
-
-char *get_line(char *line_read)
+char	*get_line(char *line_read)
 {
 	free_line(line_read);
 	line_read = readline("\033[1;36mMinishell42> \033[0;37m");
@@ -54,38 +21,30 @@ char *get_line(char *line_read)
 	return (line_read);
 }
 
-void	is_builtin(char *cmd, t_struct *mini)
+static void	initialize(t_struct *mini)
 {
-	if ((!ft_strncmp("echo", cmd, 4) && ft_strlen(cmd) == 4) 
-		|| (!ft_strncmp("cd", cmd, 2) && ft_strlen(cmd) == 2) 
-		|| (!ft_strncmp("pwd", cmd, 3) && ft_strlen(cmd) == 3)
-		|| (!ft_strncmp("export", cmd, 6) && ft_strlen(cmd) == 6) 
-		|| (!ft_strncmp("unset", cmd, 5) && ft_strlen(cmd) == 5)
-		|| (!ft_strncmp("env", cmd, 3) && ft_strlen(cmd) == 3)
-		|| (!ft_strncmp("exit", cmd, 4)&& ft_strlen(cmd) == 4)) 
-		mini->is_builtin = true;
-	else
-		mini->is_builtin = false;
+	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
+	create_env(mini, __environ);
+	mini->line_read = (char *) NULL;
+	mini->tokens = (char **) NULL;
+	init_path(mini);
 }
 
-void run_builtin(t_struct *mini)
+int	main(void)
 {
-	compare(mini);
-}
-
-int main(void)
-{
-	pid_t		child_pid;
 	int			stat_loc;
+	char		*line_read_aux;
+	pid_t		child_pid;
 	t_struct	mini;
 
-	mini.line_read = (char *) NULL;
-	mini.tokens = (char **) NULL;
-	printf("\033[4;32m		 🐚  Welcome to the Minishell  🐚\n\033[0;37m");
+	initialize(&mini);
+	line_read_aux = (char *) NULL;
 	while (1)
 	{
-		mini.line_read= ft_strtrim(get_line(mini.line_read), " ");
-		if(mini.line_read && *mini.line_read)
+		line_read_aux = get_line(mini.line_read);
+		mini.line_read = ft_strtrim(line_read_aux, " ");
+		free(line_read_aux);
+		if (mini.line_read && *mini.line_read)
 		{
 			if (mini.tokens)
 				free_char_array(mini.tokens);
@@ -93,28 +52,18 @@ int main(void)
 			mini.cmd = mini.tokens[0];
 			is_builtin(mini.cmd, &mini);
 			if (mini.is_builtin == true)
-			{
 				run_builtin(&mini);
-			}
 			else
 			{
 				child_pid = fork();
 				if (child_pid == 0)
 				{
-					if (execve(mini.cmd, mini.tokens, NULL) < 0)
-						printf("bash: %s: comando não encontrado\n"
-						, mini.line_read);
-					printf("child\n");
-					//para matar o processo filho quando o execv nao funciona (comando nao existe)
+					ft_execve(&mini);
 					child_pid = getpid();
 					kill(child_pid, SIGKILL);
-					
 				}
 				else
-				{
 					waitpid(child_pid, &stat_loc, WUNTRACED);
-					printf("parent\n");
-				}
 			}
 		}
 	}

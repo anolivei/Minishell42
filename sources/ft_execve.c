@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/26 05:41:44 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/04 23:21:44 by anolivei         ###   ########.fr       */
+/*   Created: 2021/08/04 23:26:29 by anolivei          #+#    #+#             */
+/*   Updated: 2021/08/04 23:51:08 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	ft_execve(t_struct *mini)
 {
-	char		*string;
-	size_t		i;
-	size_t		j;
+	int		i;
+	char	*path_aux;
 
-	if (s1 == 0 || s2 == 0)
-		return (0);
 	i = 0;
-	string = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(*string));
-	if (string == 0)
-		return (0);
-	while (s1[i] != '\0')
+	while (mini->path[i])
 	{
-		string[i] = s1[i];
+		path_aux = ft_strjoin(mini->path[i], mini->tokens[0]);
+		execve(path_aux, &mini->tokens[0], mini->env.env);
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		string[i] = s2[j];
-		i++;
-		j++;
-	}
-	free((char *)s1);
-	string[i] = '\0';
-	return (string);
+	printf("%s: command not found\n", mini->line_read);
 }

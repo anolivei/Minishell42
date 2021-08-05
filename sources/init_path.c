@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   init_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/26 05:41:44 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/04 23:21:44 by anolivei         ###   ########.fr       */
+/*   Created: 2021/08/04 23:07:24 by anolivei          #+#    #+#             */
+/*   Updated: 2021/08/05 00:22:14 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+/*
+** Find PATH into the environment variables
+** split in each ':' to find all paths
+** and put a '/' in the end of each path
+*/
+
+int	init_path(t_struct *mini)
 {
-	char		*string;
-	size_t		i;
-	size_t		j;
+	char	*path_aux;
+	int		i;
 
-	if (s1 == 0 || s2 == 0)
+	path_aux = ft_strdup(find_env(mini, "PATH"));
+	if (!path_aux)
 		return (0);
+	mini->path = ft_split(path_aux, ':');
 	i = 0;
-	string = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(*string));
-	if (string == 0)
-		return (0);
-	while (s1[i] != '\0')
+	while (mini->path[i])
 	{
-		string[i] = s1[i];
+		mini->path[i] = ft_strjoin(mini->path[i], "/");
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		string[i] = s2[j];
-		i++;
-		j++;
-	}
-	free((char *)s1);
-	string[i] = '\0';
-	return (string);
+	free(path_aux);
+	return (1);
 }
