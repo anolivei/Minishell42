@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:28:53 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/06 01:11:48 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ char	*get_line(char *line_read)
 static void	initialize(t_struct *mini)
 {
 	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
-	create_env(mini, __environ);
+	create_env(mini, __environ, 0);
 	mini->line_read = (char *) NULL;
 	mini->tokens = (char **) NULL;
+	mini->env.env_aux = (char **) NULL;
 	init_path(mini);
 }
 

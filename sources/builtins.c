@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:09:02 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/06 00:36:07 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,6 @@ void	run_builtin(t_struct *mini)
 		ft_cd(mini);
 	if (!ft_strncmp(mini->cmd, "env", 3))
 		ft_env(mini);
+	if (!ft_strncmp(mini->cmd, "export", 6))
+		ft_export(mini);
 }

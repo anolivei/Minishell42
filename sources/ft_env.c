@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:21:24 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/06 01:17:16 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	len_env(t_struct *mini)
 	mini->env.len = i;
 }
 
-void	create_env(t_struct *mini, char **my_env)
+void	create_env(t_struct *mini, char **my_env, int trigger)
 {
 	int		i;
 	char	**env_aux;
@@ -42,10 +42,10 @@ void	create_env(t_struct *mini, char **my_env)
 	mini->env.env = my_env;
 	len_env(mini);
 	i = 0;
-	mini->env.key = malloc(sizeof(char *) * (mini->env.len + 1));
+	mini->env.key = malloc(sizeof(char *) * (mini->env.len + trigger + 1));
 	if (!mini->env.key)
 		exit(EXIT_FAILURE);
-	mini->env.content = malloc(sizeof(char *) * (mini->env.len + 1));
+	mini->env.content = malloc(sizeof(char *) * (mini->env.len + trigger + 1));
 	if (!mini->env.content)
 		exit(EXIT_FAILURE);
 	while (mini->env.env[i])
@@ -57,6 +57,12 @@ void	create_env(t_struct *mini, char **my_env)
 		env_aux = NULL;
 		i++;
 	}
+	//if (trigger)
+	//{
+	//	mini->env.key[i] = mini->env.env_aux[0];
+	//	mini->env.content[i] = mini->env.env_aux[1];
+	//	i++;
+	//}
 	mini->env.key[i] = "\0";
 	mini->env.content[i] = "\0";
 }

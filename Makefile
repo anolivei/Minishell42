@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/08/05 00:08:25 by anolivei         ###   ########.fr        #
+#    Updated: 2021/08/05 23:56:31 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/find_env.c \
 		$(SRC_DIR)/init_path.c \
 		$(SRC_DIR)/ft_execve.c \
-		$(SRC_DIR)/ft_exit.c
+		$(SRC_DIR)/ft_exit.c \
+		$(SRC_DIR)/ft_export.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 

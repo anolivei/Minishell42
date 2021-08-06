@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:55:50 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/04 23:59:52 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/06 00:26:26 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	ft_exit(t_struct *mini)
 	free_char_array(mini->tokens);
 	free_line(mini->line_read);
 	free_char_array(mini->path);
+	//free_char_array(mini->env.key);
+	//free_char_array(mini->env.content);
+	//free_char_array(mini->env.env);
 	exit(0);
 }
 

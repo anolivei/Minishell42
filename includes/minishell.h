@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:09:35 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/06 00:57:27 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ typedef struct s_env
 	char	**env;
 	int		len;
 	char	**key;
+	char	**env_aux;
 	char	**content;
+	int		index;
 }			t_env;
 
 /*
@@ -53,14 +55,22 @@ typedef struct s_struct
 */
 void	is_builtin(char *cmd, t_struct *mini);
 void	run_builtin(t_struct *mini);
+
 void	ft_pwd(t_struct *mini);
+
 void	ft_echo(t_struct *mini);
+
 void	ft_cd(t_struct *mini);
+
 void	ft_env(t_struct *mini);
-void	create_env(t_struct *mini, char **my_env);
+void	create_env(t_struct *mini, char **my_env, int trigger);
 char	*find_env(t_struct *mini, char *needle);
+
 int		init_path(t_struct *mini);
 void	ft_execve(t_struct *mini);
+
+int		ft_export(t_struct *mini);
+
 void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
 void	free_line(char *line_read);
