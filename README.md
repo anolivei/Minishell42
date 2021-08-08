@@ -48,33 +48,8 @@ With Minishell, you’ll be able to travel through time and come back to problem
 - [Linux Commands](https://www.rapidtables.com/code/linux/index.html)
 
 ## Functions ##
-Only the following functions are allowed to be used in this project:
-- readline
-- rl_on_new_line, rl_replace_line, rl_redisplay
-- add_history
-- printf
-- malloc, free
-- write, open, read, close
-- fork
-- wait, waitpid, wait3, wait4
-- signal
-- kill, exit
-- getcwd
-- chdir
-- stat, lstat, fstat
-- unlink
-- execve
-- dup, dup2
-- pipe
-- opendir, readdir, closedir
-- strerror, errno
-- isatty
-- ttyname, ttyslot
-- ioctl
-- getenv
-- tcsetattr, tcgetattr
-- tgetent, tgetflag, tgetnum, tgetstr
-- tgoto, tputs
+Only the following functions are allowed to be used in this project:<br>
+readline rl_on_new_line, rl_replace_line, rl_redisplay, add_history,  printf, malloc, free, write, open, read, close, fork, wait, waitpid, wait3, wait4, signal, kill, exit, getcwd, chdir, stat, lstat, fstat, unlink, execve, dup, dup2, pipe, opendir, readdir, closedir, strerror, errno, isatty, ttyname, ttyslot, ioctl, getenv, tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
 ## Starting ##
 

@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_env.c                                         :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/04 21:52:48 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/08 01:28:32 by anolivei         ###   ########.fr       */
+/*   Created: 2021/08/08 02:40:46 by anolivei          #+#    #+#             */
+/*   Updated: 2021/08/08 02:59:34 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*find_env(t_struct *mini, char *needle)
+void	*ft_realloc(void *ptr, size_t newsize)
 {
-	int	i;
-	int	len;
-	int	len_needle;
+	char	*newptr;
+	size_t	cursize;
 
-	i = 0;
-	mini->env.index = 0;
-	len_needle = ft_strlen(needle);
-	while (mini->env.key[i] && i < mini->env.len)
-	{
-		len = ft_strlen(mini->env.key[i]);
-		if (!ft_strncmp(mini->env.key[i], needle, len_needle)
-			&& len == len_needle)
-		{
-			mini->env.index = i;
-			return (mini->env.content[i]);
-		}
-		i++;
-	}
-	return (0);
+	if (ptr == 0)
+		return (malloc(newsize));
+	cursize = sizeof(ptr);
+	if (newsize <= cursize)
+		return (ptr);
+	newptr = malloc(newsize);
+	ft_memcpy(ptr, newptr, cursize);
+	free(ptr);
+	return (newptr);
 }
