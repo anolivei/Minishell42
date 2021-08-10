@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 22:48:47 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/09 23:59:41 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	create_env(t_struct *mini, char **my_env)
 		env_aux = NULL;
 		i++;
 	}
-	printf("%d\n", i);
-	printf("%d\n", mini->env.len);
 	mini->env.key[i] = NULL;
 	mini->env.content[i] = NULL;
 }

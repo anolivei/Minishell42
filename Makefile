@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/08/08 02:57:54 by anolivei         ###   ########.fr        #
+#    Updated: 2021/08/09 23:51:43 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_execve.c \
 		$(SRC_DIR)/ft_exit.c \
 		$(SRC_DIR)/ft_export.c \
-		$(SRC_DIR)/ft_realloc.c
+		$(SRC_DIR)/ft_unset.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
