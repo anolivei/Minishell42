@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 22:24:07 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/09 22:50:08 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int		ft_export(t_struct *mini);
 void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
 void	free_line(char *line_read);
-void	free_env(char **env, int len);
 
 void	*ft_realloc(void *ptr, size_t newsize);
 

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 22:28:35 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/09 22:52:06 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,23 @@ static void	add_env(t_struct *mini, char *new_key, char *new_content)
 	while (i < mini->env.len - 1)
 	{
 		mini->env_aux.key[i] = ft_strdup(mini->env.key[i]);
-		free(mini->env.key[i]);
 		mini->env_aux.content[i] = ft_strdup(mini->env.content[i]);
-		free(mini->env.content[i]);
 		i++;
 	}
 	mini->env_aux.key[i] = ft_strdup(new_key);
 	mini->env_aux.content[i] = ft_strdup(new_content);
 	i++;
-	mini->env_aux.key[i] = "\0";
-	mini->env_aux.content[i] = "\0";
+	mini->env_aux.key[i] = NULL;
+	mini->env_aux.content[i] = NULL;
+	free_char_array(mini->env.key);
+	free_char_array(mini->env.content);
 	mini->env.key = mini->env_aux.key;
 	mini->env.content = mini->env_aux.content;
 }
 
 int	ft_export(t_struct *mini)
 {
-	int	i;
+	int		i;
 	char	**env_aux;
 
 	i = 0;
