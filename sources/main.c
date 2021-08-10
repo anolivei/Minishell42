@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/08 02:28:35 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/09 20:54:01 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(void)
 	t_struct	mini;
 
 	initialize(&mini);
+	add_history("export oi=oi");
 	line_read_aux = (char *) NULL;
 	while (1)
 	{

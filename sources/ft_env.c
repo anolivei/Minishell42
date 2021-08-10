@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/08 02:35:42 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/09 20:20:40 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_env(t_struct *mini)
 	int	i;
 
 	i = 0;
-	while (mini->env.env[i])
+	while (i < mini->env.len)
 	{
 		printf("%s=%s\n", mini->env.key[i], mini->env.content[i]);
 		i++;
