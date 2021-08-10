@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 23:55:39 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/10 20:27:22 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*find_env(t_struct *mini, char *needle);
 
 int		init_path(t_struct *mini);
 void	ft_execve(t_struct *mini);
+void	run_execve(t_struct *mini);
 
 void	ft_export(t_struct *mini);
 void	ft_unset(t_struct *mini);

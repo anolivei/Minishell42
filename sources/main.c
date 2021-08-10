@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 23:26:49 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/10 20:31:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,10 @@ static void	initialize(t_struct *mini)
 
 int	main(void)
 {
-	int			stat_loc;
 	char		*line_read_aux;
-	pid_t		child_pid;
 	t_struct	mini;
 
 	initialize(&mini);
-	add_history("unset oi");
-	add_history("export oi=oi");
 	line_read_aux = (char *) NULL;
 	while (1)
 	{
@@ -56,17 +52,7 @@ int	main(void)
 			if (mini.is_builtin == true)
 				run_builtin(&mini);
 			else
-			{
-				child_pid = fork();
-				if (child_pid == 0)
-				{
-					ft_execve(&mini);
-					child_pid = getpid();
-					kill(child_pid, SIGKILL);
-				}
-				else
-					waitpid(child_pid, &stat_loc, WUNTRACED);
-			}
+				run_execve(&mini);
 		}
 	}
 }

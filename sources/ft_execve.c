@@ -6,11 +6,27 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:26:29 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/04 23:51:08 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/10 20:29:46 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	run_execve(t_struct *mini)
+{
+	pid_t	child_pid;
+	int		stat_loc;
+
+	child_pid = fork();
+	if (child_pid == 0)
+	{
+		ft_execve(mini);
+		child_pid = getpid();
+		kill(child_pid, SIGKILL);
+	}
+	else
+		waitpid(child_pid, &stat_loc, WUNTRACED);
+}
 
 void	ft_execve(t_struct *mini)
 {
