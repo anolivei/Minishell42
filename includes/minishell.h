@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/10 20:27:22 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:03:43 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+
+# define DOUBLE_QUOTE '"'
+# define QUOTE '\''
 
 /*
 ** Struct for the environment variables

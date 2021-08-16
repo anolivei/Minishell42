@@ -6,11 +6,12 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 23:56:52 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/15 22:39:46 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static void	add_env(t_struct *mini, char *new_key, char *new_content)
 {
 	int	i;
