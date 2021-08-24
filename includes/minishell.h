@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/15 23:03:43 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/23 22:32:58 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,15 @@ typedef struct s_struct
 	t_env	env_aux;
 	t_env	env;
 }			t_struct;
+
+typedef struct s_cmd
+{
+	char *cmd;
+	char *cmd_token;
+	bool has_pipe;
+	bool has_redirection;
+	int fd;
+}		t_cmd;
 
 /*
 ** Minishell functions
