@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/08/09 23:51:43 by anolivei         ###   ########.fr        #
+#    Updated: 2021/08/28 16:14:55 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,19 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_execve.c \
 		$(SRC_DIR)/ft_exit.c \
 		$(SRC_DIR)/ft_export.c \
-		$(SRC_DIR)/ft_unset.c
+		$(SRC_DIR)/ft_unset.c \
+		$(SRC_DIR)/has_is_pipe.c \
+		$(SRC_DIR)/has_is_append.c \
+		$(SRC_DIR)/has_is_redir.c \
+		$(SRC_DIR)/pipe_redir_append.c
+
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
 CC = clang
 HEAD = -I./includes -I./$(LIBFT_DIR)
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+# CFLAGS = -g -fsanitize=address
 LFLAGS = -L ./$(LIBFT_DIR) -lft -lreadline
 RM = /bin/rm -rf
 
@@ -52,8 +58,8 @@ $(LIBFT):
 debug_mac: $(OBJ) $(LIBFT)
 		@gcc $(LFLAGS) $(HEAD) $(SRC) $(CFLAGS) -o "minishell_debug"
 
-debug_linux:
-		@gdd $(LFLAGS) $(HEAD) $(SRC) $(CFLAGS) -o "minishell_debug"
+debug_linux: $(OBJ) $(LIBFT)
+		@$(CC) $(LFLAGS) $(HEAD) $(SRC) $(CFLAGS) -o "minishell_debug"
 
 clean:
 		@make clean -C $(LIBFT_DIR)

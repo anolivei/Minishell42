@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/23 22:32:58 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/08/28 14:59:20 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,29 @@ typedef struct s_env
 /*
 ** General structure
 */
+
+typedef struct s_token {
+	size_t size;
+	char **tokens;
+	char *head;
+	char *next;
+	int head_i;
+	int next_tk_i;
+	int before_token;
+} t_token;
+
+typedef struct s_cmd {
+	char *cmd;
+	bool has_pipe;
+	bool has_input_redir;
+	bool has_output_redir;
+	bool has_append;
+	int fd;
+	t_token *tk;
+} t_cmd;
+
+
+
 typedef struct s_struct
 {
 	char	*line_read;
@@ -53,14 +76,15 @@ typedef struct s_struct
 	t_env	env;
 }			t_struct;
 
-typedef struct s_cmd
-{
-	char *cmd;
-	char *cmd_token;
-	bool has_pipe;
-	bool has_redirection;
-	int fd;
-}		t_cmd;
+// typedef struct s_cmd
+// {
+// 	char *head;
+// 	char *next;
+// 	char **cmd_token;
+// 	bool has_pipe;
+// 	bool has_redirection;
+// 	int fd;
+// }		t_cmd;
 
 /*
 ** Minishell functions
@@ -89,5 +113,37 @@ void	alloc_env_aux(t_struct *mini);
 void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
 void	free_line(char *line_read);
+
+
+/*
+** has_is_pipe.c
+*/
+bool is_pipe(char *str);
+bool has_pipe(char **tokens);
+
+/*
+** has_is_append.c
+*/
+bool is_append(char *str);
+bool has_append(char **tokens);
+
+/*
+** has_is_redir.c
+*/
+bool is_input_redir(char *str);
+bool has_input_redir(char **tokens);
+bool is_output_redir(char *str);
+bool has_output_redir(char **tokens);
+
+/*
+** pipe_redir_append.c
+*/
+bool is_pipe_redir_append(char *str);
+bool has_pipe_redi_append(char **tokens);
+int count_pipe_redi_append(char **tokens);
+
+
+
+
 
 #endif
