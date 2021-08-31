@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:25:01 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 23:55:16 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/31 00:23:24 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ void	ft_unset(t_struct *mini)
 	if (mini->tokens[1])
 	{
 		if (find_env(mini, mini->tokens[1]))
+		{
 			rm_env(mini);
+			if (!ft_strncmp(mini->tokens[1], "PATH", 4))
+			{
+				free_char_array(mini->path);
+				mini->path = NULL;
+			}
+		}
 	}
 }
