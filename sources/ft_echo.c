@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/15 23:47:02 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/08/30 21:44:13 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	fix_quotes(t_struct *mini, int i, int j, char q)
 {
 	char	*line_read_aux;
 
-	line_read_aux = malloc(sizeof(char) * strlen(mini->line_read) + 1);
+	line_read_aux = malloc(sizeof(char) * ft_strlen(mini->line_read) + 1);
 	if (!line_read_aux)
 		exit(EXIT_FAILURE);
 	while (mini->line_read[i])
