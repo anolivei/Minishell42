@@ -2,6 +2,8 @@
 
 bool is_append(char *str)
 {
+	if (str == NULL)
+		return (false);
 	if (ft_strlen(str) == 2 && ft_strncmp(str, ">>", 1))
 		return true;
 	return false;

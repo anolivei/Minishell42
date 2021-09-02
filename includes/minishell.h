@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/28 14:59:20 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/01 19:10:59 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_token {
 
 typedef struct s_cmd {
 	char *cmd;
+	char *str;
 	bool has_pipe;
 	bool has_input_redir;
 	bool has_output_redir;
@@ -118,7 +119,8 @@ void	free_line(char *line_read);
 /*
 ** has_is_pipe.c
 */
-bool is_pipe(char *str);
+bool is_pipe_str(char *str);
+bool is_pipe(char c);
 bool has_pipe(char **tokens);
 
 /*
@@ -134,6 +136,7 @@ bool is_input_redir(char *str);
 bool has_input_redir(char **tokens);
 bool is_output_redir(char *str);
 bool has_output_redir(char **tokens);
+bool is_any_redir(char c);
 
 /*
 ** pipe_redir_append.c

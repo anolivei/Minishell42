@@ -2,7 +2,7 @@
 
 bool is_pipe_redir_append(char *str)
 {
-	if (is_pipe(str))
+	if (is_pipe_str(str))
 		return true;
 	if (is_append(str))
 		return true;

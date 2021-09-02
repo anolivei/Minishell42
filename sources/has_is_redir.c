@@ -1,7 +1,17 @@
 #include "minishell.h"
 
+
+bool is_any_redir(char c)
+{
+	if (c == '>' || c == '<')
+		return true;
+	return false;
+}
+
 bool is_input_redir(char *str)
 {
+	if (str == NULL)
+		return (false);
 	if (ft_strlen(str) == 1 && ft_strncmp(str, "<", 1))
 		return true;
 	return false;
@@ -22,6 +32,8 @@ bool has_input_redir(char **tokens)
 
 bool is_output_redir(char *str)
 {
+	if (str == NULL)
+		return (false);
 	if (ft_strlen(str) == 1 && ft_strncmp(str, ">", 1))
 		return true;
 	return false;
