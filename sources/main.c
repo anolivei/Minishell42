@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/01 19:50:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/02 20:15:30 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ t_cmd *create_cmd_str(char *str)
 	t_cmd *cmd;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (cmd == NULL)
+		return (NULL);
 	cmd->str = str;
 	cmd->tk = NULL;
 	cmd->cmd = NULL;
@@ -190,28 +192,28 @@ char **add_str_to_arr(char **arr, char *str)
 	return new_arr;
 }
 
-t_token *get_arr_token_separate(t_token *token)
-{
-	char **arr_tokens;
-	t_token *tokens;
-	bool stop;
+// t_token *get_arr_token_separate(t_token *token)
+// {
+// 	char **arr_tokens;
+// 	t_token *tokens;
+// 	bool stop;
 
-	stop = false;
-	arr_tokens = NULL;
-	while(token->head != NULL || !stop)
-	{
-		if (is_pipe_redir_append(token->head) && !is_pipe_redir_append(token->next))
-		{
-			stop = true;
-		}
-		arr_tokens = add_str_to_arr(arr_tokens, token->head);
-		next_token(token);
-	}
-	tokens = create_tokens(arr_tokens);
-	return tokens;
-}
+// 	stop = false;
+// 	arr_tokens = NULL;
+// 	while(token->head != NULL || !stop)
+// 	{
+// 		if (is_pipe_redir_append(token->head) && !is_pipe_redir_append(token->next))
+// 		{
+// 			stop = true;
+// 		}
+// 		arr_tokens = add_str_to_arr(arr_tokens, token->head);
+// 		next_token(token);
+// 	}
+// 	tokens = create_tokens(arr_tokens);
+// 	return tokens;
+// }
 
-bool has_pipe_redi_append_separator_str(char *str)
+bool has_pipe_redi_append_str(char *str)
 {
 	int i;
 
@@ -221,8 +223,6 @@ bool has_pipe_redi_append_separator_str(char *str)
 		if (str[i] == '|')
 			return true;
 		if (str[i] == '>' || str[i] == '<')
-			return true;
-		if (str[i] == ';')
 			return true;
 		i++;
 	}
@@ -251,14 +251,14 @@ t_list *ft_special_split(char *str)
 	int size;
 	int n_cmd;
 	char quote;
-	t_list *cmd;
+	t_list *lst_cmd;
 
 	n_cmd = 0;
 	start = 0;
 	size = 0;
 	i = 0;
 	quote = '\0';
-	cmd = NULL;
+	lst_cmd = NULL;
 	while (i < (int)ft_strlen(str))
 	{
 		if (quote == '\0' && (str[i] == DOUBLE_QUOTE || str[i] == QUOTE))
@@ -271,11 +271,15 @@ t_list *ft_special_split(char *str)
 			{
 				if ((is_pipe(str[i]) || is_any_redir(str[i])) && quote == '\0')
 				{
-					if (cmd == '\0')
-						cmd = ft_lstnew(create_cmd_str(ft_substr(str, start, size)));
+					if (lst_cmd == '\0')
+					{
+						lst_cmd = ft_lstnew(create_cmd_str(ft_substr(str, start, size)));
+						if (lst_cmd == NULL)
+							return (NULL);
+					}
 					else
 					{
-						ft_lstadd_back(&cmd, ft_lstnew(create_cmd_str(ft_substr(str, start, size))));
+						ft_lstadd_back(&lst_cmd, ft_lstnew(create_cmd_str(ft_substr(str, start, size))));
 					}
 					start = i;
 					size = 0;
@@ -286,15 +290,52 @@ t_list *ft_special_split(char *str)
 		i++;
 		size++;
 	}
-	if (cmd != NULL)
-		ft_lstadd_back(&cmd, ft_lstnew(create_cmd_str(ft_substr(str, start, size))));
+	if (lst_cmd != NULL)
+		ft_lstadd_back(&lst_cmd, ft_lstnew(create_cmd_str(ft_substr(str, start, size))));
 	else
-		cmd = ft_lstnew(create_cmd_str(str));
-	return (cmd);
+		lst_cmd = ft_lstnew(create_cmd_str(str));
+	return (lst_cmd);
+}
+
+void free_cmd(void *st)
+{
+	t_cmd *cmd;
+
+	cmd = (t_cmd *)st;
+	if (cmd->str != NULL)
+		free(cmd->str);
+	if (cmd->tk != NULL)
+	//precisa melhorar esse free
+		free(cmd->tk);
+	if (cmd->cmd == NULL)
+		free(cmd->cmd);
+	free(cmd);
+}
+
+void fill_cmd_struct(void *par)
+{
+	t_cmd *cmd;
+	char *tmp_str;
+
+	cmd = (t_cmd *)par;
+	//verifica primeiro char é pipe/redir ou append
+	if (has_pipe_redi_append_str(cmd->str))
+	{
+		cmd->has_pipe = is_pipe(cmd->str[0]);
+		cmd->has_input_redir = is_input_redir(cmd->str[0]);
+		cmd->has_output_redir = is_output_redir(cmd->str[0]);
+		cmd->has_append = is_output_append(cmd->str, 0);
+		tmp_str = cmd->str;
+		cmd->str = ft_strtrim(tmp_str, " >|<");
+		free(tmp_str);
+	}
+	cmd->token = ft_split(cmd->str, ' ');
+	cmd->cmd = cmd->token[0];
 }
 
 int	main(void)
 {
+	char		*tmp_line_read_aux;
 	char		*line_read_aux;
 	t_struct	mini;
 	// t_token *main_line_tk;
@@ -307,10 +348,31 @@ int	main(void)
 	line_read_aux = (char *) NULL;
 	while (1)
 	{
-		line_read_aux = get_line(mini.line_read);
+		tmp_line_read_aux = get_line(mini.line_read);
 
+		line_read_aux = ft_strtrim(tmp_line_read_aux, " ");
+		free(tmp_line_read_aux);
 
 		list = ft_special_split(line_read_aux);
+
+		if (list == NULL)
+			ft_lstclear(&list, free_cmd);
+		else
+		{
+			ft_lstiter(list, fill_cmd_struct);
+			t_cmd *prim = list->content;
+			t_cmd *prim2 = list->next->content;
+			t_cmd *prim3 = list->next->next->content;
+			printf("%s\n", prim->str);
+			printf("%s\n", prim2->str);
+			printf("%s\n", prim3->str);
+
+			printf("%s\n", prim->cmd);
+			printf("%s\n", prim2->cmd);
+			printf("%s\n", prim3->cmd);
+		}
+
+
 
 		size = ft_lstsize(list);
 		printf("%i\n", size);

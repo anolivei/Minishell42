@@ -8,46 +8,16 @@ bool is_any_redir(char c)
 	return false;
 }
 
-bool is_input_redir(char *str)
+bool is_input_redir(char c)
 {
-	if (str == NULL)
-		return (false);
-	if (ft_strlen(str) == 1 && ft_strncmp(str, "<", 1))
-		return true;
-	return false;
+	if (c == '<')
+		return (true);
+	return (false);
 }
 
-bool has_input_redir(char **tokens)
+bool is_output_redir(char c)
 {
-	int i;
-
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		if (is_input_redir(tokens[i]))
-			return true;
-	}
-	return false;
-}
-
-bool is_output_redir(char *str)
-{
-	if (str == NULL)
-		return (false);
-	if (ft_strlen(str) == 1 && ft_strncmp(str, ">", 1))
-		return true;
-	return false;
-}
-
-bool has_output_redir(char **tokens)
-{
-	int i;
-
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		if (is_output_redir(tokens[i]))
-			return true;
-	}
-	return false;
+	if (c == '>')
+		return (true);
+	return (false);
 }

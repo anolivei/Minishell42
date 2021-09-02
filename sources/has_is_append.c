@@ -1,23 +1,19 @@
 #include "minishell.h"
 
-bool is_append(char *str)
+bool is_output_append(char *str, int index)
 {
 	if (str == NULL)
 		return (false);
-	if (ft_strlen(str) == 2 && ft_strncmp(str, ">>", 1))
+	if (ft_strlen(str) > 2 && str[index] == '>' && str[index + 1] == '>')
 		return true;
 	return false;
 }
 
-bool has_append(char **tokens)
+bool is_input_append(char *str, int index)
 {
-	int i;
-
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		if (is_append(tokens[i]))
-			return true;
-	}
+	if (str == NULL)
+		return (false);
+	if (ft_strlen(str) > 2 && str[index] == '<' && str[index + 1] == '<')
+		return true;
 	return false;
 }

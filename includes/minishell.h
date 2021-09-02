@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/01 19:10:59 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/02 20:14:49 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token {
 typedef struct s_cmd {
 	char *cmd;
 	char *str;
+	char **token;
 	bool has_pipe;
 	bool has_input_redir;
 	bool has_output_redir;
@@ -126,24 +127,22 @@ bool has_pipe(char **tokens);
 /*
 ** has_is_append.c
 */
-bool is_append(char *str);
-bool has_append(char **tokens);
+bool is_output_append(char *str, int index);
+bool is_input_append(char *str, int index);
 
 /*
 ** has_is_redir.c
 */
-bool is_input_redir(char *str);
-bool has_input_redir(char **tokens);
-bool is_output_redir(char *str);
-bool has_output_redir(char **tokens);
+bool is_input_redir(char c);
+bool is_output_redir(char c);
 bool is_any_redir(char c);
 
 /*
 ** pipe_redir_append.c
 */
-bool is_pipe_redir_append(char *str);
-bool has_pipe_redi_append(char **tokens);
-int count_pipe_redi_append(char **tokens);
+// bool is_pipe_redir_append(char *str);
+// bool has_pipe_redi_append(char **tokens);
+// int count_pipe_redi_append(char **tokens);
 
 
 

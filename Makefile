@@ -6,7 +6,7 @@
 #    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/08/28 16:14:55 by wbertoni         ###   ########.fr        #
+#    Updated: 2021/09/02 20:15:05 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_unset.c \
 		$(SRC_DIR)/has_is_pipe.c \
 		$(SRC_DIR)/has_is_append.c \
-		$(SRC_DIR)/has_is_redir.c \
-		$(SRC_DIR)/pipe_redir_append.c
+		$(SRC_DIR)/has_is_redir.c
+		# $(SRC_DIR)/pipe_redir_append.c
 
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
