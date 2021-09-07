@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/31 00:07:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 19:17:18 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	ft_export(t_struct *mini)
 	int		i;
 	char	**env_aux;
 
-	i = 0;
-	if (mini->tokens[1])
+	i = 1;
+	while (mini->tokens[i])
 	{
-		env_aux = ft_split(mini->tokens[1], '=');
+		env_aux = ft_split(mini->tokens[i], '=');
 		if (env_aux[1])
 		{
 			if (find_env(mini, env_aux[0]))
@@ -54,10 +54,11 @@ void	ft_export(t_struct *mini)
 			}
 			else
 				add_env(mini, env_aux[0], env_aux[1]);
-			if (!ft_strncmp(mini->tokens[1], "PATH", 4))
+			if (!ft_strncmp(mini->tokens[i], "PATH", 4))
 				init_path(mini);
 		}
 		free_char_array(env_aux);
 		env_aux = NULL;
+		i++;
 	}
 }
