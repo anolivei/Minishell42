@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 14:06:23 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 14:46:55 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	fix_quotes(t_struct *mini, int i, int j, char q)
 		exit(EXIT_FAILURE);
 	while (mini->line_read[i])
 	{
-		if (q == 0 && (mini->line_read[i] == DOUBLE_QUOTE
-				|| mini->line_read[i] == QUOTE))
+		if (((mini->line_read[i] == QUOTE && mini->line_read[i + 1] != '$')
+				|| mini->line_read[i] == DOUBLE_QUOTE) && q == 0)
 			q = mini->line_read[i];
 		else
 		{
@@ -55,7 +55,7 @@ static int	find_n_char(char *haystack, char needle)
 	return (i);
 }
 
-static void	print_echo(t_struct *mini, char *line_read, int i, int q)
+static void	print_echo(t_struct *mini, char *line_read, int i)
 {
 	char	*ret;
 	char	*env;
@@ -63,7 +63,7 @@ static void	print_echo(t_struct *mini, char *line_read, int i, int q)
 
 	while (line_read[i] != '\0')
 	{
-		if (line_read[i] == '$' && (q == 0 || q == DOUBLE_QUOTE))
+		if (line_read[i] == '$' && line_read[i - 1] != '\'')
 		{
 			i++;
 			pos = find_n_char(&line_read[i], ' ');
@@ -75,7 +75,11 @@ static void	print_echo(t_struct *mini, char *line_read, int i, int q)
 			free (ret);
 		}
 		else
+		{
+			if (line_read[i] == '\'' && line_read[i + 1] == '$')
+				i++;
 			printf("%c", line_read[i]);
+		}
 		i++;
 	}
 }
@@ -103,7 +107,7 @@ void	ft_echo(t_struct *mini)
 				i++;
 		}
 		fix_quotes(mini, 0, 0, 0);
-		print_echo(mini, &mini->line_read[i], 0, 0);
+		print_echo(mini, &mini->line_read[i], 0);
 		if (!has_flag)
 			printf("\n");
 	}
