@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 00:00:39 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 14:06:23 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,27 @@ static int	find_n_char(char *haystack, char needle)
 	return (i);
 }
 
-static void	print_echo(t_struct *mini, char *phrase, int i, int q)
+static void	print_echo(t_struct *mini, char *line_read, int i, int q)
 {
 	char	*ret;
 	char	*env;
-	int		posic;
+	int		pos;
 
-	while (phrase[i] != '\0')
+	while (line_read[i] != '\0')
 	{
-		if (phrase[i] == '$' && (q == 0 || q == DOUBLE_QUOTE))
+		if (line_read[i] == '$' && (q == 0 || q == DOUBLE_QUOTE))
 		{
 			i++;
-			posic = find_n_char(&phrase[i], ' ');
-			ret = ft_substr(phrase, i, posic);
+			pos = find_n_char(&line_read[i], ' ');
+			ret = ft_substr(line_read, i, pos);
 			env = find_env(mini, ret);
 			if (env != NULL)
-			{
 				printf("%s ", env);
-				free (env);
-			}
-			i = i + posic - 1;
+			i = i + pos - 1;
 			free (ret);
 		}
 		else
-			printf("%c", phrase[i]);
+			printf("%c", line_read[i]);
 		i++;
 	}
 }
