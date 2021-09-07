@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/31 00:25:32 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 17:14:07 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 char	*get_line(char *line_read)
 {
+	size_t	size;
+	char	*buf;
+
+	size = 2000;
+	buf = NULL;
+	buf = getcwd(buf, size);
+	printf("\033[1;36m%s \033[0;37m", buf);
+	free(buf);
 	free_line(line_read);
-	line_read = readline("\033[1;36mMinishell42> \033[0;37m");
+	line_read = readline("");
 	if (line_read && *line_read)
 		add_history(line_read);
 	return (line_read);
