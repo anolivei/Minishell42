@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:25:01 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 19:50:33 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 19:52:23 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	alloc_env_aux(t_struct *mini)
 void	ft_unset(t_struct *mini)
 {
 	int	i;
-	
+
 	i = 1;
 	while (mini->tokens[i])
 	{
