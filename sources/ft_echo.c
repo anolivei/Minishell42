@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 14:46:55 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 14:54:36 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	fix_quotes(t_struct *mini, int i, int j, char q)
 	mini->line_read = line_read_aux;
 }
 
-static int	find_n_char(char *haystack, char needle)
+static int	len_env(char *haystack, char needle)
 {
 	int	i;
 
@@ -59,19 +59,19 @@ static void	print_echo(t_struct *mini, char *line_read, int i)
 {
 	char	*ret;
 	char	*env;
-	int		pos;
+	int		len;
 
 	while (line_read[i] != '\0')
 	{
 		if (line_read[i] == '$' && line_read[i - 1] != '\'')
 		{
 			i++;
-			pos = find_n_char(&line_read[i], ' ');
-			ret = ft_substr(line_read, i, pos);
+			len = len_env(&line_read[i], ' ');
+			ret = ft_substr(line_read, i, len);
 			env = find_env(mini, ret);
 			if (env != NULL)
-				printf("%s ", env);
-			i = i + pos - 1;
+				printf("%s", env);
+			i = i + len - 1;
 			free (ret);
 		}
 		else
