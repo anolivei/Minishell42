@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/15 23:03:43 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 21:04:46 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define DOUBLE_QUOTE '"'
 # define QUOTE '\''
 
+int	g_ret_number;
 /*
 ** Struct for the environment variables
 */

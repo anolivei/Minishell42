@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 14:54:36 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 21:30:54 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,33 @@ static int	len_env(char *haystack, char needle)
 	return (i);
 }
 
-static void	print_echo(t_struct *mini, char *line_read, int i)
+static int	echo_env(t_struct *mini, char *line_read, int i, int len)
 {
 	char	*ret;
 	char	*env;
-	int		len;
 
+	i++;
+	if (line_read[i] == '?')
+		printf("%i", g_ret_number);
+	len = len_env(&line_read[i], ' ');
+	ret = ft_substr(line_read, i, len);
+	env = find_env(mini, ret);
+	if (env != NULL)
+		printf("%s", env);
+	i = i + len - 1;
+	free (ret);
+	return (i);
+}
+
+static void	print_echo(t_struct *mini, char *line_read, int i, int len)
+{
 	while (line_read[i] != '\0')
 	{
-		if (line_read[i] == '$' && line_read[i - 1] != '\'')
-		{
-			i++;
-			len = len_env(&line_read[i], ' ');
-			ret = ft_substr(line_read, i, len);
-			env = find_env(mini, ret);
-			if (env != NULL)
-				printf("%s", env);
-			i = i + len - 1;
-			free (ret);
-		}
+		if (line_read[i] == '$' && line_read[i - 1] != QUOTE)
+			i = echo_env(mini, line_read, i, len);
 		else
 		{
-			if (line_read[i] == '\'' && line_read[i + 1] == '$')
+			if (line_read[i] == QUOTE && line_read[i + 1] == '$')
 				i++;
 			printf("%c", line_read[i]);
 		}
@@ -107,7 +112,7 @@ void	ft_echo(t_struct *mini)
 				i++;
 		}
 		fix_quotes(mini, 0, 0, 0);
-		print_echo(mini, &mini->line_read[i], 0);
+		print_echo(mini, &mini->line_read[i], 0, 0);
 		if (!has_flag)
 			printf("\n");
 	}

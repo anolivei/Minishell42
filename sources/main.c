@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 17:14:07 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 21:38:22 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_line(char *line_read)
 	printf("\033[1;36m%s \033[0;37m", buf);
 	free(buf);
 	free_line(line_read);
-	line_read = readline("");
+	line_read = readline("$ ");
 	if (line_read && *line_read)
 		add_history(line_read);
 	return (line_read);
@@ -35,6 +35,7 @@ static void	initialize(t_struct *mini)
 	create_env(mini, __environ);
 	mini->line_read = (char *) NULL;
 	mini->tokens = (char **) NULL;
+	g_ret_number = 0;
 	init_path(mini);
 }
 
