@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:05:51 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 22:22:05 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	ft_pwd(t_struct *mini)
 	else
 		mini->status = 0;
 	free(buf);
+	g_ret_number = mini->status;
 }

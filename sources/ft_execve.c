@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:26:29 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/31 00:24:24 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/07 23:07:23 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	run_execve(t_struct *mini)
 	pid_t	child_pid;
 	int		stat_loc;
 
+	stat_loc = 0;
 	child_pid = fork();
 	if (child_pid == 0)
 	{
@@ -26,6 +27,7 @@ void	run_execve(t_struct *mini)
 	}
 	else
 		waitpid(child_pid, &stat_loc, WUNTRACED);
+	g_ret_number = stat_loc;
 }
 
 void	ft_execve(t_struct *mini)
