@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/09 23:31:28 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/09 14:36:20 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,23 @@ void	is_builtin(char *cmd, t_struct *mini)
 		mini->is_builtin = false;
 }
 
-void	run_builtin(t_struct *mini)
+void	run_builtin(void *mini)
 {
-	if (!ft_strncmp(mini->cmd, "exit", 4))
-		ft_exit(mini);
-	if (!ft_strncmp(mini->cmd, "pwd", 3))
-		ft_pwd(mini);
-	if (!ft_strncmp(mini->cmd, "echo", 4))
-		ft_echo(mini);
-	if (!ft_strncmp(mini->cmd, "cd", 2))
-		ft_cd(mini);
-	if (!ft_strncmp(mini->cmd, "env", 3))
-		ft_env(mini);
-	if (!ft_strncmp(mini->cmd, "export", 6))
-		ft_export(mini);
-	if (!ft_strncmp(mini->cmd, "unset", 5))
-		ft_unset(mini);
+	t_struct *cmd;
+
+	cmd = (t_struct *)mini;
+	// if (!ft_strncmp(cmd->cmd, "exit", 4))
+	// 	ft_exit(cmd);
+	if (!ft_strncmp(cmd->cmd, "pwd", 3))
+		ft_pwd(cmd);
+	if (!ft_strncmp(cmd->cmd, "echo", 4))
+		ft_echo(cmd);
+	if (!ft_strncmp(cmd->cmd, "cd", 2))
+		ft_cd(cmd);
+	if (!ft_strncmp(cmd->cmd, "env", 3))
+		ft_env(cmd);
+	if (!ft_strncmp(cmd->cmd, "export", 6))
+		ft_export(cmd);
+	if (!ft_strncmp(cmd->cmd, "unset", 5))
+		ft_unset(cmd);
 }

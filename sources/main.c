@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/02 20:15:30 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/09 15:07:47 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,6 @@ size_t arrlen(char **arr)
 		size++;
 	return (size);
 }
-
-// char **array_char_cpy(char **array)
-// {
-// 	int i;
-// 	// int j;
-// 	// size_t size_array;
-// 	char **new_arr;
-
-// 	i = 0;
-// 	// j = 0;
-// 	// size_array = arrlen(array);
-// 	new_arr = (char **)malloc(sizeof(char *));
-// 	while (array[i] != NULL)
-// 	{
-// 		new_arr[i] = ft_strdup(array[i]);
-// 		i++;
-// 	}
-// 	return (new_arr);
-// }
 
 t_token *create_tokens(char **tokens)
 {
@@ -116,39 +97,22 @@ char *before_token(t_token *token)
 	return token->tokens[token->head_i];
 }
 
-// t_cmd *create_cmd(char **tokens, int fd)
-// {
-// 	t_cmd *cmd;
-
-// 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-// 	cmd->tk = create_tokens(tokens);
-// 	cmd->cmd = tokens[cmd->tk->head_i];
-// 	cmd->fd = fd;
-// 	if (has_pipe_redi_append(tokens))
-// 	{
-// 		cmd->has_pipe = has_pipe(tokens);
-// 		cmd->has_input_redir = has_input_redir(tokens);
-// 		cmd->has_output_redir = has_output_redir(tokens);
-// 		cmd->has_append = has_append(tokens);
-// 	}
-// 	return cmd;
-// }
-
-t_cmd *create_cmd_str(char *str)
+t_struct *create_cmd_str(char *str)
 {
-	t_cmd *cmd;
+	t_struct *cmd;
 
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	cmd = (t_struct *)malloc(sizeof(t_struct));
 	if (cmd == NULL)
 		return (NULL);
-	cmd->str = str;
-	cmd->tk = NULL;
+	cmd->line_read = str;
+	cmd->tokens = NULL;
 	cmd->cmd = NULL;
-	cmd->fd = 0;
-	cmd->has_append = 0;
-	cmd->has_input_redir = 0;
-	cmd->has_output_redir = 0;
-	cmd->has_pipe = 0;
+	cmd->has_append = false;
+	cmd->has_input_redir = false;
+	cmd->has_output_redir = false;
+	cmd->has_pipe = false;
+	cmd->is_builtin = false;
+	cmd->is_path = false;
 	return cmd;
 }
 
@@ -299,38 +263,87 @@ t_list *ft_special_split(char *str)
 
 void free_cmd(void *st)
 {
-	t_cmd *cmd;
+	t_struct *cmd;
 
-	cmd = (t_cmd *)st;
-	if (cmd->str != NULL)
-		free(cmd->str);
-	if (cmd->tk != NULL)
+	cmd = (t_struct *)st;
+	if (cmd->line_read != NULL)
+		free(cmd->line_read);
+	if (cmd->tokens != NULL)
 	//precisa melhorar esse free
-		free(cmd->tk);
+		free_arr(cmd->tokens);
 	if (cmd->cmd == NULL)
 		free(cmd->cmd);
 	free(cmd);
 }
 
+bool is_builtin2(char *str)
+{
+	if ((!ft_strncmp("echo", str, 4) && ft_strlen(str) == 4)
+		|| (!ft_strncmp("cd", str, 2) && ft_strlen(str) == 2)
+		|| (!ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
+		|| (!ft_strncmp("export", str, 6) && ft_strlen(str) == 6)
+		|| (!ft_strncmp("unset", str, 5) && ft_strlen(str) == 5)
+		|| (!ft_strncmp("env", str, 3) && ft_strlen(str) == 3)
+		|| (!ft_strncmp("exit", str, 4) && ft_strlen(str) == 4))
+		return (true);
+	else
+		return (false);
+}
+
 void fill_cmd_struct(void *par)
 {
-	t_cmd *cmd;
+	t_struct *cmd;
 	char *tmp_str;
 
-	cmd = (t_cmd *)par;
+	cmd = (t_struct *)par;
 	//verifica primeiro char é pipe/redir ou append
-	if (has_pipe_redi_append_str(cmd->str))
+	if (has_pipe_redi_append_str(cmd->line_read))
 	{
-		cmd->has_pipe = is_pipe(cmd->str[0]);
-		cmd->has_input_redir = is_input_redir(cmd->str[0]);
-		cmd->has_output_redir = is_output_redir(cmd->str[0]);
-		cmd->has_append = is_output_append(cmd->str, 0);
-		tmp_str = cmd->str;
-		cmd->str = ft_strtrim(tmp_str, " >|<");
+		cmd->has_pipe = is_pipe(cmd->line_read[0]);
+		cmd->has_input_redir = is_input_redir(cmd->line_read[0]);
+		cmd->has_output_redir = is_output_redir(cmd->line_read[0]);
+		cmd->has_append = is_output_append(cmd->line_read, 0);
+		tmp_str = cmd->line_read;
+		cmd->line_read = ft_strtrim(tmp_str, " >|<");
 		free(tmp_str);
 	}
-	cmd->token = ft_split(cmd->str, ' ');
-	cmd->cmd = cmd->token[0];
+	cmd->tokens = ft_split(cmd->line_read, ' ');
+	cmd->cmd = cmd->tokens[0];
+	if (ft_strrchr(cmd->cmd, '/') == NULL)
+	{
+		cmd->is_builtin = is_builtin2(cmd->cmd);
+		if (!cmd->is_builtin)
+			cmd->is_path = true;
+	}
+	// se não for faz a busca relativa e absoluta
+
+
+
+	// if (is_builtin2(cmd->cmd))
+
+}
+
+void run_one_cmd(void *par)
+{
+	t_struct *cmd;
+
+	cmd = (t_struct *)par;
+	if (cmd->is_builtin)
+		run_builtin(cmd);
+	else
+	{
+		run_execve(cmd);
+	}
+
+
+}
+
+void print_cmd(void *par)
+{
+	t_cmd *cmd;
+
+	cmd = (t_cmd *) par;
+	printf("%s\n", cmd->str);
 }
 
 int	main(void)
@@ -360,84 +373,25 @@ int	main(void)
 		else
 		{
 			ft_lstiter(list, fill_cmd_struct);
-			t_cmd *prim = list->content;
-			t_cmd *prim2 = list->next->content;
-			t_cmd *prim3 = list->next->next->content;
-			printf("%s\n", prim->str);
-			printf("%s\n", prim2->str);
-			printf("%s\n", prim3->str);
+			if (ft_lstsize(list) == 1)
+			{
+				ft_lstiter(list, run_one_cmd);
+			}
+			// else if (ft_lstsize(list) > 1)
+			// 	ft_lstiter(list, )
+			// ft_lstiter(list, print_cmd);
 
-			printf("%s\n", prim->cmd);
-			printf("%s\n", prim2->cmd);
-			printf("%s\n", prim3->cmd);
+
 		}
 
 
 
-		size = ft_lstsize(list);
+		// size = ft_lstsize(list);
+		ft_lstclear(&list, free_cmd);
 		printf("%i\n", size);
 
-		exit(0);
+		// exit(0);
 
 
-		// mini.line_read = ft_strtrim(line_read_aux, " ");
-		// free(line_read_aux);
-		// if (mini.line_read && *mini.line_read)
-		// {
-		// 	if (mini.tokens)
-		// 		free_char_array(mini.tokens);
-
-		// 	mini.tokens = ft_split(mini.line_read, ' ');
-
-		// 	main_line_tk = create_tokens(mini.tokens);
-
-		// 	int count_cmds;
-		// 	t_cmd *cmd;
-		// 	// char **tmpTokens;
-
-		// 	count_cmds = count_pipe_redi_append(main_line_tk->tokens);
-		// 	while(main_line_tk->head != NULL)
-		// 	{
-		// 		// tem pipe/redirect/append?
-
-		// 		if (count_cmds > 0) //se maior q zero é pq tem
-		// 		{
-		// 			//pega q qtd de tokens
-		// 			//tmpTokens = get_tokens
-		// 			t_token *teste;
-		// 			teste = get_arr_token_separate(main_line_tk);
-		// 			//quantos?
-		// 			//criar cmds separado
-		// 			exit(0);
-		// 		}
-		// 		else
-		// 		{
-		// 			//create_cmd(mini)
-		// 			//criar somente 1 comando
-		// 			cmd = create_cmd(main_line_tk->tokens, 0);
-		// 			exit(0);
-
-		// 		}
-
-		// 	}
-
-		// 	mini.cmd = mini.tokens[0];
-		// 	// Pegar todos os comandos e criar um array de comandos
-
-		// 	// Criar struct de 1 comando
-		// 	// t_cmd **arr_cmd;
-		// 	t_list *cmd_lst;
-		// 	cmd_lst = ft_lstnew(NULL); // ficar fora da função
-		// 	create_cmd_linked_list(cmd_lst, mini.tokens);
-
-		// 	// verificar se é absoluto/relativo ou se precisa do path
-
-
-		// 	is_builtin(mini.cmd, &mini);
-		// 	if (mini.is_builtin == true)
-		// 		run_builtin(&mini);
-		// 	else
-		// 		run_execve(&mini);
-		// }
 	}
 }

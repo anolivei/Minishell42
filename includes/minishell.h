@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/02 20:14:49 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/09 14:36:46 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef struct s_cmd {
 	bool has_input_redir;
 	bool has_output_redir;
 	bool has_append;
+	bool is_builtin;
+	bool is_path;
+	int status;
 	int fd;
 	t_token *tk;
 } t_cmd;
@@ -74,6 +77,11 @@ typedef struct s_struct
 	char	**path;
 	int		status;
 	bool	is_builtin;
+	bool has_pipe;
+	bool has_input_redir;
+	bool has_output_redir;
+	bool has_append;
+	bool is_path;
 	t_env	env_aux;
 	t_env	env;
 }			t_struct;
@@ -92,7 +100,7 @@ typedef struct s_struct
 ** Minishell functions
 */
 void	is_builtin(char *cmd, t_struct *mini);
-void	run_builtin(t_struct *mini);
+void	run_builtin(void *mini);
 
 void	ft_pwd(t_struct *mini);
 
