@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 15:07:47 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/09 18:04:19 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,61 +42,6 @@ size_t arrlen(char **arr)
 	return (size);
 }
 
-t_token *create_tokens(char **tokens)
-{
-	t_token *tk;
-
-	tk = (t_token *)malloc(sizeof(t_token));
-	tk->size = arrlen(tokens);
-	if (tk->size > 0)
-	{
-		tk->head_i = 0;
-		tk->head = tokens[tk->head_i];
-		tk->before_token = 0;
-		tk->next_tk_i = 1;
-		tk->next = tokens[tk->next_tk_i];
-		tk->tokens = tokens;
-	}
-	else
-		tk = NULL;
-	return tk;
-}
-
-// Vai para o próximo token e retorna o novo head. Se já estiver no último token
-// vai retornar NULL
-char *next_token(t_token *token)
-{
-	int last_index;
-
-	last_index = token->size;
-	if (token->head_i == last_index)
-	{
-		token->next = token->tokens[token->next_tk_i];
-		token->head = token->tokens[token->head_i];
-		return token->tokens[token->head_i];;
-	}
-	token->head_i++;
-	token->head = token->tokens[token->head_i];
-	token->before_token++;
-	token->next = token->tokens[token->next_tk_i];
-	token->next_tk_i++;
-	return token->tokens[token->head_i];
-}
-
-// Volta o head em 1 token e retorna o head. Se for o primeiro retorna NULL
-char *before_token(t_token *token)
-{
-	int first_index;
-
-	first_index = 0;
-	if (token->head_i == first_index)
-		return NULL;
-	token->head_i--;
-	token->before_token--;
-	token->next_tk_i--;
-	return token->tokens[token->head_i];
-}
-
 t_struct *create_cmd_str(char *str)
 {
 	t_struct *cmd;
@@ -117,66 +62,6 @@ t_struct *create_cmd_str(char *str)
 }
 
 
-void free_arr(char **arr)
-{
-	int i;
-
-	i = 0;
-	if (arr != NULL)
-	{
-		while (arr[i] != NULL)
-		{
-			if (arr[i] != NULL)
-				free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-}
-
-char **add_str_to_arr(char **arr, char *str)
-{
-	char **new_arr;
-	int size;
-	int i;
-
-	size = arrlen(arr);
-	new_arr = (char **)ft_calloc(size + 2, sizeof(char *));
-	i = 0;
-	if (arr != NULL)
-	{
-		while(arr[i] != NULL)
-		{
-			new_arr[i] = ft_strdup(arr[i]);
-			i++;
-		}
-	}
-	new_arr[i] = ft_strdup(str);
-	free_arr(arr);
-	return new_arr;
-}
-
-// t_token *get_arr_token_separate(t_token *token)
-// {
-// 	char **arr_tokens;
-// 	t_token *tokens;
-// 	bool stop;
-
-// 	stop = false;
-// 	arr_tokens = NULL;
-// 	while(token->head != NULL || !stop)
-// 	{
-// 		if (is_pipe_redir_append(token->head) && !is_pipe_redir_append(token->next))
-// 		{
-// 			stop = true;
-// 		}
-// 		arr_tokens = add_str_to_arr(arr_tokens, token->head);
-// 		next_token(token);
-// 	}
-// 	tokens = create_tokens(arr_tokens);
-// 	return tokens;
-// }
-
 bool has_pipe_redi_append_str(char *str)
 {
 	int i;
@@ -191,21 +76,6 @@ bool has_pipe_redi_append_str(char *str)
 		i++;
 	}
 	return false;
-}
-
-// devolve o index da primeira que encontrar ou -1
-int find_index(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 t_list *ft_special_split(char *str)
@@ -259,6 +129,23 @@ t_list *ft_special_split(char *str)
 	else
 		lst_cmd = ft_lstnew(create_cmd_str(str));
 	return (lst_cmd);
+}
+
+void free_arr(char **arr)
+{
+	int i;
+
+	i = 0;
+	if (arr != NULL)
+	{
+		while (arr[i] != NULL)
+		{
+			if (arr[i] != NULL)
+				free(arr[i]);
+			i++;
+		}
+		free(arr);
+	}
 }
 
 void free_cmd(void *st)
@@ -315,12 +202,6 @@ void fill_cmd_struct(void *par)
 		if (!cmd->is_builtin)
 			cmd->is_path = true;
 	}
-	// se não for faz a busca relativa e absoluta
-
-
-
-	// if (is_builtin2(cmd->cmd))
-
 }
 
 void run_one_cmd(void *par)
@@ -331,19 +212,15 @@ void run_one_cmd(void *par)
 	if (cmd->is_builtin)
 		run_builtin(cmd);
 	else
-	{
-		run_execve(cmd);
-	}
-
-
+		run_execve(par);
 }
 
 void print_cmd(void *par)
 {
-	t_cmd *cmd;
+	t_struct *cmd;
 
-	cmd = (t_cmd *) par;
-	printf("%s\n", cmd->str);
+	cmd = (t_struct *) par;
+	printf("%s\n", cmd->line_read);
 }
 
 int	main(void)
@@ -351,9 +228,7 @@ int	main(void)
 	char		*tmp_line_read_aux;
 	char		*line_read_aux;
 	t_struct	mini;
-	// t_token *main_line_tk;
 	t_list *list;
-	// char *arr;
 	int size;
 
 	size = 0;
@@ -374,24 +249,10 @@ int	main(void)
 		{
 			ft_lstiter(list, fill_cmd_struct);
 			if (ft_lstsize(list) == 1)
-			{
 				ft_lstiter(list, run_one_cmd);
-			}
-			// else if (ft_lstsize(list) > 1)
-			// 	ft_lstiter(list, )
+
 			// ft_lstiter(list, print_cmd);
-
-
 		}
-
-
-
-		// size = ft_lstsize(list);
 		ft_lstclear(&list, free_cmd);
-		printf("%i\n", size);
-
-		// exit(0);
-
-
 	}
 }
