@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/09 22:06:31 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/10 01:03:32 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 CC = clang
 HEAD = -I./includes -I./$(LIBFT_DIR)
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
-# CFLAGS = -g -fsanitize=address
 LFLAGS = -L ./$(LIBFT_DIR) -lft -lreadline
 RM = /bin/rm -rf
 

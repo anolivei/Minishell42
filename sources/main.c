@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/10 00:58:11 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/10 01:08:48 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ int	main(void)
 	int size;
 
 	size = 0;
+	add_history("echo cezar | sed \"s/cezar/angelica/\"");
 	initialize(&mini);
 	line_read_aux = (char *) NULL;
 	while (1)
