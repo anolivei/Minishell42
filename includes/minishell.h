@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 20:43:59 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/09 22:08:28 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ typedef struct s_cmd {
 	t_token *tk;
 } t_cmd;
 
-
-
 typedef struct s_struct
 {
 	char	*line_read;
@@ -78,13 +76,16 @@ typedef struct s_struct
 	char	**path;
 	int		status;
 	bool	is_builtin;
-	bool has_pipe;
-	bool has_input_redir;
-	bool has_output_redir;
-	bool has_append;
-	bool is_path;
+	bool	has_pipe;
+	bool	has_input_redir;
+	bool	has_output_redir;
+	bool	has_append;
+	bool	is_path;
 	t_env	env_aux;
 	t_env	env;
+	t_list	*comm;
+	char	*commands[50];
+    int		qtt_pipe;
 }			t_struct;
 
 // typedef struct s_cmd
@@ -124,6 +125,8 @@ void	alloc_env_aux(t_struct *mini);
 void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
 void	free_line(char *line_read);
+
+void	split_cmd(t_struct *mini, char *in, char q);
 
 
 /*

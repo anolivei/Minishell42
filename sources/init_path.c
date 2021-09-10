@@ -23,6 +23,7 @@ int	init_path(t_struct *mini)
 	char	*path_aux;
 	int		i;
 
+	//printf("%s\n", find_env(mini, "PATH"));
 	path_aux = ft_strdup(find_env(mini, "PATH"));
 	if (!path_aux)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 20:44:36 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/09 22:47:48 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ int	main(void)
 	char		*tmp_line_read_aux;
 	char		*line_read_aux;
 	t_struct	mini;
-	t_list *list;
+	//t_list *list;
 	int size;
 
 	size = 0;
@@ -246,22 +246,55 @@ int	main(void)
 	while (1)
 	{
 		tmp_line_read_aux = get_line(mini.line_read);
-
+		split_cmd(&mini, tmp_line_read_aux, 0);
 		line_read_aux = ft_strtrim(tmp_line_read_aux, " ");
-		free(tmp_line_read_aux);
+		//free(tmp_line_read_aux);
 
-		list = ft_special_split(line_read_aux);
+		//list = ft_special_split(line_read_aux);
+		//split_cmd(&mini, line_read_aux, 0);
 
-		if (list == NULL)
-			ft_lstclear(&list, free_cmd);
+		if (mini.comm == NULL)
+			ft_lstclear(&mini.comm, free_cmd);
 		else
 		{
-			ft_lstiter(list, fill_cmd_struct);
-			if (ft_lstsize(list) == 1)
-				ft_lstiter(list, run_one_cmd);
+			ft_lstiter(mini.comm, fill_cmd_struct);
+			if (ft_lstsize(mini.comm) == 1)
+				ft_lstiter(mini.comm, run_one_cmd);
 
-			// ft_lstiter(list, print_cmd);
+			ft_lstiter(mini.comm, print_cmd);
 		}
-		ft_lstclear(&list, free_cmd);
+		ft_lstclear(&mini.comm, free_cmd);
 	}
 }
+/*
+int    main(void)
+{
+	char        *line_read_aux;
+	t_struct    mini;
+
+	initialize(&mini);
+	add_history("echo cezar | sed \"s/cezar/angelica/\"");
+	//teste_fork(&mini);
+
+	line_read_aux = (char *) NULL;
+	while (1)
+	{
+		line_read_aux = get_line(mini.line_read);
+		split_cmd(&mini, line_read_aux, 0);
+		mini.line_read = ft_strtrim(line_read_aux, " ");
+		free(line_read_aux);
+		if (mini.line_read && *mini.line_read)
+		{
+			if (mini.tokens)
+				free_char_array(mini.tokens);
+			mini.tokens = ft_split(mini.line_read, ' ');
+			mini.cmd = mini.tokens[0];
+			is_builtin(mini.cmd, &mini);
+			if (mini.is_builtin == true)
+				run_builtin(&mini);
+			else
+				run_execve(&mini);
+		}
+	}
+}*/
+

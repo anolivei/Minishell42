@@ -59,4 +59,5 @@ void	create_env(t_struct *mini, char **my_env)
 	}
 	mini->env.key[i] = NULL;
 	mini->env.content[i] = NULL;
+	printf("%s\n", find_env(mini, "PATH"));
 }

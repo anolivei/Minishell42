@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/09 20:44:29 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/09 22:06:31 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,11 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_env.c \
 		$(SRC_DIR)/find_env.c \
 		$(SRC_DIR)/init_path.c \
-		$(SRC_DIR)/ft_execve.c \
 		$(SRC_DIR)/ft_exit.c \
-		$(SRC_DIR)/ft_export.c \
-		$(SRC_DIR)/ft_unset.c \
 		$(SRC_DIR)/has_is_pipe.c \
 		$(SRC_DIR)/has_is_append.c \
-		$(SRC_DIR)/has_is_redir.c
+		$(SRC_DIR)/has_is_redir.c \
+		$(SRC_DIR)/split_cmd.c
 		# $(SRC_DIR)/pipe_redir_append.c
 
 
