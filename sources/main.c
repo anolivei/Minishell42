@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 22:47:48 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/10 00:58:11 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ t_struct *create_cmd_str(char *str)
 	return cmd;
 }
 
-
-bool has_pipe_redi_append_str(char *str)
+bool has_pipe_red_append_str(char *str)
 {
 	int i;
 
@@ -85,59 +84,6 @@ bool has_pipe_redi_append_str(char *str)
 		i++;
 	}
 	return false;
-}
-
-t_list *ft_special_split(char *str)
-{
-	int i;
-	int start;
-	int size;
-	int n_cmd;
-	char quote;
-	t_list *lst_cmd;
-
-	n_cmd = 0;
-	start = 0;
-	size = 0;
-	i = 0;
-	quote = '\0';
-	lst_cmd = NULL;
-	while (i < (int)ft_strlen(str))
-	{
-		if (quote == '\0' && (str[i] == DOUBLE_QUOTE || str[i] == QUOTE))
-			quote = str[i];
-		else
-		{
-			if (quote == str[i])
-				quote = '\0';
-			else
-			{
-				if ((is_pipe(str[i]) || is_any_redir(str[i])) && quote == '\0')
-				{
-					if (lst_cmd == '\0')
-					{
-						lst_cmd = ft_lstnew(create_cmd_str(ft_substr(str, start, size)));
-						if (lst_cmd == NULL)
-							return (NULL);
-					}
-					else
-					{
-						ft_lstadd_back(&lst_cmd, ft_lstnew(create_cmd_str(ft_substr(str, start, size))));
-					}
-					start = i;
-					size = 0;
-					n_cmd++;
-				}
-			}
-		}
-		i++;
-		size++;
-	}
-	if (lst_cmd != NULL)
-		ft_lstadd_back(&lst_cmd, ft_lstnew(create_cmd_str(ft_substr(str, start, size))));
-	else
-		lst_cmd = ft_lstnew(create_cmd_str(str));
-	return (lst_cmd);
 }
 
 void free_arr(char **arr)
@@ -157,19 +103,15 @@ void free_arr(char **arr)
 	}
 }
 
-void free_cmd(void *st)
+void free_cmd(t_struct *mini)
 {
-	t_struct *cmd;
-
-	cmd = (t_struct *)st;
-	if (cmd->line_read != NULL)
-		free(cmd->line_read);
-	if (cmd->tokens != NULL)
-	//precisa melhorar esse free
-		free_arr(cmd->tokens);
-	if (cmd->cmd == NULL)
-		free(cmd->cmd);
-	free(cmd);
+	if (mini->line_read != NULL)
+		free(mini->line_read);
+	if (mini->tokens != NULL)
+		free_arr(mini->tokens);
+	if (mini->cmd == NULL)
+		free(mini->cmd);
+	free(mini);
 }
 
 bool is_builtin2(char *str)
@@ -186,50 +128,41 @@ bool is_builtin2(char *str)
 		return (false);
 }
 
-void fill_cmd_struct(void *par)
+void fill_cmd_struct(t_struct *mini)
 {
-	t_struct *cmd;
-	char *tmp_str;
+	char	*tmp_str;
 
-	cmd = (t_struct *)par;
-	//verifica primeiro char é pipe/redir ou append
-	if (has_pipe_redi_append_str(cmd->line_read))
+	if (has_pipe_red_append_str(mini->line_read))
 	{
-		cmd->has_pipe = is_pipe(cmd->line_read[0]);
-		cmd->has_input_redir = is_input_redir(cmd->line_read[0]);
-		cmd->has_output_redir = is_output_redir(cmd->line_read[0]);
-		cmd->has_append = is_output_append(cmd->line_read, 0);
-		tmp_str = cmd->line_read;
-		cmd->line_read = ft_strtrim(tmp_str, " >|<");
+		mini->has_pipe = is_pipe(mini->line_read[0]);
+		mini->has_input_redir = is_input_redir(mini->line_read[0]);
+		mini->has_output_redir = is_output_redir(mini->line_read[0]);
+		mini->has_append = is_output_append(mini->line_read, 0);
+		tmp_str = mini->line_read;
+		mini->line_read = ft_strtrim(tmp_str, " >|<");
 		free(tmp_str);
 	}
-	cmd->tokens = ft_split(cmd->line_read, ' ');
-	cmd->cmd = cmd->tokens[0];
-	if (ft_strrchr(cmd->cmd, '/') == NULL)
+	mini->tokens = ft_split(mini->line_read, ' ');
+	mini->cmd = mini->tokens[0];
+	if (ft_strrchr(mini->cmd, '/') == NULL)
 	{
-		cmd->is_builtin = is_builtin2(cmd->cmd);
-		if (!cmd->is_builtin)
-			cmd->is_path = true;
+		mini->is_builtin = is_builtin2(mini->cmd);
+		if (!mini->is_builtin)
+			mini->is_path = true;
 	}
 }
 
-void run_one_cmd(void *par)
+void run_one_cmd(t_struct *mini)
 {
-	t_struct *cmd;
-
-	cmd = (t_struct *)par;
-	if (cmd->is_builtin)
-		run_builtin(cmd);
+	if (mini->is_builtin)
+		run_builtin(mini);
 	else
-		run_execve(par);
+		run_execve(mini);
 }
 
-void print_cmd(void *par)
+void print_cmd(t_struct *mini)
 {
-	t_struct *cmd;
-
-	cmd = (t_struct *) par;
-	printf("%s\n", cmd->line_read);
+	printf("%s\n", mini->line_read);
 }
 
 int	main(void)
@@ -252,8 +185,11 @@ int	main(void)
 
 		//list = ft_special_split(line_read_aux);
 		//split_cmd(&mini, line_read_aux, 0);
-
-		if (mini.comm == NULL)
+		mini.tokens = ft_split(mini.commands[0], ' ');
+		mini.cmd = mini.commands[0];
+		is_builtin(mini.cmd, &mini);
+		run_one_cmd(&mini);
+		/*if (mini.comm == NULL)
 			ft_lstclear(&mini.comm, free_cmd);
 		else
 		{
@@ -263,7 +199,7 @@ int	main(void)
 
 			ft_lstiter(mini.comm, print_cmd);
 		}
-		ft_lstclear(&mini.comm, free_cmd);
+		ft_lstclear(&mini.comm, free_cmd);*/
 	}
 }
 /*

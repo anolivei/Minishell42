@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 22:08:28 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/10 00:47:06 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_struct
 ** Minishell functions
 */
 void	is_builtin(char *cmd, t_struct *mini);
-void	run_builtin(void *mini);
+void	run_builtin(t_struct *mini);
 
 void	ft_pwd(t_struct *mini);
 
@@ -152,9 +152,9 @@ bool is_any_redir(char c);
 /*
 ** pipe_redir_append.c
 */
-// bool is_pipe_redir_append(char *str);
-// bool has_pipe_redi_append(char **tokens);
-// int count_pipe_redi_append(char **tokens);
+// bool is_pipe_red_append(char *str);
+// bool has_pipe_red_append(char **tokens);
+// int count_pipe_red_append(char **tokens);
 
 
 
