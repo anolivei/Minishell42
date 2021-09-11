@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 14:36:46 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/11 10:23:57 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,27 @@ typedef struct s_token {
 	int before_token;
 } t_token;
 
-typedef struct s_cmd {
-	char *cmd;
-	char *str;
-	char **token;
-	bool has_pipe;
-	bool has_input_redir;
-	bool has_output_redir;
-	bool has_append;
-	bool is_builtin;
-	bool is_path;
-	int status;
-	int fd;
-	t_token *tk;
-} t_cmd;
+// typedef struct s_cmd {
+// 	char *cmd;
+// 	char *str;
+// 	char **token;
+// 	bool has_pipe;
+// 	bool has_input_redir;
+// 	bool has_output_redir;
+// 	bool has_append;
+// 	bool is_builtin;
+// 	bool is_path;
+// 	int status;
+// 	int fd;
+// 	t_token *tk;
+// } t_cmd;
 
+typedef struct s_global {
+	t_list *cmd_lst;
+	t_env	env_aux;
+	t_env	env;
+	int last_status;
+} t_global;
 
 
 typedef struct s_struct
@@ -108,17 +114,17 @@ void	ft_echo(t_struct *mini);
 
 void	ft_cd(t_struct *mini);
 
-void	ft_env(t_struct *mini);
-void	create_env(t_struct *mini, char **my_env);
-char	*find_env(t_struct *mini, char *needle);
+void	ft_env();
+void	create_env(char **my_env);
+char	*find_env(char *needle);
 
 int		init_path(t_struct *mini);
 void	ft_execve(t_struct *mini);
 void	run_execve(t_struct *mini);
 
-void	ft_export(t_struct *mini);
-void	ft_unset(t_struct *mini);
-void	alloc_env_aux(t_struct *mini);
+void	ft_export(t_struct *cmd);
+void	ft_unset(t_struct *cmd);
+void	alloc_env_aux();
 
 void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
@@ -152,6 +158,8 @@ bool is_any_redir(char c);
 // bool has_pipe_redi_append(char **tokens);
 // int count_pipe_redi_append(char **tokens);
 
+
+t_global g_mini;
 
 
 

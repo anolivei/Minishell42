@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:07:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:22:14 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:37:05 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_path(t_struct *mini)
 	char	*path_aux;
 	int		i;
 
-	path_aux = ft_strdup(find_env(mini, "PATH"));
+	path_aux = ft_strdup(find_env("PATH"));
 	if (!path_aux)
 		return (0);
 	mini->path = ft_split(path_aux, ':');

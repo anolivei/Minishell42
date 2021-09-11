@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 18:04:19 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/11 10:47:12 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*get_line(char *line_read)
 	return (line_read);
 }
 
-static void	initialize(t_struct *mini)
+static void	initialize()
 {
 	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
-	create_env(mini, __environ);
-	mini->line_read = (char *) NULL;
-	mini->tokens = (char **) NULL;
-	init_path(mini);
+	create_env(__environ);
+	// mini->line_read = (char *) NULL;
+	// mini->tokens = (char **) NULL;
+	// init_path(mini);
 }
 
 size_t arrlen(char **arr)
@@ -184,6 +184,9 @@ void fill_cmd_struct(void *par)
 
 	cmd = (t_struct *)par;
 	//verifica primeiro char é pipe/redir ou append
+	init_path(cmd);
+	// create_env(cmd, __environ);
+	// init_path(cmd);
 	if (has_pipe_redi_append_str(cmd->line_read))
 	{
 		cmd->has_pipe = is_pipe(cmd->line_read[0]);
@@ -196,7 +199,7 @@ void fill_cmd_struct(void *par)
 	}
 	cmd->tokens = ft_split(cmd->line_read, ' ');
 	cmd->cmd = cmd->tokens[0];
-	if (ft_strrchr(cmd->cmd, '/') == NULL)
+	if (cmd->cmd != NULL && ft_strrchr(cmd->cmd, '/') == NULL)
 	{
 		cmd->is_builtin = is_builtin2(cmd->cmd);
 		if (!cmd->is_builtin)
@@ -227,16 +230,18 @@ int	main(void)
 {
 	char		*tmp_line_read_aux;
 	char		*line_read_aux;
-	t_struct	mini;
+	char		*line_read;
+	// t_struct	mini;
 	t_list *list;
 	int size;
 
 	size = 0;
-	initialize(&mini);
+	line_read = NULL;
+	initialize();
 	line_read_aux = (char *) NULL;
 	while (1)
 	{
-		tmp_line_read_aux = get_line(mini.line_read);
+		tmp_line_read_aux = get_line(line_read);
 
 		line_read_aux = ft_strtrim(tmp_line_read_aux, " ");
 		free(tmp_line_read_aux);
@@ -248,6 +253,7 @@ int	main(void)
 		else
 		{
 			ft_lstiter(list, fill_cmd_struct);
+			// ft_lstiter(list, init_path);
 			if (ft_lstsize(list) == 1)
 				ft_lstiter(list, run_one_cmd);
 
