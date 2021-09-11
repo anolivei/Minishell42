@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:19:57 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:29:35 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ char *get_line(char *line_read)
 	return (line_read);
 }
 
-static void initialize()
+static void initialize(t_cmd *data)
 {
 	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
 	create_env(__environ);
-	mini->line_read = (char *) NULL;
-	mini->tokens = (char **) NULL;
+	data->line_read = (char *) NULL;
+	data->tokens = (char **) NULL;
 	g_ret_number = 0;
-	init_path(mini);
+	init_path(data);
 }
 
 size_t arrlen(char **arr)
@@ -214,14 +214,14 @@ int main(void)
 	char *tmp_line_read_aux;
 	char *line_read_aux;
 	char *line_read;
-	// t_cmd	data;
+	t_cmd	data;
 	t_list *list;
 	int size;
 
 	size = 0;
 	line_read = NULL;
 	line_read_aux = NULL;
-	initialize();
+	initialize(&data);
 	while (1)
 	{
 		tmp_line_read_aux = get_line(line_read);

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:26:29 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:14:31 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:32:44 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ void run_execve(t_cmd *data)
 	int stat_loc;
 	t_cmd *teste;
 
-<<<<<<< HEAD
-	stat_loc = 0;
-=======
 	teste = data;
->>>>>>> wincenty/cmd_func
+	stat_loc = 0;
 	child_pid = fork();
 	if (child_pid == 0)
 	{
@@ -47,6 +44,6 @@ void ft_execve(t_cmd *data)
 		execve(path_aux, &data->tokens[0], g_mini.env.env);
 		i++;
 	}
-	execve(data->tokens[0], &data->tokens[0], data->env.env);
+	execve(data->tokens[0], &data->tokens[0], g_mini.env.env);
 	printf("%s: command not found\n", data->line_read);
 }

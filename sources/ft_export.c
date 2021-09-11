@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:16:42 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:38:29 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void ft_export(t_cmd *cmd)
 				g_mini.env.content[g_mini.env.index] = ft_strdup(env_aux[1]);
 			}
 			else
-				add_env(mini, env_aux[0], env_aux[1]);
+				add_env(env_aux[0], env_aux[1]);
 			if (!ft_strncmp(cmd->tokens[i], "PATH", 4))
-				init_path(mini);
+				init_path(cmd);
 		}
 		free_char_array(env_aux);
 		env_aux = NULL;

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:13:17 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:35:57 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	len_env(char *haystack, char needle)
 	return (i);
 }
 
-static int	echo_env(t_struct *mini, char *line_read, int i, int len)
+static int	echo_env(char *line_read, int i, int len)
 {
 	char	*ret;
 	char	*env;
@@ -65,7 +65,7 @@ static int	echo_env(t_struct *mini, char *line_read, int i, int len)
 		printf("%i", g_ret_number);
 	len = len_env(&line_read[i], ' ');
 	ret = ft_substr(line_read, i, len);
-	env = find_env(mini, ret);
+	env = find_env(ret);
 	if (env != NULL)
 		printf("%s", env);
 	i = i + len - 1;
@@ -73,12 +73,12 @@ static int	echo_env(t_struct *mini, char *line_read, int i, int len)
 	return (i);
 }
 
-static void	print_echo(t_struct *mini, char *line_read, int i, int len)
+static void	print_echo(char *line_read, int i, int len)
 {
 	while (line_read[i] != '\0')
 	{
 		if (line_read[i] == '$' && line_read[i - 1] != QUOTE)
-			i = echo_env(mini, line_read, i, len);
+			i = echo_env(line_read, i, len);
 		else
 		{
 			if (line_read[i] == QUOTE && line_read[i + 1] == '$')
@@ -89,7 +89,7 @@ static void	print_echo(t_struct *mini, char *line_read, int i, int len)
 	}
 }
 
-void	ft_echo(t_struct *mini)
+void	ft_echo(t_cmd *data)
 {
 	bool has_flag;
 	int i;
@@ -110,8 +110,8 @@ void	ft_echo(t_struct *mini)
 			while (data->line_read[i] == ' ')
 				i++;
 		}
-		fix_quotes(mini, 0, 0, 0);
-		print_echo(mini, &data->line_read[i], 0, 0);
+		fix_quotes(data, 0, 0, 0);
+		print_echo(&data->line_read[i], 0, 0);
 		if (!has_flag)
 			printf("\n");
 	}

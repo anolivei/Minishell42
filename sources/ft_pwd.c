@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:00:19 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:36:59 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void ft_pwd(t_cmd *data)
 	else
 		data->status = 0;
 	free(buf);
-	g_ret_number = mini->status;
+	g_ret_number = data->status;
 }
