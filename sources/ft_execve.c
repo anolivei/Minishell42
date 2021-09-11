@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:26:29 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:32:44 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 18:15:54 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void run_execve(t_cmd *data)
 	}
 	else
 		waitpid(child_pid, &stat_loc, WUNTRACED);
-	g_ret_number = stat_loc;
+	g_ret_number = WEXITSTATUS(stat_loc);
 }
 
 void ft_execve(t_cmd *data)
