@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:07:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 09:37:05 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/11 11:12:12 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@
 ** and put a '/' in the end of each path
 */
 
-int	init_path(t_struct *mini)
+int init_path(t_cmd *data)
 {
-	char	*path_aux;
-	int		i;
+	char *path_aux;
+	int i;
 
 	path_aux = ft_strdup(find_env("PATH"));
 	if (!path_aux)
 		return (0);
-	mini->path = ft_split(path_aux, ':');
+	data->path = ft_split(path_aux, ':');
 	i = 0;
-	while (mini->path[i])
+	while (data->path[i])
 	{
-		mini->path[i] = ft_strjoin(mini->path[i], "/");
+		data->path[i] = ft_strjoin(data->path[i], "/");
 		i++;
 	}
 	free(path_aux);

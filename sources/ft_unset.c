@@ -6,16 +6,16 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:25:01 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 10:31:46 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/11 11:02:56 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	rm_env()
+static void rm_env()
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	g_mini.env.len--;
 	alloc_env_aux();
@@ -39,7 +39,7 @@ static void	rm_env()
 	g_mini.env.content = g_mini.env_aux.content;
 }
 
-void	alloc_env_aux()
+void alloc_env_aux()
 {
 	g_mini.env_aux.key = malloc(sizeof(char *) * (g_mini.env.len + 1));
 	if (!g_mini.env_aux.key)
@@ -49,7 +49,7 @@ void	alloc_env_aux()
 		exit(EXIT_FAILURE);
 }
 
-void	ft_unset(t_struct *cmd)
+void ft_unset(t_cmd *cmd)
 {
 	if (cmd->tokens[1])
 	{

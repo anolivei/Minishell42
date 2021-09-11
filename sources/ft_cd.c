@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/05 00:06:07 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 11:12:12 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(t_struct *mini)
+void ft_cd(t_cmd *data)
 {
-	int	cd;
+	int cd;
 
-	cd = chdir(mini->tokens[1]);
+	cd = chdir(data->tokens[1]);
 }

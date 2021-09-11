@@ -6,15 +6,15 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 10:30:55 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/11 11:02:56 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_env(char *new_key, char *new_content)
+static void add_env(char *new_key, char *new_content)
 {
-	int	i;
+	int i;
 
 	g_mini.env.len++;
 	alloc_env_aux();
@@ -36,10 +36,10 @@ static void	add_env(char *new_key, char *new_content)
 	g_mini.env.content = g_mini.env_aux.content;
 }
 
-void	ft_export(t_struct *cmd)
+void ft_export(t_cmd *cmd)
 {
-	int		i;
-	char	**env_aux;
+	int i;
+	char **env_aux;
 
 	i = 0;
 	if (cmd->tokens[1])

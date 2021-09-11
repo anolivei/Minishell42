@@ -6,13 +6,13 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 10:47:12 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/11 11:58:48 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_line(char *line_read)
+char *get_line(char *line_read)
 {
 	free_line(line_read);
 	line_read = readline("\033[1;36mMinishell42> \033[0;37m");
@@ -21,13 +21,10 @@ char	*get_line(char *line_read)
 	return (line_read);
 }
 
-static void	initialize()
+static void initialize()
 {
 	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
 	create_env(__environ);
-	// mini->line_read = (char *) NULL;
-	// mini->tokens = (char **) NULL;
-	// init_path(mini);
 }
 
 size_t arrlen(char **arr)
@@ -42,14 +39,15 @@ size_t arrlen(char **arr)
 	return (size);
 }
 
-t_struct *create_cmd_str(char *str)
+t_cmd *create_cmd_str(char *str)
 {
-	t_struct *cmd;
+	t_cmd *cmd;
 
-	cmd = (t_struct *)malloc(sizeof(t_struct));
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (cmd == NULL)
 		return (NULL);
 	cmd->line_read = str;
+	cmd->path = NULL;
 	cmd->tokens = NULL;
 	cmd->cmd = NULL;
 	cmd->has_append = false;
@@ -60,7 +58,6 @@ t_struct *create_cmd_str(char *str)
 	cmd->is_path = false;
 	return cmd;
 }
-
 
 bool has_pipe_redi_append_str(char *str)
 {
@@ -131,62 +128,34 @@ t_list *ft_special_split(char *str)
 	return (lst_cmd);
 }
 
-void free_arr(char **arr)
-{
-	int i;
-
-	i = 0;
-	if (arr != NULL)
-	{
-		while (arr[i] != NULL)
-		{
-			if (arr[i] != NULL)
-				free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-}
-
 void free_cmd(void *st)
 {
-	t_struct *cmd;
+	t_cmd *cmd;
 
-	cmd = (t_struct *)st;
-	if (cmd->line_read != NULL)
-		free(cmd->line_read);
-	if (cmd->tokens != NULL)
-	//precisa melhorar esse free
-		free_arr(cmd->tokens);
-	if (cmd->cmd == NULL)
-		free(cmd->cmd);
+	cmd = (t_cmd *)st;
+	free_char_array(cmd->tokens);
+	free_line(cmd->line_read);
+	free_line(cmd->cmd);
+	free_char_array(cmd->path);
 	free(cmd);
 }
 
 bool is_builtin2(char *str)
 {
-	if ((!ft_strncmp("echo", str, 4) && ft_strlen(str) == 4)
-		|| (!ft_strncmp("cd", str, 2) && ft_strlen(str) == 2)
-		|| (!ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3)
-		|| (!ft_strncmp("export", str, 6) && ft_strlen(str) == 6)
-		|| (!ft_strncmp("unset", str, 5) && ft_strlen(str) == 5)
-		|| (!ft_strncmp("env", str, 3) && ft_strlen(str) == 3)
-		|| (!ft_strncmp("exit", str, 4) && ft_strlen(str) == 4))
+	if ((!ft_strncmp("echo", str, 4) && ft_strlen(str) == 4) || (!ft_strncmp("cd", str, 2) && ft_strlen(str) == 2) || (!ft_strncmp("pwd", str, 3) && ft_strlen(str) == 3) || (!ft_strncmp("export", str, 6) && ft_strlen(str) == 6) || (!ft_strncmp("unset", str, 5) && ft_strlen(str) == 5) || (!ft_strncmp("env", str, 3) && ft_strlen(str) == 3) || (!ft_strncmp("exit", str, 4) && ft_strlen(str) == 4))
 		return (true);
 	else
 		return (false);
 }
 
-void fill_cmd_struct(void *par)
+void fill_cmd_struct(void *data)
 {
-	t_struct *cmd;
+	t_cmd *cmd;
 	char *tmp_str;
 
-	cmd = (t_struct *)par;
+	cmd = (t_cmd *)data;
 	//verifica primeiro char é pipe/redir ou append
 	init_path(cmd);
-	// create_env(cmd, __environ);
-	// init_path(cmd);
 	if (has_pipe_redi_append_str(cmd->line_read))
 	{
 		cmd->has_pipe = is_pipe(cmd->line_read[0]);
@@ -198,7 +167,7 @@ void fill_cmd_struct(void *par)
 		free(tmp_str);
 	}
 	cmd->tokens = ft_split(cmd->line_read, ' ');
-	cmd->cmd = cmd->tokens[0];
+	cmd->cmd = ft_strdup(cmd->tokens[0]);
 	if (cmd->cmd != NULL && ft_strrchr(cmd->cmd, '/') == NULL)
 	{
 		cmd->is_builtin = is_builtin2(cmd->cmd);
@@ -207,46 +176,51 @@ void fill_cmd_struct(void *par)
 	}
 }
 
-void run_one_cmd(void *par)
+void run_one_cmd(void *data)
 {
-	t_struct *cmd;
+	t_cmd *cmd;
 
-	cmd = (t_struct *)par;
+	cmd = (t_cmd *)data;
+	if (ft_strlen(cmd->line_read) == 0)
+		return;
 	if (cmd->is_builtin)
 		run_builtin(cmd);
 	else
-		run_execve(par);
+		run_execve(cmd);
 }
 
-void print_cmd(void *par)
+void print_cmd(void *data)
 {
-	t_struct *cmd;
+	t_cmd *cmd;
 
-	cmd = (t_struct *) par;
+	cmd = (t_cmd *)data;
 	printf("%s\n", cmd->line_read);
 }
 
-int	main(void)
+int main(void)
 {
-	char		*tmp_line_read_aux;
-	char		*line_read_aux;
-	char		*line_read;
-	// t_struct	mini;
+	char *tmp_line_read_aux;
+	char *line_read_aux;
+	char *line_read;
+	// t_cmd	data;
 	t_list *list;
 	int size;
 
 	size = 0;
 	line_read = NULL;
+	line_read_aux = NULL;
 	initialize();
-	line_read_aux = (char *) NULL;
 	while (1)
 	{
 		tmp_line_read_aux = get_line(line_read);
+		if (ft_strlen(tmp_line_read_aux) == 0)
+			continue;
 
 		line_read_aux = ft_strtrim(tmp_line_read_aux, " ");
 		free(tmp_line_read_aux);
 
 		list = ft_special_split(line_read_aux);
+		g_mini.cmd_lst = list;
 
 		if (list == NULL)
 			ft_lstclear(&list, free_cmd);
@@ -256,9 +230,12 @@ int	main(void)
 			// ft_lstiter(list, init_path);
 			if (ft_lstsize(list) == 1)
 				ft_lstiter(list, run_one_cmd);
+			else if (ft_lstsize(list) == 0)
+				continue;
 
 			// ft_lstiter(list, print_cmd);
 		}
-		ft_lstclear(&list, free_cmd);
+		if (list != NULL)
+			ft_lstclear(&list, free_cmd);
 	}
 }
