@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/08/16 22:22:45 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/11 14:58:30 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,12 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_env.c \
 		$(SRC_DIR)/find_env.c \
 		$(SRC_DIR)/init_path.c \
-		$(SRC_DIR)/ft_exit.c
+		$(SRC_DIR)/ft_exit.c \
+		$(SRC_DIR)/has_is_pipe.c \
+		$(SRC_DIR)/has_is_append.c \
+		$(SRC_DIR)/has_is_redir.c
+		# $(SRC_DIR)/pipe_redir_append.c
+
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
@@ -52,8 +57,8 @@ $(LIBFT):
 debug_mac: $(OBJ) $(LIBFT)
 		@gcc $(LFLAGS) $(HEAD) $(SRC) $(CFLAGS) -o "minishell_debug"
 
-debug_linux:
-		@gdd $(LFLAGS) $(HEAD) $(SRC) $(CFLAGS) -o "minishell_debug"
+debug_linux: $(OBJ) $(LIBFT)
+		@$(CC) $(LFLAGS) $(HEAD) $(SRC) $(CFLAGS) -o "minishell_debug"
 
 clean:
 		@make clean -C $(LIBFT_DIR)

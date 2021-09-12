@@ -6,25 +6,25 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 22:22:05 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/11 15:36:59 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_struct *mini)
+void ft_pwd(t_cmd *data)
 {
-	size_t	size;
-	char	*buf;
+	size_t size;
+	char *buf;
 
 	size = 2000;
 	buf = NULL;
 	buf = getcwd(buf, size);
 	printf("%s\n", buf);
 	if (buf == NULL)
-		mini->status = 1;
+		data->status = 1;
 	else
-		mini->status = 0;
+		data->status = 0;
 	free(buf);
-	g_ret_number = mini->status;
+	g_ret_number = data->status;
 }
