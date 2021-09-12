@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/10 01:08:48 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 12:38:37 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,15 +181,15 @@ int	main(void)
 	{
 		tmp_line_read_aux = get_line(mini.line_read);
 		split_cmd(&mini, tmp_line_read_aux, 0);
-		line_read_aux = ft_strtrim(tmp_line_read_aux, " ");
+		mini.line_read = ft_strtrim(tmp_line_read_aux, " ");
 		//free(tmp_line_read_aux);
-
 		//list = ft_special_split(line_read_aux);
-		//split_cmd(&mini, line_read_aux, 0);
-		mini.tokens = ft_split(mini.commands[0], ' ');
-		mini.cmd = mini.commands[0];
-		is_builtin(mini.cmd, &mini);
-		run_one_cmd(&mini);
+		test_fork(&mini);
+		//exit (2);
+		//mini.tokens = ft_split(mini.commands[0], ' ');
+		//mini.cmd = mini.commands[0];
+		//is_builtin(mini.cmd, &mini);
+		//run_one_cmd(&mini);
 		/*if (mini.comm == NULL)
 			ft_lstclear(&mini.comm, free_cmd);
 		else

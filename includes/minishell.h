@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/10 00:47:06 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 12:21:57 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ typedef struct s_struct
 	t_env	env;
 	t_list	*comm;
 	char	*commands[50];
-    int		qtt_pipe;
+	int		qtt_pipe;
+	int		out_fd;
+	int		in_fd;
 }			t_struct;
 
 // typedef struct s_cmd
@@ -156,6 +158,10 @@ bool is_any_redir(char c);
 // bool has_pipe_red_append(char **tokens);
 // int count_pipe_red_append(char **tokens);
 
+int test_fork(t_struct *all);
+int		execute_process2(t_struct *all, int in, int out, char **args);
+int exec_com(t_struct *all, char **args);
+int	file_descriptor_handler(int in, int out);
 
 
 
