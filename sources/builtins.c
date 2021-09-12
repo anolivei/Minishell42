@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 11:40:25 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/12 18:03:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,20 @@ void is_builtin(char *cmd, t_cmd *data)
 		data->is_builtin = false;
 }
 
-void run_builtin(void *data)
+void run_builtin(t_struct *mini, t_cmd *cmd)
 {
-	t_cmd *cmd;
-
-	cmd = (t_cmd *)data;
 	if (!ft_strncmp(cmd->cmd, "exit", 4))
-		ft_exit();
+		ft_exit(mini);
 	if (!ft_strncmp(cmd->cmd, "pwd", 3))
 		ft_pwd(cmd);
 	if (!ft_strncmp(cmd->cmd, "echo", 4))
-		ft_echo(cmd);
+		ft_echo(mini, cmd);
 	if (!ft_strncmp(cmd->cmd, "cd", 2))
-		ft_cd(cmd);
+		ft_cd(mini, cmd);
 	if (!ft_strncmp(cmd->cmd, "env", 3))
 		ft_env(cmd);
 	if (!ft_strncmp(cmd->cmd, "export", 6))
-		ft_export(cmd);
+		ft_export(mini, cmd);
 	if (!ft_strncmp(cmd->cmd, "unset", 5))
-		ft_unset(cmd);
+		ft_unset(mini, cmd);
 }

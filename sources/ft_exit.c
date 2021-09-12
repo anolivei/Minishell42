@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:55:50 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:15:22 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 18:03:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_exit()
+void ft_exit(t_struct *mini)
 {
-	ft_lstclear(&g_mini.cmd_lst, free_cmd);
+	ft_lstclear(&mini->cmd_lst, free_cmd);
 	// free_char_array(data->tokens);
 	// free_line(data->line_read);
-	// free_char_array(data->path);
+	free_char_array(mini->path);
 	exit(0);
 }
 

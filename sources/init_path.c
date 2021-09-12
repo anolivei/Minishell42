@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:07:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 14:59:42 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 18:03:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@
 ** and put a '/' in the end of each path
 */
 
-int init_path(t_cmd *data)
+int init_path(t_struct *mini)
 {
 	char *path_aux;
 	int i;
 
-	path_aux = ft_strdup(find_env("PATH"));
+	path_aux = ft_strdup(find_env(mini, "PATH"));
 	if (!path_aux)
 		return (0);
-	data->path = ft_split(path_aux, ':');
+	mini->path = ft_split(path_aux, ':');
 	i = 0;
-	while (data->path[i])
+	while (mini->path[i])
 	{
-		data->path[i] = ft_strjoin(data->path[i], "/");
+		mini->path[i] = ft_strjoin(mini->path[i], "/");
 		i++;
 	}
 	free(path_aux);

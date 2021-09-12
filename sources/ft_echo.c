@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:35:57 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 18:03:26 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void fix_quotes(t_cmd *data, int i, int j, char q)
 		exit(EXIT_FAILURE);
 	while (data->line_read[i])
 	{
-		if (((data->line_read[i] == QUOTE && data->line_read[i + 1] != '$')
-				|| data->line_read[i] == DOUBLE_QUOTE) && q == 0)
+		if (((data->line_read[i] == QUOTE && data->line_read[i + 1] != '$') || data->line_read[i] == DOUBLE_QUOTE) && q == 0)
 			q = data->line_read[i];
 		else
 		{
@@ -41,9 +40,9 @@ static void fix_quotes(t_cmd *data, int i, int j, char q)
 	data->line_read = line_read_aux;
 }
 
-static int	len_env(char *haystack, char needle)
+static int len_env(char *haystack, char needle)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < (int)ft_strlen(haystack))
@@ -55,30 +54,30 @@ static int	len_env(char *haystack, char needle)
 	return (i);
 }
 
-static int	echo_env(char *line_read, int i, int len)
+static int echo_env(t_struct *mini, char *line_read, int i, int len)
 {
-	char	*ret;
-	char	*env;
+	char *ret;
+	char *env;
 
 	i++;
 	if (line_read[i] == '?')
 		printf("%i", g_ret_number);
 	len = len_env(&line_read[i], ' ');
 	ret = ft_substr(line_read, i, len);
-	env = find_env(ret);
+	env = find_env(mini, ret);
 	if (env != NULL)
 		printf("%s", env);
 	i = i + len - 1;
-	free (ret);
+	free(ret);
 	return (i);
 }
 
-static void	print_echo(char *line_read, int i, int len)
+static void print_echo(t_struct *mini, char *line_read, int i, int len)
 {
 	while (line_read[i] != '\0')
 	{
 		if (line_read[i] == '$' && line_read[i - 1] != QUOTE)
-			i = echo_env(line_read, i, len);
+			i = echo_env(mini, line_read, i, len);
 		else
 		{
 			if (line_read[i] == QUOTE && line_read[i + 1] == '$')
@@ -89,7 +88,7 @@ static void	print_echo(char *line_read, int i, int len)
 	}
 }
 
-void	ft_echo(t_cmd *data)
+void ft_echo(t_struct *mini, t_cmd *data)
 {
 	bool has_flag;
 	int i;
@@ -111,7 +110,7 @@ void	ft_echo(t_cmd *data)
 				i++;
 		}
 		fix_quotes(data, 0, 0, 0);
-		print_echo(&data->line_read[i], 0, 0);
+		print_echo(mini, &data->line_read[i], 0, 0);
 		if (!has_flag)
 			printf("\n");
 	}

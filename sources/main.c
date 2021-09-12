@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/11 15:29:35 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 18:03:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char *get_line(char *line_read)
 {
-	size_t	size;
-	char	*buf;
+	size_t size;
+	char *buf;
 
 	size = 2000;
 	buf = NULL;
@@ -29,14 +29,14 @@ char *get_line(char *line_read)
 	return (line_read);
 }
 
-static void initialize(t_cmd *data)
+static void initialize(t_struct *mini)
 {
 	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
-	create_env(__environ);
-	data->line_read = (char *) NULL;
-	data->tokens = (char **) NULL;
-	g_ret_number = 0;
-	init_path(data);
+	create_env(mini, __environ);
+	// data->line_read = (char *) NULL;
+	// data->tokens = (char **) NULL;
+	// g_ret_number = 0;
+	init_path(mini);
 }
 
 size_t arrlen(char **arr)
@@ -59,7 +59,6 @@ t_cmd *create_cmd_str(char *str)
 	if (cmd == NULL)
 		return (NULL);
 	cmd->line_read = str;
-	cmd->path = NULL;
 	cmd->tokens = NULL;
 	cmd->cmd = NULL;
 	cmd->has_append = false;
@@ -148,7 +147,7 @@ void free_cmd(void *st)
 	free_char_array(cmd->tokens);
 	free_line(cmd->line_read);
 	free_line(cmd->cmd);
-	free_char_array(cmd->path);
+	// free_char_array(cmd->path);
 	free(cmd);
 }
 
@@ -167,7 +166,6 @@ void fill_cmd_struct(void *data)
 
 	cmd = (t_cmd *)data;
 	//verifica primeiro char é pipe/redir ou append
-	init_path(cmd);
 	if (has_pipe_redi_append_str(cmd->line_read))
 	{
 		cmd->has_pipe = is_pipe(cmd->line_read[0]);
@@ -188,17 +186,17 @@ void fill_cmd_struct(void *data)
 	}
 }
 
-void run_one_cmd(void *data)
+void run_one_cmd(t_struct *mini)
 {
 	t_cmd *cmd;
 
-	cmd = (t_cmd *)data;
+	cmd = mini->cmd_lst->content;
 	if (ft_strlen(cmd->line_read) == 0)
 		return;
 	if (cmd->is_builtin)
-		run_builtin(cmd);
+		run_builtin(mini, cmd);
 	else
-		run_execve(cmd);
+		run_execve(mini, cmd);
 }
 
 void print_cmd(void *data)
@@ -214,14 +212,15 @@ int main(void)
 	char *tmp_line_read_aux;
 	char *line_read_aux;
 	char *line_read;
-	t_cmd	data;
+	// t_cmd	data;
+	t_struct mini;
 	t_list *list;
 	int size;
 
 	size = 0;
 	line_read = NULL;
 	line_read_aux = NULL;
-	initialize(&data);
+	initialize(&mini);
 	while (1)
 	{
 		tmp_line_read_aux = get_line(line_read);
@@ -232,7 +231,7 @@ int main(void)
 		free(tmp_line_read_aux);
 
 		list = ft_special_split(line_read_aux);
-		g_mini.cmd_lst = list;
+		mini.cmd_lst = list;
 
 		if (list == NULL)
 			ft_lstclear(&list, free_cmd);
@@ -241,7 +240,8 @@ int main(void)
 			ft_lstiter(list, fill_cmd_struct);
 			// ft_lstiter(list, init_path);
 			if (ft_lstsize(list) == 1)
-				ft_lstiter(list, run_one_cmd);
+				// ft_lstiter(list, run_one_cmd);
+				run_one_cmd(&mini);
 			else if (ft_lstsize(list) == 0)
 				continue;
 
