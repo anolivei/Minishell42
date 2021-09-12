@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:07:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/31 00:09:16 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 19:39:53 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	init_path(t_struct *mini)
 	char	*path_aux;
 	int		i;
 
-	//printf("%s\n", find_env(mini, "PATH"));
 	path_aux = ft_strdup(find_env(mini, "PATH"));
 	if (!path_aux)
 		return (0);

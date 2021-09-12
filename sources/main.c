@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 12:38:37 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 19:31:33 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ int	main(void)
 		mini.line_read = ft_strtrim(tmp_line_read_aux, " ");
 		//free(tmp_line_read_aux);
 		//list = ft_special_split(line_read_aux);
-		test_fork(&mini);
+		run_commands(&mini);
 		//exit (2);
 		//mini.tokens = ft_split(mini.commands[0], ' ');
 		//mini.cmd = mini.commands[0];

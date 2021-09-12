@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/12 12:24:35 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/12 19:42:34 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/has_is_append.c \
 		$(SRC_DIR)/has_is_redir.c \
 		$(SRC_DIR)/split_cmd.c \
-		$(SRC_DIR)/teste.c
+		$(SRC_DIR)/run_pipe.c
 		# $(SRC_DIR)/pipe_redir_append.c
 
 

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 12:21:57 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 19:38:07 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 # include <sys/wait.h>
 # include <signal.h>
 
-# define DOUBLE_QUOTE '"'
+# define DOUBLE_QUOTE '\"'
 # define QUOTE '\''
+# define DOUBLE_QUOTE_S "\""
+# define QUOTE_S "\'"
 
 int	g_ret_number;
 /*
@@ -158,12 +160,10 @@ bool is_any_redir(char c);
 // bool has_pipe_red_append(char **tokens);
 // int count_pipe_red_append(char **tokens);
 
-int test_fork(t_struct *all);
-int		execute_process2(t_struct *all, int in, int out, char **args);
-int exec_com(t_struct *all, char **args);
-int	file_descriptor_handler(int in, int out);
-
-
+void	run_commands(t_struct *mini);
+void	exec_process(t_struct *mini, int in, int out, char **args);
+int		ft_execve_pipe(t_struct *mini, char **args);
+int		file_descriptor_handler(int in, int out);
 
 
 #endif
