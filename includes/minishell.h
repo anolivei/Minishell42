@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 19:38:07 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:10:40 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define QUOTE_S "\'"
 
 int	g_ret_number;
+
 /*
 ** Struct for the environment variables
 */
@@ -45,30 +46,32 @@ typedef struct s_env
 ** General structure
 */
 
-typedef struct s_token {
-	size_t size;
-	char **tokens;
-	char *head;
-	char *next;
-	int head_i;
-	int next_tk_i;
-	int before_token;
-} t_token;
+typedef struct s_token
+{
+	size_t	size;
+	char	**tokens;
+	char	*head;
+	char	*next;
+	int		head_i;
+	int		next_tk_i;
+	int		before_token;
+}			t_token;
 
-typedef struct s_cmd {
-	char *cmd;
-	char *str;
-	char **token;
-	bool has_pipe;
-	bool has_input_redir;
-	bool has_output_redir;
-	bool has_append;
-	bool is_builtin;
-	bool is_path;
-	int status;
-	int fd;
-	t_token *tk;
-} t_cmd;
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	*str;
+	char	**token;
+	bool	has_pipe;
+	bool	has_input_redir;
+	bool	has_output_redir;
+	bool	has_append;
+	bool	is_builtin;
+	bool	is_path;
+	int		status;
+	int		fd;
+	t_token	*tk;
+}			t_cmd;
 
 typedef struct s_struct
 {
@@ -91,16 +94,6 @@ typedef struct s_struct
 	int		out_fd;
 	int		in_fd;
 }			t_struct;
-
-// typedef struct s_cmd
-// {
-// 	char *head;
-// 	char *next;
-// 	char **cmd_token;
-// 	bool has_pipe;
-// 	bool has_redirection;
-// 	int fd;
-// }		t_cmd;
 
 /*
 ** Minishell functions
@@ -128,42 +121,41 @@ void	alloc_env_aux(t_struct *mini);
 
 void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
+void	free_char_array2(char **array);
 void	free_line(char *line_read);
 
 void	split_cmd(t_struct *mini, char *in, char q);
 
-
 /*
 ** has_is_pipe.c
 */
-bool is_pipe_str(char *str);
-bool is_pipe(char c);
-bool has_pipe(char **tokens);
+bool	is_pipe_str(char *str);
+bool	is_pipe(char c);
+bool	has_pipe(char **tokens);
 
 /*
 ** has_is_append.c
 */
-bool is_output_append(char *str, int index);
-bool is_input_append(char *str, int index);
+bool	is_output_append(char *str, int index);
+bool	is_input_append(char *str, int index);
 
 /*
 ** has_is_redir.c
 */
-bool is_input_redir(char c);
-bool is_output_redir(char c);
-bool is_any_redir(char c);
+bool	is_input_redir(char c);
+bool	is_output_redir(char c);
+bool	is_any_redir(char c);
 
 /*
 ** pipe_redir_append.c
 */
-// bool is_pipe_red_append(char *str);
-// bool has_pipe_red_append(char **tokens);
-// int count_pipe_red_append(char **tokens);
+bool	is_pipe_redir_append(char *str);
+bool	has_pipe_redir_append(char **tokens);
+int		count_pipe_redir_append(char **tokens);
 
 void	run_commands(t_struct *mini);
 void	exec_process(t_struct *mini, int in, int out, char **args);
 int		ft_execve_pipe(t_struct *mini, char **args);
 int		file_descriptor_handler(int in, int out);
-
 
 #endif

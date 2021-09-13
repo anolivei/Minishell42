@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   teste.c                                            :+:      :+:    :+:   */
+/*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 19:37:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:02:24 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	run_commands(t_struct *mini)
 	int		j;
 	int		in_fd;
 	int		fd[2];
-	char	**ret_split;
 
 	j = 0;
 	in_fd = STDIN_FILENO;
@@ -29,22 +28,21 @@ void	run_commands(t_struct *mini)
 			g_ret_number = 127;
 		}
 		mini->out_fd = fd[1];
-		ret_split = ft_split(mini->commands[j],' ');
-		is_builtin(ret_split[0], mini);
+		mini->tokens = ft_split(mini->commands[j], ' ');
+		is_builtin(mini->tokens[0], mini);
 		mini->cmd = mini->commands[j];
-		mini->tokens = ft_split(mini->cmd, ' ');
-		exec_process(mini, in_fd, mini->out_fd, ret_split);
+		exec_process(mini, in_fd, mini->out_fd, mini->tokens);
 		close(mini->out_fd);
 		if (in_fd != 0)
 			close(in_fd);
 		in_fd = fd[0];
 		j++;
+		free_char_array(mini->tokens);
 	}
-	ret_split = ft_split(mini->commands[j],' ');
-	is_builtin(ret_split[0], mini);
+	mini->tokens = ft_split(mini->commands[j], ' ');
+	is_builtin(mini->tokens[0], mini);
 	mini->cmd = mini->commands[j];
-	mini->tokens = ft_split(mini->cmd, ' ');
-	exec_process(mini, in_fd, STDOUT_FILENO, ret_split);
+	exec_process(mini, in_fd, STDOUT_FILENO, mini->tokens);
 }
 
 void	exec_process(t_struct *mini, int in, int out, char **args)
@@ -53,11 +51,12 @@ void	exec_process(t_struct *mini, int in, int out, char **args)
 	int		status;
 
 	status = 0;
-	if(mini->is_builtin)
+	if (mini->is_builtin)
 		run_builtin(mini);
 	else
 	{
-		if ((pid = fork()) < 0)
+		pid = fork();
+		if (pid < 0)
 		{
 			printf("Fork error\n");
 			g_ret_number = 127;
@@ -85,9 +84,6 @@ int	ft_execve_pipe(t_struct *mini, char **args)
 
 	r = -1;
 	i = 0;
-	/* TO DO
-	** fix echo
-	*/
 	while (mini->path[i] != NULL)
 	{
 		command = ft_strdup(mini->path[i]);

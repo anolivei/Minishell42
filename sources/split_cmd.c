@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 13:20:11 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:05:18 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,6 @@ void	split_cmd(t_struct *mini, char *in, char q)
 		i++;
 	}
 	mini->commands[n_comand] = ft_substr(in, ini, i);
+	n_comand++;
+	mini->commands[n_comand] = NULL;
 }

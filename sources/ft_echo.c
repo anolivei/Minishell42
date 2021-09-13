@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 18:14:20 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:04:53 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,12 @@ static int	echo_env(t_struct *mini, char *line_read, int i, int len)
 
 	i++;
 	if (line_read[i] == '?')
-		//printf("%i", g_ret_number);
-		ft_putnbr_fd(g_ret_number,mini->out_fd);
+		ft_putnbr_fd(g_ret_number, mini->out_fd);
 	len = len_env(&line_read[i], ' ');
 	ret = ft_substr(line_read, i, len);
 	env = find_env(mini, ret);
 	if (env != NULL)
 		ft_putstr_fd(env, mini->out_fd);
-		//printf("%s", env);
 	i = i + len - 1;
 	free (ret);
 	return (i);
@@ -86,7 +84,6 @@ static void	print_echo(t_struct *mini, char *line_read, int i, int len)
 			if (line_read[i] == QUOTE && line_read[i + 1] == '$')
 				i++;
 			ft_putchar_fd(line_read[i], mini->out_fd);
-			//printf("%c", line_read[i]);
 		}
 		i++;
 	}
@@ -117,7 +114,6 @@ void	ft_echo(t_struct *mini)
 		fix_quotes(mini, 0, 0, 0);
 		print_echo(mini, &mini->line_read[i], 0, 0);
 		if (!has_flag)
-			ft_putstr_fd("\n",mini->out_fd);
-			//printf("\n");
+			ft_putstr_fd("\n", mini->out_fd);
 	}
 }
