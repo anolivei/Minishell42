@@ -6,23 +6,21 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 23:05:18 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/14 00:18:19 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_cmd(t_struct *mini, char *in, char q)
+void	split_cmd(t_struct *mini, char *in, char q, int i)
 {
-	int	i;
 	int	n_comand;
 	int	ini;
-	int	tam;
+	int	len;
 
 	n_comand = 0;
 	ini = 0;
-	i = 0;
-	tam = 0;
+	len = 0;
 	mini->qtt_pipe = 0;
 	while (i < (int)ft_strlen(in))
 	{
@@ -38,9 +36,9 @@ void	split_cmd(t_struct *mini, char *in, char q)
 				{
 					if (q == 0)
 					{
-						mini->commands[n_comand] = ft_substr(in, ini, tam);
+						mini->commands[n_comand] = ft_substr(in, ini, len);
 						ini = i;
-						tam = 0;
+						len = 0;
 						n_comand++;
 					}
 					if (in[i] == '|')
@@ -48,7 +46,7 @@ void	split_cmd(t_struct *mini, char *in, char q)
 				}
 			}
 		}
-		tam ++;
+		len ++;
 		i++;
 	}
 	mini->commands[n_comand] = ft_substr(in, ini, i);

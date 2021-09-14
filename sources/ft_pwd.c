@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/09 20:43:43 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/13 23:44:44 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_pwd(t_struct *mini)
 	size = 2000;
 	buf = NULL;
 	buf = getcwd(buf, size);
-	printf("%s\n", buf);
+	ft_putendl_fd(buf, mini->out_fd);
 	if (buf == NULL)
 		mini->status = 1;
 	else

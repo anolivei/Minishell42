@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 19:41:29 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/13 23:49:08 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	ft_env(t_struct *mini)
 	i = 0;
 	while (i < mini->env.len)
 	{
-		printf("%s=%s\n", mini->env.key[i], mini->env.content[i]);
+		ft_putstr_fd(mini->env.key[i], mini->out_fd);
+		ft_putchar_fd('=', mini->out_fd);
+		ft_putendl_fd(mini->env.content[i], mini->out_fd);
 		i++;
 	}
 }

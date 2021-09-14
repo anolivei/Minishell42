@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 23:37:23 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/14 00:10:30 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*get_line(char *line_read)
 	buf = getcwd(buf, size);
 	printf("\033[1;36m%s \033[0;37m", buf);
 	free(buf);
-	//free_line(line_read);
 	line_read = readline("$ ");
 	if (line_read && *line_read)
 		add_history(line_read);
@@ -52,10 +51,11 @@ int	main(void)
 	line_read_aux = (char *) NULL;
 	while (1)
 	{
+		mini.out_fd = STDOUT_FILENO;
 		tmp_line_read_aux = get_line(mini.line_read);
 		if (ft_strlen(tmp_line_read_aux) != 0)
 		{
-			split_cmd(&mini, tmp_line_read_aux, 0);
+			split_cmd(&mini, tmp_line_read_aux, 0, 0);
 			mini.line_read = ft_strtrim(tmp_line_read_aux, " ");
 			run_commands(&mini);
 			free(mini.line_read);

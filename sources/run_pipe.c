@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 23:02:24 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/14 00:20:19 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	run_commands(t_struct *mini)
 	in_fd = STDIN_FILENO;
 	while (j < mini->qtt_pipe)
 	{
+		free (mini->line_read);
+		mini->line_read = ft_strdup(mini->commands[j]);
 		if (pipe(fd) < 0)
 		{
 			printf("Pipe error\n");
@@ -48,9 +50,7 @@ void	run_commands(t_struct *mini)
 void	exec_process(t_struct *mini, int in, int out, char **args)
 {
 	pid_t	pid;
-	int		status;
 
-	status = 0;
 	if (mini->is_builtin)
 		run_builtin(mini);
 	else
@@ -69,9 +69,9 @@ void	exec_process(t_struct *mini, int in, int out, char **args)
 			kill(pid, SIGKILL);
 		}
 		else
-			waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_ret_number = WEXITSTATUS(status);
+			waitpid(pid, &g_ret_number, 0);
+		if (WIFEXITED(g_ret_number))
+			g_ret_number = WEXITSTATUS(g_ret_number);
 	}
 }
 
@@ -80,7 +80,6 @@ int	ft_execve_pipe(t_struct *mini, char **args)
 	int		i;
 	char	*command;
 	int		r;
-	char	*env[] = { 0 };	/* leave the environment list null */
 
 	r = -1;
 	i = 0;
@@ -91,12 +90,12 @@ int	ft_execve_pipe(t_struct *mini, char **args)
 		{
 			args[2] = ft_strtrim(args[2], DOUBLE_QUOTE_S);
 			command = ft_strjoin(command, args[1]);
-			r = execve(command, &args[1], env);
+			r = execve(command, &args[1], mini->env.env);
 		}
 		else
 		{
 			command = ft_strjoin(command, args[0]);
-			r = execve(command, &args[0], env);
+			r = execve(command, &args[0], mini->env.env);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 23:10:40 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/14 00:10:19 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	free_char_array(char **array);
 void	free_char_array2(char **array);
 void	free_line(char *line_read);
 
-void	split_cmd(t_struct *mini, char *in, char q);
+void	split_cmd(t_struct *mini, char *in, char q, int i);
 
 /*
 ** has_is_pipe.c
