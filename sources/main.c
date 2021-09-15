@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/14 00:10:30 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/14 22:31:28 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,22 @@ char	*get_line(char *line_read)
 {
 	size_t	size;
 	char	*buf;
+	char	*prompt;
+	char	*cyan;
+	char	*white;
 
 	size = 2000;
 	buf = NULL;
 	buf = getcwd(buf, size);
-	printf("\033[1;36m%s \033[0;37m", buf);
+	cyan = ft_strdup(BOLD_CYAN);
+	white = ft_strdup(WHITE);
+	prompt = ft_strjoin(cyan, buf);
 	free(buf);
-	line_read = readline("$ ");
+	prompt = ft_strjoin(prompt, white);
+	free(white);
+	prompt = ft_strjoin(prompt, "$ ");
+	line_read = readline(prompt);
+	free(prompt);
 	if (line_read && *line_read)
 		add_history(line_read);
 	return (line_read);
