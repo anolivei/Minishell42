@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/14 22:29:59 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 00:19:38 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ typedef struct s_cmd
 	t_token	*tk;
 }			t_cmd;
 
+typedef struct s_split
+{
+	int		n_comand;
+	int		ini;
+	int		len;
+	int		q;
+	int		qtt_pipe;
+}			t_split;
+
 typedef struct s_struct
 {
 	char	*line_read;
@@ -93,9 +102,9 @@ typedef struct s_struct
 	t_env	env;
 	t_list	*comm;
 	char	*commands[50];
-	int		qtt_pipe;
 	int		out_fd;
 	int		in_fd;
+	t_split	split;
 }			t_struct;
 
 /*
@@ -127,7 +136,7 @@ void	free_char_array(char **array);
 void	free_char_array2(char **array);
 void	free_line(char *line_read);
 
-void	split_cmd(t_struct *mini, char *in, char q, int i);
+void	split_cmd(t_struct *mini, char *in);
 
 /*
 ** has_is_pipe.c

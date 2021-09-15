@@ -6,50 +6,60 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/14 00:18:19 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 00:16:28 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_cmd(t_struct *mini, char *in, char q, int i)
+static int	count_pipe(t_struct *mini, char *in, int i)
 {
-	int	n_comand;
-	int	ini;
-	int	len;
+	if (in[i] == '|' || in[i] == '<' || in[i] == '>')
+	{
+		if (mini->split.q == 0)
+		{
+			mini->commands[mini->split.n_comand] = ft_substr(in,
+					mini->split.ini, mini->split.len);
+			mini->split.ini = i;
+			mini->split.len = 0;
+			mini->split.n_comand++;
+		}
+		if (in[i] == '|')
+			mini->split.qtt_pipe++;
+	}
+	return (i);
+}
 
-	n_comand = 0;
-	ini = 0;
-	len = 0;
-	mini->qtt_pipe = 0;
+static void	init_split_struct(t_struct *mini)
+{
+	mini->split.n_comand = 0;
+	mini->split.ini = 0;
+	mini->split.len = 0;
+	mini->split.qtt_pipe = 0;
+	mini->split.q = 0;
+}
+
+void	split_cmd(t_struct *mini, char *in)
+{
+	int	i;
+
+	init_split_struct(mini);
+	i = 0;
 	while (i < (int)ft_strlen(in))
 	{
-		if (q == 0 && (in[i] == DOUBLE_QUOTE || in[i] == QUOTE))
-			q = in[i];
+		if (mini->split.q == 0 && (in[i] == DOUBLE_QUOTE || in[i] == QUOTE))
+			mini->split.q = in[i];
 		else
 		{
-			if (q == in[i])
-				q = 0;
+			if (mini->split.q == in[i])
+				mini->split.q = 0;
 			else
-			{
-				if (in[i] == '|' || in[i] == '<' || in[i] == '>')
-				{
-					if (q == 0)
-					{
-						mini->commands[n_comand] = ft_substr(in, ini, len);
-						ini = i;
-						len = 0;
-						n_comand++;
-					}
-					if (in[i] == '|')
-						mini->qtt_pipe++;
-				}
-			}
+				i = count_pipe(mini, in, i);
 		}
-		len ++;
+		mini->split.len++;
 		i++;
 	}
-	mini->commands[n_comand] = ft_substr(in, ini, i);
-	n_comand++;
-	mini->commands[n_comand] = NULL;
+	mini->commands[mini->split.n_comand] = ft_substr(in, mini->split.ini, i);
+	mini->split.n_comand++;
+	mini->commands[mini->split.n_comand] = NULL;
 }

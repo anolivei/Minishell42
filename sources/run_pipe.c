@@ -6,11 +6,19 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/14 00:20:19 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 00:31:57 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
+{
+	mini->tokens = ft_split(mini->commands[j], ' ');
+	is_builtin(mini->tokens[0], mini);
+	mini->cmd = mini->commands[j];
+	exec_process(mini, in_fd, in_out, mini->tokens);
+}
 
 void	run_commands(t_struct *mini)
 {
@@ -20,7 +28,7 @@ void	run_commands(t_struct *mini)
 
 	j = 0;
 	in_fd = STDIN_FILENO;
-	while (j < mini->qtt_pipe)
+	while (j < mini->split.qtt_pipe)
 	{
 		free (mini->line_read);
 		mini->line_read = ft_strdup(mini->commands[j]);
@@ -30,10 +38,7 @@ void	run_commands(t_struct *mini)
 			g_ret_number = 127;
 		}
 		mini->out_fd = fd[1];
-		mini->tokens = ft_split(mini->commands[j], ' ');
-		is_builtin(mini->tokens[0], mini);
-		mini->cmd = mini->commands[j];
-		exec_process(mini, in_fd, mini->out_fd, mini->tokens);
+		run_commands_aux(mini, j, in_fd, mini->out_fd);
 		close(mini->out_fd);
 		if (in_fd != 0)
 			close(in_fd);
@@ -41,10 +46,7 @@ void	run_commands(t_struct *mini)
 		j++;
 		free_char_array(mini->tokens);
 	}
-	mini->tokens = ft_split(mini->commands[j], ' ');
-	is_builtin(mini->tokens[0], mini);
-	mini->cmd = mini->commands[j];
-	exec_process(mini, in_fd, STDOUT_FILENO, mini->tokens);
+	run_commands_aux(mini, j, in_fd, STDOUT_FILENO);
 }
 
 void	exec_process(t_struct *mini, int in, int out, char **args)
