@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/07 19:17:18 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 23:13:17 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	ft_export(t_struct *mini)
 		env_aux = NULL;
 		i++;
 	}
+	g_ret_number = 0;
 }

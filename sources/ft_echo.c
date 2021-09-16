@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/13 23:27:55 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 23:10:22 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,16 @@ static int	echo_env(t_struct *mini, char *line_read, int i, int len)
 	char	*env;
 
 	i++;
-	if (line_read[i] == '?')
+	if (line_read[i] == '?' && line_read[i + 1] == '\0')
 		ft_putnbr_fd(g_ret_number, mini->out_fd);
 	len = len_env(&line_read[i], ' ');
 	ret = ft_substr(line_read, i, len);
 	env = find_env(mini, ret);
 	if (env != NULL)
+	{
 		ft_putstr_fd(env, mini->out_fd);
+		g_ret_number = 0;
+	}
 	i = i + len - 1;
 	free (ret);
 	return (i);
@@ -84,6 +87,7 @@ static void	print_echo(t_struct *mini, char *line_read, int i, int len)
 			if (line_read[i] == QUOTE && line_read[i + 1] == '$')
 				i++;
 			ft_putchar_fd(line_read[i], mini->out_fd);
+			g_ret_number = 0;
 		}
 		i++;
 	}

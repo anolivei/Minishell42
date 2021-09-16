@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/13 23:49:08 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 23:05:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_env(t_struct *mini)
 		ft_putendl_fd(mini->env.content[i], mini->out_fd);
 		i++;
 	}
+	g_ret_number = 0;
 }
 
 static void	len_env(t_struct *mini)

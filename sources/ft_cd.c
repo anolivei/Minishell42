@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 19:26:01 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 23:22:32 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	ft_cd(t_struct *mini)
 		token_aux = ft_strdup(find_env(mini, "HOME"));
 	g_ret_number = chdir(token_aux);
 	if (g_ret_number == -1)
-		printf("bash: cd: %s: No such file or directory\n", mini->tokens[1]);
+		printf("cd: %s: No such file or directory\n", mini->tokens[1]);
 	free(token_aux);
 }

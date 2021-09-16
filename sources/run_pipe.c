@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/15 00:31:57 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 23:24:47 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,42 +67,41 @@ void	exec_process(t_struct *mini, int in, int out, char **args)
 		{
 			file_descriptor_handler(in, out);
 			ft_execve_pipe(mini, args);
-			pid = getpid();
-			kill(pid, SIGKILL);
+			exit(g_ret_number);
 		}
 		else
-			waitpid(pid, &g_ret_number, 0);
+			waitpid(pid, &g_ret_number, WUNTRACED);
 		if (WIFEXITED(g_ret_number))
 			g_ret_number = WEXITSTATUS(g_ret_number);
 	}
 }
 
-int	ft_execve_pipe(t_struct *mini, char **args)
+void	ft_execve_pipe(t_struct *mini, char **args)
 {
 	int		i;
 	char	*command;
-	int		r;
 
-	r = -1;
+	g_ret_number = 127;
 	i = 0;
-	while (mini->path[i] != NULL)
+	while (mini->path && mini->path[i] != NULL)
 	{
 		command = ft_strdup(mini->path[i]);
 		if (args[0][0] == '|')
 		{
 			args[2] = ft_strtrim(args[2], DOUBLE_QUOTE_S);
 			command = ft_strjoin(command, args[1]);
-			r = execve(command, &args[1], mini->env.env);
+			g_ret_number = execve(command, &args[1], mini->env.env);
 		}
 		else
 		{
 			command = ft_strjoin(command, args[0]);
-			r = execve(command, &args[0], mini->env.env);
+			g_ret_number = execve(command, &args[0], mini->env.env);
+			free(command);
 		}
 		i++;
 	}
-	printf("%s: command not found\n", args[0]);
-	return (r);
+	g_ret_number = 127;
+	printf("%s: No such file or directory\n", args[0]);
 }
 
 int	file_descriptor_handler(int in, int out)

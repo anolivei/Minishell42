@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/15 00:19:38 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/15 23:24:26 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int		count_pipe_redir_append(char **tokens);
 
 void	run_commands(t_struct *mini);
 void	exec_process(t_struct *mini, int in, int out, char **args);
-int		ft_execve_pipe(t_struct *mini, char **args);
+void	ft_execve_pipe(t_struct *mini, char **args);
 int		file_descriptor_handler(int in, int out);
 
 #endif
