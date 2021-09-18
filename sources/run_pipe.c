@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/18 13:48:22 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:53:29 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	exec_process(t_struct *mini, int in, int out, char **args)
 		else if (pid == 0)
 		{
 			file_descriptor_handler(in, out);
-			ft_execve_pipe(mini, args);
+			g_ret_number = 127;
+			ft_execve_pipe(mini, args, 0, "");
 			exit(g_ret_number);
 		}
 		else
@@ -77,45 +78,33 @@ void	exec_process(t_struct *mini, int in, int out, char **args)
 	}
 }
 
-void	ft_execve_pipe(t_struct *mini, char **args)
+static void	spaces_in_pipe(t_struct *mini, char **args, int i, char *command)
 {
-	int		i;
-	char	*command;
+	args[i] = ft_strtrim(args[i], DOUBLE_QUOTE_S);
+	command = ft_strjoin(command, args[i - 1]);
+	g_ret_number = execve(command, &args[i - 1], mini->env.env);
+	free(command);
+}
 
-	g_ret_number = 127;
-	i = 0;
+void	ft_execve_pipe(t_struct *mini, char **args, int i, char *command)
+{
 	while (mini->path && mini->path[i] != NULL)
 	{
 		command = ft_strdup(mini->path[i]);
 		if (args[0][0] == '|')
 		{
-			args[2] = ft_strtrim(args[2], DOUBLE_QUOTE_S);
-			command = ft_strjoin(command, args[1]);
-			g_ret_number = execve(command, &args[1], mini->env.env);
+			if (!args[0][1])
+				spaces_in_pipe(mini, args, 2, command);
+			else
+			{
+				args[0] = &args[0][1];
+				spaces_in_pipe(mini, args, 1, command);
+			}
 		}
 		else
-		{
-			command = ft_strjoin(command, args[0]);
-			g_ret_number = execve(command, &args[0], mini->env.env);
-			free(command);
-		}
+			spaces_in_pipe(mini, args, 1, command);
 		i++;
 	}
 	g_ret_number = 127;
 	printf("%s: No such file or directory\n", args[0]);
-}
-
-int	file_descriptor_handler(int in, int out)
-{
-	if (in != 0)
-	{
-		dup2(in, 0);
-		close(in);
-	}
-	if (out != 1)
-	{
-		dup2(out, 1);
-		close(out);
-	}
-	return (0);
 }
