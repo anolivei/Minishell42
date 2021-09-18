@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/15 23:24:26 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:52:16 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include "lexer.h"
 
 # define DOUBLE_QUOTE '\"'
 # define QUOTE '\''
@@ -49,16 +50,16 @@ typedef struct s_env
 ** General structure
 */
 
-typedef struct s_token
-{
-	size_t	size;
-	char	**tokens;
-	char	*head;
-	char	*next;
-	int		head_i;
-	int		next_tk_i;
-	int		before_token;
-}			t_token;
+// typedef struct s_token
+// {
+// 	size_t	size;
+// 	char	**tokens;
+// 	char	*head;
+// 	char	*next;
+// 	int		head_i;
+// 	int		next_tk_i;
+// 	int		before_token;
+// }			t_token;
 
 typedef struct s_cmd
 {
@@ -169,5 +170,12 @@ void	run_commands(t_struct *mini);
 void	exec_process(t_struct *mini, int in, int out, char **args);
 void	ft_execve_pipe(t_struct *mini, char **args);
 int		file_descriptor_handler(int in, int out);
+
+/*
+** arr_str_utils.c
+*/
+size_t	ft_arrlen(char **arr);
+char	**ft_push_arr_str(char **arr, char *str);
+char	**init_arr_str(char *str);
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/12 23:14:27 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/18 16:53:41 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,13 @@ OBJ_DIR = .objs
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC =	$(SRC_DIR)/main.c \
+SRC =	$(SRC_DIR)/lexer/token.c \
+		$(SRC_DIR)/lexer/ft_min_and_max.c \
+		$(SRC_DIR)/lexer/lexer_utils_one.c \
+		$(SRC_DIR)/lexer/lexer_utils_two.c \
+		$(SRC_DIR)/lexer/tac.c \
+		$(SRC_DIR)/lexer/lexer_next_token.c \
+		$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_execve.c \
 		$(SRC_DIR)/builtins.c \
 		$(SRC_DIR)/ft_echo.c \
@@ -32,8 +38,8 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/has_is_append.c \
 		$(SRC_DIR)/has_is_redir.c \
 		$(SRC_DIR)/split_cmd.c \
-		$(SRC_DIR)/run_pipe.c
-		# $(SRC_DIR)/pipe_redir_append.c
+		$(SRC_DIR)/run_pipe.c \
+		$(SRC_DIR)/arr_str_utils.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
@@ -50,7 +56,9 @@ $(NAME): $(OBJ) $(LIBFT)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(OBJ_DIR)
+		@mkdir -p $(OBJ_DIR)/lexer
 		@$(CC) $(CFLAGS) $(HEAD) -c $< -o $@
+		@echo "\033[1;32m[OK]\033[0m    \033[1;33mCompiling\033[0m $(<F)"
 
 $(LIBFT):
 		@make -C $(LIBFT_DIR)
