@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 23:13:13 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/18 20:30:50 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:09:11 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int				ft_toupper(int c);
 int				ft_tolower(int c);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char *s1);
+int				ft_isspace(int c);
+void			*ft_realloc(void *ptr, size_t size);
 
 /*
 ** Part two - Additional functions

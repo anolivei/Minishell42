@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 21:49:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:09:48 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include "lexer.h"
 
 /*
 ** Macros to define quotes
@@ -192,5 +193,12 @@ void	split_cmd(t_struct *mini, char *in, int i);
 void	init_split_struct(t_struct *mini);
 char	*clean_spaces(char *in);
 int		count_pipe(t_struct *mini, char *in, int i);
+
+/*
+** arr_str_utils.c
+*/
+size_t	ft_arrlen(char **arr);
+char	**ft_push_arr_str(char **arr, char *str);
+char	**init_arr_str(char *str);
 
 #endif
