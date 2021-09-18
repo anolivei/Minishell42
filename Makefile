@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/18 16:37:04 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/18 20:14:05 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,9 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/find_env.c \
 		$(SRC_DIR)/init_path.c \
 		$(SRC_DIR)/ft_exit.c \
-		$(SRC_DIR)/has_is_pipe.c \
-		$(SRC_DIR)/has_is_append.c \
-		$(SRC_DIR)/has_is_redir.c \
 		$(SRC_DIR)/split_cmd.c \
 		$(SRC_DIR)/run_pipe.c \
 		$(SRC_DIR)/file_descriptor_handler.c
-		# $(SRC_DIR)/pipe_redir_append.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
