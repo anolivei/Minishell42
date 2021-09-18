@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/15 22:57:44 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/18 13:44:32 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	main(void)
 		if (ft_strlen(tmp_line_read_aux) != 0)
 		{
 			split_cmd(&mini, tmp_line_read_aux);
-			mini.line_read = ft_strtrim(tmp_line_read_aux, " ");
 			run_commands(&mini);
 			free(mini.line_read);
 			free_char_array(mini.tokens);
