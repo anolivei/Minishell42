@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/18 20:14:05 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/19 01:38:27 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC =	$(SRC_DIR)/main.c \
-		$(SRC_DIR)/ft_execve.c \
 		$(SRC_DIR)/builtins.c \
 		$(SRC_DIR)/ft_echo.c \
 		$(SRC_DIR)/ft_cd.c \
@@ -30,7 +29,8 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_exit.c \
 		$(SRC_DIR)/split_cmd.c \
 		$(SRC_DIR)/run_pipe.c \
-		$(SRC_DIR)/file_descriptor_handler.c
+		$(SRC_DIR)/file_descriptor_handler.c \
+		$(SRC_DIR)/signal.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 

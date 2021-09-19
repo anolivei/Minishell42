@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 00:28:21 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 01:34:38 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*get_line(char *line_read)
 	prompt = ft_strjoin(prompt, white);
 	free(white);
 	prompt = ft_strjoin(prompt, " $ ");
+	run_signals(1);
 	line_read = readline(prompt);
 	free(prompt);
 	if (line_read && *line_read)
@@ -48,6 +49,7 @@ static void	print_welcome_message(void)
 
 static void	initialize(t_struct *mini)
 {
+	print_welcome_message();
 	create_env(mini, __environ);
 	mini->line_read = (char *) NULL;
 	mini->tokens = (char **) NULL;
@@ -60,25 +62,25 @@ int	main(void)
 	char		*tmp_line_read_aux;
 	char		*line_read_aux;
 	t_struct	mini;
-	int			size;
 
-	print_welcome_message();
-	size = 0;
-	add_history("echo cezar | sed \"s/cezar/angelica/\"");
 	initialize(&mini);
 	line_read_aux = (char *) NULL;
 	while (1)
 	{
 		mini.out_fd = STDOUT_FILENO;
 		tmp_line_read_aux = get_line(mini.line_read);
-		if (ft_strlen(tmp_line_read_aux) != 0)
+		if (tmp_line_read_aux)
 		{
-			split_cmd(&mini, tmp_line_read_aux);
-			run_commands(&mini);
-			free(mini.line_read);
-			free_char_array(mini.tokens);
-			free_char_array2(mini.commands);
+			if (ft_strlen(tmp_line_read_aux) != 0)
+			{
+				split_cmd(&mini, tmp_line_read_aux);
+				run_commands(&mini);
+				free(mini.line_read);
+				free_char_array2(mini.commands);
+			}
+			free(tmp_line_read_aux);
 		}
-		free(tmp_line_read_aux);
+		else
+			run_signals(3);
 	}
 }

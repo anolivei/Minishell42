@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:55:50 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/18 13:51:32 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 01:34:26 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_exit(t_struct *mini)
 {
-	free_char_array(mini->tokens);
 	free_char_array2(mini->commands);
 	if (mini->path)
 		free_char_array(mini->path);
+	printf("exit\n");
 	exit(0);
 }
 

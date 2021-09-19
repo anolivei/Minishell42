@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 00:23:28 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 01:23:39 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,9 @@ void	free_char_array2(char **array);
 void	free_line(char *line_read);
 void	split_cmd(t_struct *mini, char *in);
 void	run_commands(t_struct *mini);
-void	exec_process(t_struct *mini, int in, int out, char **args);
-void	ft_execve_pipe(t_struct *mini, char **args, int i, char *command);
+void	exec_process(t_struct *mini, int in, int out);
+void	ft_execve_pipe(t_struct *mini, int i, char *command);
 int		file_descriptor_handler(int in, int out);
+void	run_signals(int sig);
 
 #endif
