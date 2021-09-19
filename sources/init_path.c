@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 23:07:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/12 19:39:53 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 14:41:48 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	init_path(t_struct *mini)
 		return (0);
 	mini->path = ft_split(path_aux, ':');
 	i = 0;
-	while (mini->path[i])
+	while (mini->path && mini->path[i])
 	{
 		mini->path[i] = ft_strjoin(mini->path[i], "/");
 		i++;
