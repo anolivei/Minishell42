@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 01:23:39 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 02:02:26 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 # define DOUBLE_QUOTE_S "\""
 # define QUOTE_S "\'"
 
-# define CYAN "\001\033[1;36m\002"
-# define WHITE "\001\033[0m\002"
-# define GREEN "\001\033[1;32m\002"
+# define CYAN "\033[1;36m"
+# define WHITE "\033[0m"
+# define GREEN "\033[1;32m"
 
 int	g_ret_number;
 
