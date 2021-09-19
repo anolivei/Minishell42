@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 01:34:21 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 13:50:54 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 static void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
 {
+	int	i;
+
 	mini->line_read = ft_strdup(mini->commands[j]);
 	mini->tokens = ft_split(mini->commands[j], ' ');
+	i = 0;
+	while (mini->tokens[i])
+	{
+		extends_env_var(mini, i);
+		i++;
+	}
 	is_builtin(mini->tokens[0], mini);
 	mini->cmd = ft_strtrim(mini->commands[j], " ");
 	exec_process(mini, in_fd, in_out);
@@ -111,5 +119,5 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 		i++;
 	}
 	g_ret_number = 127;
-	printf("%s: No such file or directory\n", mini->tokens[0]);
+	printf("minishell: %s: No such file or directory\n", mini->tokens[0]);
 }
