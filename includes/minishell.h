@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 18:32:39 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:52:43 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,16 @@ typedef struct s_split
 
 typedef struct s_struct
 {
-	char	*line_read;
-	char	*cmd;
-	char	**tokens;
-	char	**path;
-	int		status;
 	bool	is_builtin;
-	t_env	env_aux;
-	t_env	env;
-	t_list	*comm;
-	char	*commands[50];
 	int		out_fd;
 	int		in_fd;
+	char	*line_read;
+	char	*cmd;
+	char	*commands[50];
+	char	**tokens;
+	char	**path;
+	t_env	env_aux;
+	t_env	env;
 	t_split	split;
 }			t_struct;
 

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/13 23:44:44 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:51:28 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	ft_pwd(t_struct *mini)
 	buf = getcwd(buf, size);
 	ft_putendl_fd(buf, mini->out_fd);
 	if (buf == NULL)
-		mini->status = 1;
+		g_ret_number = 1;
 	else
-		mini->status = 0;
+		g_ret_number = 0;
 	free(buf);
-	g_ret_number = mini->status;
 }
