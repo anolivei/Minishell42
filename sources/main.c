@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/18 13:44:32 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 00:28:21 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	*get_line(char *line_read)
 	size = 2000;
 	buf = NULL;
 	buf = getcwd(buf, size);
-	cyan = ft_strdup(BOLD_CYAN);
+	cyan = ft_strdup(CYAN);
 	white = ft_strdup(WHITE);
 	prompt = ft_strjoin(cyan, buf);
 	free(buf);
 	prompt = ft_strjoin(prompt, white);
 	free(white);
-	prompt = ft_strjoin(prompt, "$ ");
+	prompt = ft_strjoin(prompt, " $ ");
 	line_read = readline(prompt);
 	free(prompt);
 	if (line_read && *line_read)
@@ -37,9 +37,17 @@ char	*get_line(char *line_read)
 	return (line_read);
 }
 
+static void	print_welcome_message(void)
+{
+	printf("\n%s--------------------------------------------------\n", GREEN);
+	printf("%s¦                                                ¦\n", GREEN);
+	printf("%s¦ Welcome to the anolivei and wbertoni Minishell ¦\n", GREEN);
+	printf("%s¦                                                ¦\n", GREEN);
+	printf("%s--------------------------------------------------\n\n", GREEN);
+}
+
 static void	initialize(t_struct *mini)
 {
-	printf("\033[1;32m		Welcome to the Minishell\n\033[0;37m");
 	create_env(mini, __environ);
 	mini->line_read = (char *) NULL;
 	mini->tokens = (char **) NULL;
@@ -54,6 +62,7 @@ int	main(void)
 	t_struct	mini;
 	int			size;
 
+	print_welcome_message();
 	size = 0;
 	add_history("echo cezar | sed \"s/cezar/angelica/\"");
 	initialize(&mini);
