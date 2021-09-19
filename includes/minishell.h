@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 13:51:01 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:32:39 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	ft_exit(t_struct *mini);
 void	free_char_array(char **array);
 void	free_char_array2(char **array);
 void	free_line(char *line_read);
-void	split_cmd(t_struct *mini, char *in);
+void	split_cmd(t_struct *mini, char *in, int i);
 void	run_commands(t_struct *mini);
 void	exec_process(t_struct *mini, int in, int out);
 void	ft_execve_pipe(t_struct *mini, int i, char *command);

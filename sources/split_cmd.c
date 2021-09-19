@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/15 00:16:28 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:35:27 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	count_pipe(t_struct *mini, char *in, int i)
 {
 	if (in[i] == '|' || in[i] == '<' || in[i] == '>')
 	{
-		if (mini->split.q == 0)
+		if (mini->split.q == 0 && i > 0)
 		{
 			mini->commands[mini->split.n_comand] = ft_substr(in,
 					mini->split.ini, mini->split.len);
@@ -39,12 +39,19 @@ static void	init_split_struct(t_struct *mini)
 	mini->split.q = 0;
 }
 
-void	split_cmd(t_struct *mini, char *in)
+static char	*clean_spaces(char *in)
 {
-	int	i;
+	char	*aux;
 
+	aux = ft_strtrim(in, " ");
+	in = aux;
+	return (in);
+}
+
+void	split_cmd(t_struct *mini, char *in, int i)
+{
 	init_split_struct(mini);
-	i = 0;
+	in = clean_spaces(in);
 	while (i < (int)ft_strlen(in))
 	{
 		if (mini->split.q == 0 && (in[i] == DOUBLE_QUOTE || in[i] == QUOTE))
@@ -59,7 +66,12 @@ void	split_cmd(t_struct *mini, char *in)
 		mini->split.len++;
 		i++;
 	}
-	mini->commands[mini->split.n_comand] = ft_substr(in, mini->split.ini, i);
-	mini->split.n_comand++;
+	if (ft_strlen(in) > 0)
+	{
+		mini->commands[mini->split.n_comand]
+			= ft_substr(in, mini->split.ini, i);
+		mini->split.n_comand++;
+	}
 	mini->commands[mini->split.n_comand] = NULL;
+	free(in);
 }

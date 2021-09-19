@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 14:51:46 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:18:43 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	verify_if_env_exists(t_struct *mini, char **env_aux, int i)
 		add_env(mini, env_aux[0], env_aux[1]);
 	if (!ft_strncmp(mini->tokens[i], "PATH", 4))
 	{
-		free_char_array(mini->path);
+		if (mini->path)
+			free_char_array(mini->path);
 		init_path(mini);
 	}
 }

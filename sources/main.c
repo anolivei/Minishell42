@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 02:04:37 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:32:45 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	main(void)
 		{
 			if (ft_strlen(tmp_line_read_aux) != 0)
 			{
-				split_cmd(&mini, tmp_line_read_aux);
-				run_commands(&mini);
-				free(mini.line_read);
+				split_cmd(&mini, tmp_line_read_aux, 0);
+				if (mini.split.n_comand > 0)
+					run_commands(&mini);
 				free_char_array2(mini.commands);
 			}
 			free(tmp_line_read_aux);
