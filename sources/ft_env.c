@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/17 18:27:28 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 21:25:43 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,6 @@ void	ft_env(t_struct *mini)
 		i++;
 	}
 	g_ret_number = 0;
-}
-
-static void	len_env(t_struct *mini)
-{
-	int	i;
-
-	i = 0;
-	while (mini->env.env[i])
-		i++;
-	mini->env.len = i;
-}
-
-static void	init_struct_env(t_struct *mini)
-{
-	mini->env.key = malloc(sizeof(char *) * (mini->env.len + 1));
-	if (!mini->env.key)
-		exit(EXIT_FAILURE);
-	mini->env.content = malloc(sizeof(char *) * (mini->env.len + 1));
-	if (!mini->env.content)
-		exit(EXIT_FAILURE);
 }
 
 void	create_env(t_struct *mini, char **my_env)
@@ -70,4 +50,24 @@ void	create_env(t_struct *mini, char **my_env)
 	}
 	mini->env.key[i] = NULL;
 	mini->env.content[i] = NULL;
+}
+
+void	len_env(t_struct *mini)
+{
+	int	i;
+
+	i = 0;
+	while (mini->env.env[i])
+		i++;
+	mini->env.len = i;
+}
+
+void	init_struct_env(t_struct *mini)
+{
+	mini->env.key = malloc(sizeof(char *) * (mini->env.len + 1));
+	if (!mini->env.key)
+		exit(EXIT_FAILURE);
+	mini->env.content = malloc(sizeof(char *) * (mini->env.len + 1));
+	if (!mini->env.content)
+		exit(EXIT_FAILURE);
 }

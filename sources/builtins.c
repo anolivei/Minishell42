@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 18:06:26 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 21:01:36 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	is_builtin(char *cmd, t_struct *mini)
 
 void	run_builtin(t_struct *mini)
 {
-	if (!ft_strncmp(mini->cmd, "exit", 4))
+	if (!ft_strncmp(mini->tokens[0], "exit", 4))
 		ft_exit(mini);
-	if (!ft_strncmp(mini->cmd, "pwd", 3))
+	if (!ft_strncmp(mini->tokens[0], "pwd", 3))
 		ft_pwd(mini);
-	if (!ft_strncmp(mini->cmd, "echo", 4))
+	if (!ft_strncmp(mini->tokens[0], "echo", 4))
 		ft_echo(mini);
-	if (!ft_strncmp(mini->cmd, "cd", 2))
+	if (!ft_strncmp(mini->tokens[0], "cd", 2))
 		ft_cd(mini);
-	if (!ft_strncmp(mini->cmd, "env", 3))
+	if (!ft_strncmp(mini->tokens[0], "env", 3))
 		ft_env(mini);
-	if (!ft_strncmp(mini->cmd, "export", 6))
+	if (!ft_strncmp(mini->tokens[0], "export", 6))
 		ft_export(mini);
-	if (!ft_strncmp(mini->cmd, "unset", 5))
+	if (!ft_strncmp(mini->tokens[0], "unset", 5))
 		ft_unset(mini);
 }

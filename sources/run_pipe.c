@@ -6,31 +6,11 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 18:28:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 21:17:27 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
-{
-	int	i;
-
-	mini->line_read = ft_strdup(mini->commands[j]);
-	mini->tokens = ft_split(mini->commands[j], ' ');
-	i = 0;
-	while (mini->tokens[i])
-	{
-		extends_env_var(mini, i);
-		i++;
-	}
-	is_builtin(mini->tokens[0], mini);
-	mini->cmd = ft_strtrim(mini->commands[j], " ");
-	exec_process(mini, in_fd, in_out);
-	free(mini->cmd);
-	free_char_array(mini->tokens);
-	free(mini->line_read);
-}
 
 void	run_commands(t_struct *mini)
 {
@@ -56,6 +36,24 @@ void	run_commands(t_struct *mini)
 		j++;
 	}
 	run_commands_aux(mini, j, in_fd, STDOUT_FILENO);
+}
+
+void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
+{
+	int	i;
+
+	mini->line_read = ft_strdup(mini->commands[j]);
+	mini->tokens = ft_split(mini->commands[j], ' ');
+	i = 0;
+	while (mini->tokens[i])
+	{
+		extends_env_var(mini, i);
+		i++;
+	}
+	is_builtin(mini->tokens[0], mini);
+	exec_process(mini, in_fd, in_out);
+	free_char_array(mini->tokens);
+	free(mini->line_read);
 }
 
 void	exec_process(t_struct *mini, int in, int out)
@@ -87,18 +85,6 @@ void	exec_process(t_struct *mini, int in, int out)
 	}
 }
 
-static void	spaces_in_pipe(t_struct *mini, int i, char *command)
-{
-	char	*aux;
-
-	aux = ft_strtrim(mini->tokens[i], DOUBLE_QUOTE_S);
-	free(mini->tokens[i]);
-	mini->tokens[i] = aux;
-	command = ft_strjoin(command, mini->tokens[i - 1]);
-	g_ret_number = execve(command, &mini->tokens[i - 1], mini->env.env);
-	free(command);
-}
-
 void	ft_execve_pipe(t_struct *mini, int i, char *command)
 {
 	while (mini->path && mini->path[i] != NULL)
@@ -120,4 +106,16 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 	}
 	g_ret_number = 127;
 	printf("minishell: %s: command not found\n", mini->tokens[0]);
+}
+
+void	spaces_in_pipe(t_struct *mini, int i, char *command)
+{
+	char	*aux;
+
+	aux = ft_strtrim(mini->tokens[i], DOUBLE_QUOTE_S);
+	free(mini->tokens[i]);
+	mini->tokens[i] = aux;
+	command = ft_strjoin(command, mini->tokens[i - 1]);
+	g_ret_number = execve(command, &mini->tokens[i - 1], mini->env.env);
+	free(command);
 }

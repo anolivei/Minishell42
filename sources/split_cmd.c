@@ -6,47 +6,11 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 18:35:27 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 21:39:58 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	count_pipe(t_struct *mini, char *in, int i)
-{
-	if (in[i] == '|' || in[i] == '<' || in[i] == '>')
-	{
-		if (mini->split.q == 0 && i > 0)
-		{
-			mini->commands[mini->split.n_comand] = ft_substr(in,
-					mini->split.ini, mini->split.len);
-			mini->split.ini = i;
-			mini->split.len = 0;
-			mini->split.n_comand++;
-		}
-		if (in[i] == '|')
-			mini->split.qtt_pipe++;
-	}
-	return (i);
-}
-
-static void	init_split_struct(t_struct *mini)
-{
-	mini->split.n_comand = 0;
-	mini->split.ini = 0;
-	mini->split.len = 0;
-	mini->split.qtt_pipe = 0;
-	mini->split.q = 0;
-}
-
-static char	*clean_spaces(char *in)
-{
-	char	*aux;
-
-	aux = ft_strtrim(in, " ");
-	in = aux;
-	return (in);
-}
 
 void	split_cmd(t_struct *mini, char *in, int i)
 {
@@ -74,4 +38,40 @@ void	split_cmd(t_struct *mini, char *in, int i)
 	}
 	mini->commands[mini->split.n_comand] = NULL;
 	free(in);
+}
+
+void	init_split_struct(t_struct *mini)
+{
+	mini->split.n_comand = 0;
+	mini->split.ini = 0;
+	mini->split.len = 0;
+	mini->split.qtt_pipe = 0;
+	mini->split.q = 0;
+}
+
+char	*clean_spaces(char *in)
+{
+	char	*aux;
+
+	aux = ft_strtrim(in, " ");
+	in = aux;
+	return (in);
+}
+
+int	count_pipe(t_struct *mini, char *in, int i)
+{
+	if (in[i] == '|' || in[i] == '<' || in[i] == '>')
+	{
+		if (mini->split.q == 0 && i > 0)
+		{
+			mini->commands[mini->split.n_comand] = ft_substr(in,
+					mini->split.ini, mini->split.len);
+			mini->split.ini = i;
+			mini->split.len = 0;
+			mini->split.n_comand++;
+		}
+		if (in[i] == '|')
+			mini->split.qtt_pipe++;
+	}
+	return (i);
 }
