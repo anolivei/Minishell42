@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:42:32 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/20 01:24:41 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,23 @@
 
 int	main(void)
 {
-	char		*tmp_line_read_aux;
-	char		*line_read_aux;
 	t_struct	mini;
 
 	initialize(&mini);
-	line_read_aux = (char *) NULL;
 	while (1)
 	{
 		mini.out_fd = STDOUT_FILENO;
-		tmp_line_read_aux = get_line(mini.line_read);
-		if (tmp_line_read_aux)
+		get_line(&mini);
+		if (mini.line_read)
 		{
-			if (ft_strlen(tmp_line_read_aux) != 0)
+			if (ft_strlen(mini.line_read) != 0)
 			{
-				split_cmd(&mini, tmp_line_read_aux, 0);
+				split_cmd(&mini, mini.line_read, 0);
 				if (mini.split.n_comand > 0)
 					run_commands(&mini);
 				free_char_array2(mini.commands);
 			}
-			free(tmp_line_read_aux);
+			free(mini.line_read);
 		}
 		else
 			run_signals(3);
@@ -42,11 +39,10 @@ int	main(void)
 
 void	initialize(t_struct *mini)
 {
+	g_ret_number = 0;
+	mini->tokens = (char **) NULL;
 	print_welcome_message();
 	create_env(mini, __environ);
-	mini->line_read = (char *) NULL;
-	mini->tokens = (char **) NULL;
-	g_ret_number = 0;
 	init_path(mini);
 }
 
@@ -59,17 +55,26 @@ void	print_welcome_message(void)
 	printf("%s--------------------------------------------------\n\n", GREEN);
 }
 
-char	*get_line(char *line_read)
+void	get_line(t_struct *mini)
 {
-	size_t	size;
+	char	*prompt;
+
+	prompt = create_prompt();
+	run_signals(1);
+	mini->line_read = readline(prompt);
+	free(prompt);
+	if (mini->line_read && *mini->line_read)
+		add_history(mini->line_read);
+}
+
+char	*create_prompt(void)
+{
 	char	*buf;
 	char	*prompt;
 	char	*cyan;
 	char	*white;
 
-	size = 2000;
-	buf = NULL;
-	buf = getcwd(buf, size);
+	buf = get_cwd_buf();
 	cyan = ft_strdup(CYAN);
 	white = ft_strdup(WHITE);
 	prompt = ft_strjoin(cyan, buf);
@@ -77,10 +82,5 @@ char	*get_line(char *line_read)
 	prompt = ft_strjoin(prompt, white);
 	free(white);
 	prompt = ft_strjoin(prompt, " $ ");
-	run_signals(1);
-	line_read = readline(prompt);
-	free(prompt);
-	if (line_read && *line_read)
-		add_history(line_read);
-	return (line_read);
+	return (prompt);
 }

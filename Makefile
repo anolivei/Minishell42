@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/19 12:39:53 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/19 22:38:36 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_exit.c \
 		$(SRC_DIR)/split_cmd.c \
 		$(SRC_DIR)/run_pipe.c \
-		$(SRC_DIR)/run_pipe_utils.c \
+		$(SRC_DIR)/minishell_utils.c \
 		$(SRC_DIR)/signal.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))

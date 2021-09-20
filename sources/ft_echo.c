@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:29:50 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/19 22:37:06 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,60 +16,29 @@ void	ft_echo(t_struct *mini)
 {
 	bool	has_flag;
 	int		i;
+	int		j;
 
-	i = 4;
+	if (mini->tokens[0][0] != '|')
+		i = 1;
+	else
+		i = 2;
 	has_flag = false;
+	j = 0;
 	if (mini->tokens[1])
 	{
-		if (!ft_strncmp(mini->tokens[1], "-n", 2)
-			&& ft_strlen(mini->tokens[1]) == 2)
-			has_flag = true;
-		else
-			i++;
-		while (mini->line_read[i] == ' ')
-			i++;
-		if (has_flag)
+		if (!ft_strncmp(mini->tokens[i], "-n", 2)
+			&& ft_strlen(mini->tokens[i]) == 2)
 		{
-			i += 3;
-			while (mini->line_read[i] == ' ')
-				i++;
+			has_flag = true;
+			i++;
 		}
-		fix_quotes(mini, 0, 0, 0);
-		print_echo(mini, &mini->line_read[i], 0, 0);
+		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
+		print_echo(mini, mini->tokens[i], 0, 0);
 		if (!has_flag)
 			ft_putstr_fd("\n", mini->out_fd);
 	}
 	else
 		ft_putstr_fd("\n", mini->out_fd);
-}
-
-void	fix_quotes(t_struct *mini, int i, int j, char q)
-{
-	char	*line_read_aux;
-
-	line_read_aux = malloc(sizeof(char) * ft_strlen(mini->line_read) + 1);
-	if (!line_read_aux)
-		exit(EXIT_FAILURE);
-	while (mini->line_read[i])
-	{
-		if (((mini->line_read[i] == QUOTE && mini->line_read[i + 1] != '$')
-				|| mini->line_read[i] == DOUBLE_QUOTE) && q == 0)
-			q = mini->line_read[i];
-		else
-		{
-			if (q == mini->line_read[i])
-				q = 0;
-			else
-			{
-				ft_memcpy(&line_read_aux[j], &mini->line_read[i], 1);
-				j++;
-			}
-		}
-		i++;
-	}
-	line_read_aux[j] = '\0';
-	free(mini->line_read);
-	mini->line_read = line_read_aux;
 }
 
 void	print_echo(t_struct *mini, char *line_read, int i, int len)

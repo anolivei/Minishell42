@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:48:13 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/20 01:36:17 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ typedef struct s_struct
 	int		out_fd;
 	int		in_fd;
 	char	*line_read; // initial line
-	char	*commands[50]; // initial line split (| > <)
-	char	**tokens; // commands split (' ')
-	char	**path; // PATH split (:)
+	char	*commands[50]; // initial line splitted in (| > <)
+	char	**tokens; // commands splitted in (' ')
+	char	**path; // PATH splitted in (:)
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
@@ -109,7 +109,6 @@ void	ft_cd(t_struct *mini);
 ** ft_echo.c
 */
 void	ft_echo(t_struct *mini);
-void	fix_quotes(t_struct *mini, int i, int j, char q);
 void	print_echo(t_struct *mini, char *line_read, int i, int len);
 int		echo_env(t_struct *mini, char *line_read, int i, int len);
 int		echo_len_env(char *haystack, char needle);
@@ -141,6 +140,7 @@ void	add_env(t_struct *mini, char *new_key, char *new_content);
 ** ft_pwd.c
 */
 void	ft_pwd(t_struct *mini);
+char	*get_cwd_buf(void);
 
 /*
 ** ft_unset.c
@@ -160,10 +160,11 @@ int		init_path(t_struct *mini);
 int		main(void);
 void	initialize(t_struct *mini);
 void	print_welcome_message(void);
-char	*get_line(char *line_read);
+void	get_line(t_struct *mini);
+char	*create_prompt(void);
 
 /*
-** run_pipe_utils.c
+** minishell_utils.c
 */
 int		file_descriptor_handler(int in, int out);
 void	extends_env_var(t_struct *mini, int i);

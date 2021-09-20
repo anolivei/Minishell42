@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:17:27 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/20 01:34:14 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
 {
 	int	i;
 
-	mini->line_read = ft_strdup(mini->commands[j]);
 	mini->tokens = ft_split(mini->commands[j], ' ');
 	i = 0;
 	while (mini->tokens[i])
@@ -50,17 +49,17 @@ void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
 		extends_env_var(mini, i);
 		i++;
 	}
-	is_builtin(mini->tokens[0], mini);
+	if (mini->tokens[0])
+		is_builtin(mini->tokens[0], mini);
 	exec_process(mini, in_fd, in_out);
 	free_char_array(mini->tokens);
-	free(mini->line_read);
 }
 
 void	exec_process(t_struct *mini, int in, int out)
 {
 	pid_t	pid;
 
-	if (mini->is_builtin)
+	if (mini->is_builtin && mini->tokens[0])
 		run_builtin(mini);
 	else
 	{
@@ -87,25 +86,28 @@ void	exec_process(t_struct *mini, int in, int out)
 
 void	ft_execve_pipe(t_struct *mini, int i, char *command)
 {
-	while (mini->path && mini->path[i] != NULL)
+	if (mini->tokens[0])
 	{
-		command = ft_strdup(mini->path[i]);
-		if (mini->tokens[0][0] == '|')
+		while (mini->path && mini->path[i] != NULL)
 		{
-			if (!mini->tokens[0][1])
-				spaces_in_pipe(mini, 2, command);
-			else
+			command = ft_strdup(mini->path[i]);
+			if (mini->tokens[0][0] == '|')
 			{
-				mini->tokens[0] = &mini->tokens[0][1];
-				spaces_in_pipe(mini, 1, command);
+				if (!mini->tokens[0][1])
+					spaces_in_pipe(mini, 2, command);
+				else
+				{
+					mini->tokens[0] = &mini->tokens[0][1];
+					spaces_in_pipe(mini, 1, command);
+				}
 			}
+			else
+				spaces_in_pipe(mini, 1, command);
+			i++;
 		}
-		else
-			spaces_in_pipe(mini, 1, command);
-		i++;
+		g_ret_number = 127;
+		printf("minishell: %s: command not found\n", mini->tokens[0]);
 	}
-	g_ret_number = 127;
-	printf("minishell: %s: command not found\n", mini->tokens[0]);
 }
 
 void	spaces_in_pipe(t_struct *mini, int i, char *command)
