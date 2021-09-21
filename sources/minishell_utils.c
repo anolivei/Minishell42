@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_pipe_utils.c                                   :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:37:45 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/20 21:51:27 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,15 @@ int	file_descriptor_handler(int in, int out)
 	return (0);
 }
 
-void	extends_env_var(t_struct *mini, int i)
+int	extends_env_var(t_struct *mini, int i)
 {
+	if (mini->tokens[i][0] == QUOTE)
+	{
+		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
+		return (1);
+	}
+	if (mini->tokens[i][0] == DOUBLE_QUOTE)
+		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
 	if (mini->tokens[i][0] == '$')
 	{
 		if (find_env(mini, &mini->tokens[i][1]))
@@ -44,6 +51,7 @@ void	extends_env_var(t_struct *mini, int i)
 			mini->tokens[i] = NULL;
 		}
 	}
+	return (0);
 }
 
 char	*clean_quotes(char *string, int i, int j, char q)
@@ -57,8 +65,7 @@ char	*clean_quotes(char *string, int i, int j, char q)
 		i++;
 	while (string[i])
 	{
-		if (((string[i] == QUOTE && string[i + 1] != '$')
-				|| string[i] == DOUBLE_QUOTE) && q == 0)
+		if ((string[i] == QUOTE || string[i] == DOUBLE_QUOTE) && q == 0)
 			q = string[i];
 		else
 		{

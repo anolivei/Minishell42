@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 22:37:06 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/20 21:06:46 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,63 +32,23 @@ void	ft_echo(t_struct *mini)
 			has_flag = true;
 			i++;
 		}
-		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
-		print_echo(mini, mini->tokens[i], 0, 0);
-		if (!has_flag)
-			ft_putstr_fd("\n", mini->out_fd);
+		print_echo(mini, mini->tokens[i], has_flag);
 	}
 	else
 		ft_putstr_fd("\n", mini->out_fd);
 }
 
-void	print_echo(t_struct *mini, char *line_read, int i, int len)
+void	print_echo(t_struct *mini, char *mini_tokens_i, bool has_flag)
 {
-	while (line_read[i] != '\0')
-	{
-		if (line_read[i] == '$' && line_read[i - 1] != QUOTE)
-			i = echo_env(mini, line_read, i, len);
-		else
-		{
-			if (line_read[i] == QUOTE && line_read[i + 1] == '$')
-				i++;
-			ft_putchar_fd(line_read[i], mini->out_fd);
-			g_ret_number = 0;
-		}
-		i++;
-	}
-}
+	int	j;
 
-int	echo_env(t_struct *mini, char *line_read, int i, int len)
-{
-	char	*ret;
-	char	*env;
-
-	i++;
-	if (line_read[i] == '?' && line_read[i + 1] == '\0')
-		ft_putnbr_fd(g_ret_number, mini->out_fd);
-	len = echo_len_env(&line_read[i], ' ');
-	ret = ft_substr(line_read, i, len);
-	env = find_env(mini, ret);
-	if (env != NULL)
+	j = 0;
+	while (mini_tokens_i[j] != '\0')
 	{
-		ft_putstr_fd(env, mini->out_fd);
+		ft_putchar_fd(mini_tokens_i[j], mini->out_fd);
 		g_ret_number = 0;
+		j++;
 	}
-	i = i + len - 1;
-	free (ret);
-	return (i);
-}
-
-int	echo_len_env(char *haystack, char needle)
-{
-	int	i;
-
-	i = 0;
-	while (i < (int)ft_strlen(haystack))
-	{
-		if (haystack[i] == needle)
-			return (i);
-		i++;
-	}
-	return (i);
+	if (!has_flag)
+		ft_putstr_fd("\n", mini->out_fd);
 }

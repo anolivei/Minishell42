@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 01:36:17 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/20 21:49:58 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,7 @@ void	ft_cd(t_struct *mini);
 ** ft_echo.c
 */
 void	ft_echo(t_struct *mini);
-void	print_echo(t_struct *mini, char *line_read, int i, int len);
-int		echo_env(t_struct *mini, char *line_read, int i, int len);
-int		echo_len_env(char *haystack, char needle);
+void	print_echo(t_struct *mini, char *mini_tokens_i, bool has_flag);
 
 /*
 ** ft_env.c
@@ -167,7 +165,7 @@ char	*create_prompt(void);
 ** minishell_utils.c
 */
 int		file_descriptor_handler(int in, int out);
-void	extends_env_var(t_struct *mini, int i);
+int		extends_env_var(t_struct *mini, int i);
 char	*clean_quotes(char *string, int i, int j, char q);
 
 /*
