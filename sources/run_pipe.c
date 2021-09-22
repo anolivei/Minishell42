@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 01:34:14 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_commands(t_struct *mini)
+void	run_commands(t_mini *mini)
 {
 	int		j;
 	int		in_fd;
@@ -38,7 +38,7 @@ void	run_commands(t_struct *mini)
 	run_commands_aux(mini, j, in_fd, STDOUT_FILENO);
 }
 
-void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
+void	run_commands_aux(t_mini *mini, int j, int in_fd, int in_out)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
 	free_char_array(mini->tokens);
 }
 
-void	exec_process(t_struct *mini, int in, int out)
+void	exec_process(t_mini *mini, int in, int out)
 {
 	pid_t	pid;
 
@@ -84,7 +84,7 @@ void	exec_process(t_struct *mini, int in, int out)
 	}
 }
 
-void	ft_execve_pipe(t_struct *mini, int i, char *command)
+void	ft_execve_pipe(t_mini *mini, int i, char *command)
 {
 	if (mini->tokens[0])
 	{
@@ -110,7 +110,7 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 	}
 }
 
-void	spaces_in_pipe(t_struct *mini, int i, char *command)
+void	spaces_in_pipe(t_mini *mini, int i, char *command)
 {
 	char	*aux;
 

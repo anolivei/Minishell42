@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:01:36 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	is_builtin(char *cmd, t_struct *mini)
+void	is_builtin(char *cmd, t_mini *mini)
 {
 	if ((!ft_strncmp("echo", cmd, 4) && ft_strlen(cmd) == 4)
 		|| (!ft_strncmp("cd", cmd, 2) && ft_strlen(cmd) == 2)
@@ -26,7 +26,7 @@ void	is_builtin(char *cmd, t_struct *mini)
 		mini->is_builtin = false;
 }
 
-void	run_builtin(t_struct *mini)
+void	run_builtin(t_mini *mini)
 {
 	if (!ft_strncmp(mini->tokens[0], "exit", 4))
 		ft_exit(mini);

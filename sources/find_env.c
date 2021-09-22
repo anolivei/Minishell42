@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 21:52:48 by anolivei          #+#    #+#             */
-/*   Updated: 2021/08/30 23:41:09 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*find_env(t_struct *mini, char *needle)
+char	*find_env(t_mini *mini, char *needle)
 {
 	int	i;
 	int	len;

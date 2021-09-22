@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 12:54:16 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(t_struct *mini)
+void	ft_cd(t_mini *mini)
 {
 	char	*token_aux;
 	char	*aux;

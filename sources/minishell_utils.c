@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 21:51:27 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	file_descriptor_handler(int in, int out)
 	return (0);
 }
 
-int	extends_env_var(t_struct *mini, int i)
+int	extends_env_var(t_mini *mini, int i)
 {
 	if (mini->tokens[i][0] == QUOTE)
 	{

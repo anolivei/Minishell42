@@ -6,13 +6,13 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:50:49 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/18 16:51:11 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:33:22 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_arrlen(char **arr)
+size_t	ft_arrlen(void **arr)
 {
 	size_t	i;
 
@@ -28,7 +28,7 @@ char	**ft_push_arr_str(char **arr, char *str)
 	size_t	i;
 	char	**new_arr;
 
-	size = ft_arrlen(arr);
+	size = ft_arrlen((void **)arr);
 	i = 0;
 	new_arr = (char **)ft_calloc(size + 2, sizeof(char *));
 	while (i < size)
@@ -37,7 +37,7 @@ char	**ft_push_arr_str(char **arr, char *str)
 		i++;
 	}
 	new_arr[i] = ft_strdup(str);
-	free_char_array(arr);
+	free(arr);
 	return (new_arr);
 }
 
@@ -45,7 +45,7 @@ char	**init_arr_str(char *str)
 {
 	char	**new_arr;
 
-	new_arr = (char *)ft_calloc(2, sizeof(char *));
+	new_arr = (char **)ft_calloc(2, sizeof(char *));
 	new_arr[0] = ft_strdup(str);
 	return (new_arr);
 }

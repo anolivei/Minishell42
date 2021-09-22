@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:39:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_cmd(t_struct *mini, char *in, int i)
+void	split_cmd(t_mini *mini, char *in, int i)
 {
-	init_split_struct(mini);
+	init_split_mini(mini);
 	in = clean_spaces(in);
 	while (i < (int)ft_strlen(in))
 	{
@@ -40,7 +40,7 @@ void	split_cmd(t_struct *mini, char *in, int i)
 	free(in);
 }
 
-void	init_split_struct(t_struct *mini)
+void	init_split_mini(t_mini *mini)
 {
 	mini->split.n_comand = 0;
 	mini->split.ini = 0;
@@ -58,7 +58,7 @@ char	*clean_spaces(char *in)
 	return (in);
 }
 
-int	count_pipe(t_struct *mini, char *in, int i)
+int	count_pipe(t_mini *mini, char *in, int i)
 {
 	if (in[i] == '|' || in[i] == '<' || in[i] == '>')
 	{

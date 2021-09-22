@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 21:06:46 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_struct *mini)
+void	ft_echo(t_mini *mini)
 {
 	bool	has_flag;
 	int		i;
@@ -38,7 +38,7 @@ void	ft_echo(t_struct *mini)
 		ft_putstr_fd("\n", mini->out_fd);
 }
 
-void	print_echo(t_struct *mini, char *mini_tokens_i, bool has_flag)
+void	print_echo(t_mini *mini, char *mini_tokens_i, bool has_flag)
 {
 	int	j;
 

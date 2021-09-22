@@ -31,6 +31,5 @@ char	lexer_peek(t_lexer *lexer, int offset);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 
-t_list	*tac_compile(char *src, t_list *list);
 
 #endif

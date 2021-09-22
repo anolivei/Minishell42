@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 23:07:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:25:43 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_struct *mini)
+void	ft_env(t_mini *mini)
 {
 	int	i;
 
@@ -27,14 +27,14 @@ void	ft_env(t_struct *mini)
 	g_ret_number = 0;
 }
 
-void	create_env(t_struct *mini, char **my_env)
+void	create_env(t_mini *mini, char **my_env)
 {
 	int		i;
 	char	**env_aux;
 
 	mini->env.env = my_env;
 	len_env(mini);
-	init_struct_env(mini);
+	init_mini_env(mini);
 	i = 0;
 	while (mini->env.env[i])
 	{
@@ -52,7 +52,7 @@ void	create_env(t_struct *mini, char **my_env)
 	mini->env.content[i] = NULL;
 }
 
-void	len_env(t_struct *mini)
+void	len_env(t_mini *mini)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ void	len_env(t_struct *mini)
 	mini->env.len = i;
 }
 
-void	init_struct_env(t_struct *mini)
+void	init_mini_env(t_mini *mini)
 {
 	mini->env.key = malloc(sizeof(char *) * (mini->env.len + 1));
 	if (!mini->env.key)

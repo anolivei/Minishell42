@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/09 23:25:01 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:22:49 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_unset(t_struct *mini)
+void	ft_unset(t_mini *mini)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ void	ft_unset(t_struct *mini)
 	g_ret_number = 0;
 }
 
-void	rm_env(t_struct *mini)
+void	rm_env(t_mini *mini)
 {
 	int	i;
 	int	j;
@@ -60,7 +60,7 @@ void	rm_env(t_struct *mini)
 	mini->env.content = mini->env_aux.content;
 }
 
-void	alloc_env_aux(t_struct *mini)
+void	alloc_env_aux(t_mini *mini)
 {
 	mini->env_aux.key = malloc(sizeof(char *) * (mini->env.len + 1));
 	if (!mini->env_aux.key)

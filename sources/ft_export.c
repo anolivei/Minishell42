@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:24:41 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(t_struct *mini)
+void	ft_export(t_mini *mini)
 {
 	int		i;
 	char	**env_aux;
@@ -37,7 +37,7 @@ void	ft_export(t_struct *mini)
 	g_ret_number = 0;
 }
 
-void	verify_if_env_exists(t_struct *mini, char **env_aux, int i)
+void	verify_if_env_exists(t_mini *mini, char **env_aux, int i)
 {
 	if (find_env(mini, env_aux[0]))
 	{
@@ -54,7 +54,7 @@ void	verify_if_env_exists(t_struct *mini, char **env_aux, int i)
 	}
 }
 
-void	add_env(t_struct *mini, char *new_key, char *new_content)
+void	add_env(t_mini *mini, char *new_key, char *new_content)
 {
 	int	i;
 
