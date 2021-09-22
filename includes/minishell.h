@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 21:49:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 01:31:43 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <fcntl.h>
 
 /*
 ** Macros to define quotes
@@ -70,16 +71,21 @@ typedef struct s_split
 
 /*
 ** Struct heart of minishell
+** line_read -> initial line
+** commands[50] -> initial line splitted in (| > <)
+** tokens -> commands splitted in (' ')
+** path -> PATH splitted in (:)
 */
 typedef struct s_struct
 {
 	bool	is_builtin;
+	int		is_append;
 	int		out_fd;
 	int		in_fd;
-	char	*line_read; // initial line
-	char	*commands[50]; // initial line splitted in (| > <)
-	char	**tokens; // commands splitted in (' ')
-	char	**path; // PATH splitted in (:)
+	char	*line_read;
+	char	*commands[50];
+	char	**tokens;
+	char	**path;
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
@@ -167,6 +173,11 @@ char	*create_prompt(void);
 int		file_descriptor_handler(int in, int out);
 int		extends_env_var(t_struct *mini, int i);
 char	*clean_quotes(char *string, int i, int j, char q);
+
+/*
+** redirect.c
+*/
+int		redirect(t_struct *mini, int j);
 
 /*
 ** run_pipe.c

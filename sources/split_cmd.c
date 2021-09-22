@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:39:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 01:14:33 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	split_cmd(t_struct *mini, char *in, int i)
 			= ft_substr(in, mini->split.ini, i);
 		mini->split.n_comand++;
 	}
-	mini->commands[mini->split.n_comand] = NULL;
 	free(in);
+	mini->commands[mini->split.n_comand] = NULL;
 }
 
 void	init_split_struct(t_struct *mini)
@@ -64,8 +64,8 @@ int	count_pipe(t_struct *mini, char *in, int i)
 	{
 		if (mini->split.q == 0 && i > 0)
 		{
-			mini->commands[mini->split.n_comand] = ft_substr(in,
-					mini->split.ini, mini->split.len);
+			mini->commands[mini->split.n_comand]
+				= ft_substr(in, mini->split.ini, mini->split.len);
 			mini->split.ini = i;
 			mini->split.len = 0;
 			mini->split.n_comand++;
