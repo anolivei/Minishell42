@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 21:36:26 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/22 22:42:55 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,40 +97,29 @@ t_redir	**push_redir(t_redir **arr, t_redir *redir)
 	return (new_redir);
 }
 
-void	init_redir_out(t_etoken type, t_list *list)
+int	init_redir_out(t_token **arr_token, t_cmd *cmd, int index)
 {
-	t_redir	*redir;
 	t_redir	**arr_redir;
-	char	**arr_str;
+	t_redir	*redir;
 
-	arr_str = init_arr_str(0);
 	arr_redir = init_arr_redir(0);
 	redir = init_s_redir();
-	while (((t_token *)list->content)->type == type
-		|| ((t_token *)list->content)->type == TOKEN_WORD
-		|| ((t_token *)list->content)->type == TOKEN_SINGLE_QUOTE
-		|| ((t_token *)list->content)->type == TOKEN_DOUBLE_QUOTES
-		|| ((t_token *)list->content)->type == TOKEN_VARIABLE)
+	redir->args = init_arr_empty_str(0);
+	redir->type = arr_token[index]->type;
+	index++;
+	while (arr_token[index] != NULL && arr_token[index]->type == TOKEN_WORD)
 	{
-		if (((t_token *)list->content)->type == type)
-			list = list->next;
 		if (!redir->has_filename)
 		{
-			redir->filename = ft_strdup(((t_token *)list->content)->value);
-			redir->type = type;
+			redir->filename = ft_strdup(arr_token[index]->value);
+			redir->has_filename = true;
 		}
 		else
-			redir->args = ft_push_arr_str(arr_str,
-					((t_token *)list->content)->value);
-		list = list->next;
-		if (((t_token *)list->content)->type == TOKEN_RED_OUT
-			|| ((t_token *)list->content)->type == TOKEN_APPEND_OUT)
-		{
-			type = ((t_token *)list->content)->type;
-			push_redir(arr_redir, redir);
-			redir = init_s_redir();
-		}
+			redir->args = ft_push_arr_str(redir->args, arr_token[index]->value);
+		cmd->redir_out = push_redir(arr_redir, redir);
+		index++;
 	}
+	return (index);
 }
 
 t_cmd	**parse_cmd_and_files(t_token **arr_token)
@@ -154,8 +143,11 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 			i = parse_word(arr_token[i]->value, cmd, i);
 		else if (arr_token[i]->type == TOKEN_PIPE)
 			i = parse_pipe(arr_cmd, cmd, i);
-		// else if (arr_token[i]->type == TOKEN_RED_OUT)
-		// 	init_redir_out(arr_token[i]->type, tmp);
+		else if (arr_token[i]->type == TOKEN_RED_OUT)
+		{
+			i = init_redir_out(arr_token, cmd, i);
+			arr_cmd = push_cmd(arr_cmd, cmd);
+		}
 		// else if (((t_token *)tmp->content)->type == TOKEN_RED_IN)
 		// 	init_redir_out(((t_token *)tmp->content)->type, tmp);
 		// else if (((t_token *)tmp->content)->type == TOKEN_APPEND_OUT)
@@ -196,13 +188,26 @@ int	main(void)
 		while (i < size)
 		{
 			size_t	j = 0;
+			size_t	k = 0;
 			printf("cmd->cmd: %s\n", arr_cmd[i]->cmd);
 			while(j < ft_arrlen((void **)arr_cmd[i]->tokens))
 			{
 				printf("cmd->tokens[%zu]: %s\n", j, arr_cmd[i]->tokens[j]);
 				j++;
 			}
-			// printf("cmd->", redir_out);
+			while (k < ft_arrlen((void **)arr_cmd[i]->redir_out))
+			{
+				printf("cmd->redir_out->filename: %s", arr_cmd[i]->redir_out[k]->filename);
+				printf("cmd->redir_out->has_filename: %d", arr_cmd[i]->redir_out[k]->has_filename);
+				printf("cmd->redir_out->type: %u", arr_cmd[i]->redir_out[k]->type);
+				size_t b = 0;
+				while (b < ft_arrlen((void **)arr_cmd[i]->redir_out[k]->args))
+				{
+					printf("cmd->redir_out->args[%zu]: %s", b, arr_cmd[i]->redir_out[k]->args[b]);
+					b++;
+				}
+				k++;
+			}
 			// printf("cmd->", redir_in);
 			printf("cmd->has_pipe: %d\n", arr_cmd[i]->has_pipe);
 			printf("cmd->has_cmd: %d\n", arr_cmd[i]->has_cmd);
@@ -229,12 +234,12 @@ int	main(void)
 
 void	initialize(t_mini *mini)
 {
-	// extern char **environ;
+	extern char **environ;
 	g_ret_number = 0;
 	mini->tokens = (char **) NULL;
 	print_welcome_message();
-	// create_env(mini, environ);
-	create_env(mini, __environ);
+	create_env(mini, environ);
+	// create_env(mini, __environ);
 	init_path(mini);
 }
 

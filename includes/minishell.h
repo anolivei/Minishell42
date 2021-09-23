@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 20:34:33 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/22 22:37:56 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_cmd
 {
 	char	*cmd;
 	char	**tokens;
-	t_list	*redir_out;
+	t_redir	**redir_out;
 	t_list	*redir_in;	
 	bool	has_pipe;
 	bool	has_cmd;
@@ -245,6 +245,7 @@ int		count_pipe(t_mini *mini, char *in, int i);
 size_t	ft_arrlen(void **arr);
 char	**ft_push_arr_str(char **arr, char *str);
 char	**init_arr_str(char *str);
+char	**init_arr_empty_str(size_t size);
 
 /*
 ** split_cmd.c
