@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 14:34:23 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 16:40:13 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	parse_word(char *str, t_cmd *cmd, int index)
 	return (index);
 }
 
-int	parse_pipe(t_cmd **arr_cmd, t_cmd *cmd, int index)
+int	parse_pipe(t_cmd ***arr_cmd, t_cmd **cmd, int index)
 {
-	cmd->has_pipe = true;
-	arr_cmd = push_cmd(arr_cmd, cmd);
-	cmd = init_cmd();
+	(*cmd)->has_pipe = true;
+	*arr_cmd = push_cmd(*arr_cmd, *cmd);
+	*cmd = init_cmd();
 	index += 1;
 	return (index);
 }
@@ -105,6 +105,8 @@ int	init_redir_out(t_token **arr_token, t_cmd *cmd, int index)
 
 	if (cmd->redir_out == NULL)
 		cmd->redir_out = init_arr_redir(0);
+	else if(cmd->redir_in == NULL)
+		cmd->redir_in = init_arr_redir(0);
 	redir = init_s_redir();
 	redir->args = init_arr_empty_str(0);
 	redir->type = arr_token[index]->type;
@@ -122,7 +124,11 @@ int	init_redir_out(t_token **arr_token, t_cmd *cmd, int index)
 			redir->args = ft_push_arr_str(redir->args, arr_token[index]->value);
 		index++;
 	}
-	cmd->redir_out = push_redir(cmd->redir_out, redir);
+	if (redir->type == TOKEN_RED_OUT
+		|| redir->type == TOKEN_APPEND_OUT)
+		cmd->redir_out = push_redir(cmd->redir_out, redir);
+	else
+		cmd->redir_in = push_redir(cmd->redir_in, redir);
 	return (index);
 }
 
@@ -146,17 +152,14 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 		else if (arr_token[i]->type == TOKEN_VARIABLE)
 			i = parse_word(arr_token[i]->value, cmd, i);
 		else if (arr_token[i]->type == TOKEN_PIPE)
-			i = parse_pipe(arr_cmd, cmd, i);
-		else if (arr_token[i]->type == TOKEN_RED_OUT)
-		{
+			i = parse_pipe(&arr_cmd, &cmd, i);
+		else if (arr_token[i]->type == TOKEN_RED_OUT
+				|| arr_token[i]->type == TOKEN_APPEND_OUT)
 			i = init_redir_out(arr_token, cmd, i);
-			// if (arr_token[i]->type != TOKEN_RED_OUT)
-			// {
-			// 	arr_cmd = push_cmd(arr_cmd, cmd);
-			// 	cmd = init_cmd();
-			// }
-		}
-		// else if (((t_token *)tmp->content)->type == TOKEN_RED_IN)
+		else if (arr_token[i]->type == TOKEN_RED_IN
+				|| arr_token[i]->type == TOKEN_APPEND_IN)
+			i = init_redir_out(arr_token, cmd, i);
+
 		// 	init_redir_out(((t_token *)tmp->content)->type, tmp);
 		// else if (((t_token *)tmp->content)->type == TOKEN_APPEND_OUT)
 		// {
@@ -208,7 +211,7 @@ int	main(void)
 			printf("cmd->has_cmd: %d\n", arr_cmd[i]->has_cmd);
 			while (k < ft_arrlen((void **)arr_cmd[i]->redir_out))
 			{
-				printf("size: %zu\n", ft_arrlen((void **)arr_cmd[i]->redir_out));
+				// printf("size: %zu\n", ft_arrlen((void **)arr_cmd[i]->redir_out));
 				printf("cmd->redir_out->filename: %s\n", arr_cmd[i]->redir_out[k]->filename);
 				printf("cmd->redir_out->has_filename: %d\n", arr_cmd[i]->redir_out[k]->has_filename);
 				printf("cmd->redir_out->type: %u\n", arr_cmd[i]->redir_out[k]->type);
@@ -220,8 +223,24 @@ int	main(void)
 				}
 				k++;
 			}
+			k = 0;
+			while (k < ft_arrlen((void **)arr_cmd[i]->redir_in))
+			{
+				// printf("size: %zu\n", ft_arrlen((void **)arr_cmd[i]->redir_out));
+				printf("cmd->redir_in->filename: %s\n", arr_cmd[i]->redir_in[k]->filename);
+				printf("cmd->redir_in->has_filename: %d\n", arr_cmd[i]->redir_in[k]->has_filename);
+				printf("cmd->redir_in->type: %u\n", arr_cmd[i]->redir_in[k]->type);
+				size_t b = 0;
+				while (b < ft_arrlen((void **)arr_cmd[i]->redir_in[k]->args))
+				{
+					printf("cmd->redir_in->args[%zu]: %s\n", b, arr_cmd[i]->redir_in[k]->args[b]);
+					b++;
+				}
+				k++;
+			}
 			// printf("cmd->", redir_in);
 			i++;
+			printf("\n");
 		}
 		free_arr_cmd(arr_cmd);
 	}
