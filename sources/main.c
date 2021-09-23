@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 23:28:12 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 09:42:42 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,17 @@ t_redir	**push_redir(t_redir **arr, t_redir *redir)
 
 int	init_redir_out(t_token **arr_token, t_cmd *cmd, int index)
 {
-	t_redir	**arr_redir;
 	t_redir	*redir;
 
-	arr_redir = init_arr_redir(0);
+	if (cmd->redir_out == NULL)
+		cmd->redir_out = init_arr_redir(0);
 	redir = init_s_redir();
 	redir->args = init_arr_empty_str(0);
 	redir->type = arr_token[index]->type;
 	index++;
-	while (arr_token[index] != NULL && arr_token[index]->type == TOKEN_WORD)
+	while (arr_token[index] != NULL && (arr_token[index]->type == TOKEN_WORD
+			|| arr_token[index]->type == TOKEN_SINGLE_QUOTE
+			|| arr_token[index]->type == TOKEN_DOUBLE_QUOTES))
 	{
 		if (!redir->has_filename)
 		{
@@ -117,9 +119,9 @@ int	init_redir_out(t_token **arr_token, t_cmd *cmd, int index)
 		}
 		else
 			redir->args = ft_push_arr_str(redir->args, arr_token[index]->value);
-		cmd->redir_out = push_redir(arr_redir, redir);
 		index++;
 	}
+	cmd->redir_out = push_redir(cmd->redir_out, redir);
 	return (index);
 }
 
@@ -147,8 +149,11 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 		else if (arr_token[i]->type == TOKEN_RED_OUT)
 		{
 			i = init_redir_out(arr_token, cmd, i);
-			arr_cmd = push_cmd(arr_cmd, cmd);
-			cmd = init_cmd();
+			if (arr_token[i]->type != TOKEN_RED_OUT)
+			{
+				arr_cmd = push_cmd(arr_cmd, cmd);
+				cmd = init_cmd();
+			}
 		}
 		// else if (((t_token *)tmp->content)->type == TOKEN_RED_IN)
 		// 	init_redir_out(((t_token *)tmp->content)->type, tmp);
@@ -198,8 +203,11 @@ int	main(void)
 				printf("cmd->tokens[%zu]: %s\n", j, arr_cmd[i]->tokens[j]);
 				j++;
 			}
+			printf("cmd->has_pipe: %d\n", arr_cmd[i]->has_pipe);
+			printf("cmd->has_cmd: %d\n", arr_cmd[i]->has_cmd);
 			while (k < ft_arrlen((void **)arr_cmd[i]->redir_out))
 			{
+				printf("size: %zu\n", ft_arrlen((void **)arr_cmd[i]->redir_out));
 				printf("cmd->redir_out->filename: %s\n", arr_cmd[i]->redir_out[k]->filename);
 				printf("cmd->redir_out->has_filename: %d\n", arr_cmd[i]->redir_out[k]->has_filename);
 				printf("cmd->redir_out->type: %u\n", arr_cmd[i]->redir_out[k]->type);
@@ -212,8 +220,6 @@ int	main(void)
 				k++;
 			}
 			// printf("cmd->", redir_in);
-			printf("cmd->has_pipe: %d\n", arr_cmd[i]->has_pipe);
-			printf("cmd->has_cmd: %d\n", arr_cmd[i]->has_cmd);
 			i++;
 		}
 		free_arr_cmd(arr_cmd);
@@ -237,12 +243,12 @@ int	main(void)
 
 void	initialize(t_mini *mini)
 {
-	// extern char **environ;
+	extern char **environ;
 	g_ret_number = 0;
 	mini->tokens = (char **) NULL;
 	print_welcome_message();
-	// create_env(mini, environ);
-	create_env(mini, __environ);
+	create_env(mini, environ);
+	// create_env(mini, __environ);
 	init_path(mini);
 }
 

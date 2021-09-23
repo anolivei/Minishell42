@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 22:37:56 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 09:21:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,5 +257,6 @@ void	free_arr_cmd(t_cmd **arr);
 t_cmd	**push_cmd(t_cmd **arr, t_cmd *cmd);
 
 t_token	**get_token_list(t_mini *mini);
+bool	is_special(char c);
 
 #endif

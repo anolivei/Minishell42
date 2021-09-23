@@ -21,6 +21,7 @@ t_lexer	*init_lexer(char *src);
 t_token	*lexer_next_token(t_lexer *lexer);
 t_token	*lexer_parse_word(t_lexer *lexer);
 t_token	*lexer_advance_with(t_lexer *lexer, t_token *token);
+t_token	*lexer_advance_with_word(t_lexer *lexer, t_token *token);
 t_token	*lexer_advance_current(t_lexer *lexer, int type);
 t_token	*lexer_advance_twice_with(t_lexer *lexer, t_token *token);
 t_token	*lexer_parse_quoted(t_lexer *lexer, int quote);
@@ -31,5 +32,7 @@ char	lexer_peek(t_lexer *lexer, int offset);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 
+bool	is_special_quotes(char c);
+t_token	*lexer_advance_with_quotes(t_lexer *lexer, t_token *token);
 
 #endif

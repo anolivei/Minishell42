@@ -9,7 +9,14 @@ void	lexer_skip_whitespace(t_lexer *lexer)
 bool	is_special(char c)
 {
 	if (c == '"' || c == '\'' || c == '$' || c == '>' || c == '<'
-		|| c== '|')
+		|| c == '|')
+		return (true);
+	return (false);
+}
+
+bool	is_special_quotes(char c)
+{
+	if (c == '$' || c == '>' || c == '<' || c == '|')
 		return (true);
 	return (false);
 }

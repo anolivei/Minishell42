@@ -6,7 +6,7 @@
 #    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/21 19:58:33 by wbertoni         ###   ########.fr        #
+#    Updated: 2021/09/23 09:25:30 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC =	$(SRC_DIR)/lexer/token.c \
 		$(SRC_DIR)/lexer/ft_min_and_max.c \
 		$(SRC_DIR)/lexer/lexer_utils_one.c \
 		$(SRC_DIR)/lexer/lexer_utils_two.c \
+		$(SRC_DIR)/lexer/lexer_utils_three.c \
 		$(SRC_DIR)/lexer/get_token_list.c \
 		$(SRC_DIR)/lexer/lexer_next_token.c \
 		$(SRC_DIR)/main.c \
