@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 18:52:52 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/22 23:14:38 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 14:56:46 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	free_arr_cmd(t_cmd **arr)
 	size_t	size;
 	size_t	i;
 
+	if (arr == NULL)
+		return ;
 	size = ft_arrlen((void **)arr);
 	i = 0;
 	while (i < size)
@@ -64,6 +66,7 @@ void	free_arr_cmd(t_cmd **arr)
 		i++;
 	}
 	free(arr);
+	arr = NULL;
 }
 
 // t_cmd	*cmd_cpy(t_cmd *cmd)

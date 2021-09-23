@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 09:42:42 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 14:34:23 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	parse_word(char *str, t_cmd *cmd, int index)
 int	parse_pipe(t_cmd **arr_cmd, t_cmd *cmd, int index)
 {
 	cmd->has_pipe = true;
-	push_cmd(arr_cmd, cmd);
+	arr_cmd = push_cmd(arr_cmd, cmd);
 	cmd = init_cmd();
-	return (index++);
+	index += 1;
+	return (index);
 }
 
 t_redir	*init_s_redir(void)
@@ -149,11 +150,11 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 		else if (arr_token[i]->type == TOKEN_RED_OUT)
 		{
 			i = init_redir_out(arr_token, cmd, i);
-			if (arr_token[i]->type != TOKEN_RED_OUT)
-			{
-				arr_cmd = push_cmd(arr_cmd, cmd);
-				cmd = init_cmd();
-			}
+			// if (arr_token[i]->type != TOKEN_RED_OUT)
+			// {
+			// 	arr_cmd = push_cmd(arr_cmd, cmd);
+			// 	cmd = init_cmd();
+			// }
 		}
 		// else if (((t_token *)tmp->content)->type == TOKEN_RED_IN)
 		// 	init_redir_out(((t_token *)tmp->content)->type, tmp);

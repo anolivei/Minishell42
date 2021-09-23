@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 12:52:16 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/23 10:33:59 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 14:19:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static t_token	*lexer_check_char(t_lexer *lexer)
 {
 	lexer_skip_whitespace(lexer);
 	if (lexer->c == '"')
-		return (lexer_advance_with(lexer, lexer_parse_quoted(lexer, '"')));
+		return (lexer_advance_with_quotes(lexer, lexer_parse_quoted(lexer, '"')));
 	else if (lexer->c == '\'')
-		return (lexer_advance_with(lexer, lexer_parse_quoted(lexer, '\'')));
+		return (lexer_advance_with_quotes(lexer, lexer_parse_quoted(lexer, '\'')));
 	else if (lexer->c == '|')
 		return (lexer_advance_current(lexer, TOKEN_PIPE));
 	else if (lexer->c == '$')
@@ -46,7 +46,7 @@ static t_token	*lexer_check_char(t_lexer *lexer)
 	else if (lexer->c == '<')
 		return (lexer_check_char_redir_output(lexer));
 	else
-		return (lexer_advance_with(lexer, lexer_parse_word(lexer)));
+		return (lexer_advance_with_word(lexer, lexer_parse_word(lexer)));
 }
 
 t_token	*lexer_next_token(t_lexer *lexer)

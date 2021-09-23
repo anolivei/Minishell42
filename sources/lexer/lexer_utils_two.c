@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 12:36:27 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/23 09:51:24 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 14:19:45 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ char	lexer_peek(t_lexer *lexer, int offset)
 
 t_token	*lexer_advance_with(t_lexer *lexer, t_token *token)
 {
-	if (!is_special(lexer->c))
-		lexer_advance(lexer);
+	lexer_advance(lexer);
 	return (token);
 }
 
