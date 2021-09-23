@@ -6,12 +6,20 @@ void	lexer_skip_whitespace(t_lexer *lexer)
 		lexer_advance(lexer);
 }
 
+bool	is_special(char c)
+{
+	if (c == '"' || c == '\'' || c == '$' || c == '>' || c == '<'
+		|| c== '|')
+		return (true);
+	return (false);
+}
+
 t_token	*lexer_parse_word(t_lexer *lexer)
 {
 	char	*value;
 
 	value = ft_calloc(1, sizeof(char));
-	while (!ft_isspace(lexer->c) && lexer->c != '\0')
+	while (!ft_isspace(lexer->c) && lexer->c != '\0' && !is_special(lexer->c))
 	{
 		value = ft_realloc(value, (ft_strlen(value) + 2)
 				* sizeof(char));
