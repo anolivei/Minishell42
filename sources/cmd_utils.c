@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 18:52:52 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/23 14:56:46 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 20:54:09 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,6 @@ void	free_arr_cmd(t_cmd **arr)
 	free(arr);
 	arr = NULL;
 }
-
-// t_cmd	*cmd_cpy(t_cmd *cmd)
-// {
-// 	cmd->cmd;
-// 	cmd->
-// }
 
 t_cmd	**push_cmd(t_cmd **arr, t_cmd *cmd)
 {

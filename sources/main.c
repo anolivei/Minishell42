@@ -6,130 +6,31 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 16:40:13 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:13:52 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_word(char *str, t_cmd *cmd, int index)
+bool	is_red_in(t_etoken type)
 {
-	if (!cmd->has_cmd)
-	{
-		cmd->cmd = ft_strdup(str);
-		cmd->tokens = init_arr_str(str);
-		cmd->has_cmd = true;
-	}
-	else
-		cmd->tokens = ft_push_arr_str(cmd->tokens, str);
-	index += 1;
-	return (index);
+	if (type == TOKEN_RED_IN || type == TOKEN_APPEND_IN)
+		return (true);
+	return (false);
 }
 
-int	parse_pipe(t_cmd ***arr_cmd, t_cmd **cmd, int index)
+bool	is_red_out(t_etoken type)
 {
-	(*cmd)->has_pipe = true;
-	*arr_cmd = push_cmd(*arr_cmd, *cmd);
-	*cmd = init_cmd();
-	index += 1;
-	return (index);
+	if (type == TOKEN_RED_OUT || type == TOKEN_APPEND_OUT)
+		return (true);
+	return (false);
 }
 
-t_redir	*init_s_redir(void)
+t_cmd	**push_last_cmd(t_cmd **arr_cmd, t_cmd *cmd)
 {
-	t_redir	*redir;
-
-	redir = (t_redir *)malloc(sizeof(t_redir));
-	redir->has_filename = false;
-	redir->filename = NULL;
-	redir->args = NULL;
-	redir->type = -1;
-	return (redir);
-}
-
-t_redir	**init_arr_redir(size_t size)
-{
-	t_redir	**arr_redir;
-	size_t	i;
-
-	i = 0;
-	arr_redir = (t_redir **)ft_calloc(size + 2, sizeof(t_redir *));
-	return (arr_redir);
-}
-
-void	free_redir(t_redir *redir)
-{
-	if (redir->filename != NULL)
-		free(redir->filename);
-	if (redir->args != NULL)
-		free_char_array(redir->args);
-}
-
-void	free_arr_redir(t_redir **arr)
-{
-	size_t	size;
-	size_t	i;
-
-	size = ft_arrlen((void **)arr);
-	i = 0;
-	while (i < size)
-	{
-		free_redir(arr[i]);
-		i++;
-	}
-}
-
-t_redir	**push_redir(t_redir **arr, t_redir *redir)
-{
-	size_t	i;
-	size_t	size;
-	t_redir	**new_redir;
-
-	size = ft_arrlen((void **)arr);
-	new_redir = init_arr_redir(size);
-	i = 0;
-	while (i < size)
-	{
-		new_redir[i] = arr[i];
-		i++;
-	}
-	new_redir[i] = redir;
-	if (arr)
-		free(arr);
-	return (new_redir);
-}
-
-int	init_redir_out(t_token **arr_token, t_cmd *cmd, int index)
-{
-	t_redir	*redir;
-
-	if (cmd->redir_out == NULL)
-		cmd->redir_out = init_arr_redir(0);
-	else if(cmd->redir_in == NULL)
-		cmd->redir_in = init_arr_redir(0);
-	redir = init_s_redir();
-	redir->args = init_arr_empty_str(0);
-	redir->type = arr_token[index]->type;
-	index++;
-	while (arr_token[index] != NULL && (arr_token[index]->type == TOKEN_WORD
-			|| arr_token[index]->type == TOKEN_SINGLE_QUOTE
-			|| arr_token[index]->type == TOKEN_DOUBLE_QUOTES))
-	{
-		if (!redir->has_filename)
-		{
-			redir->filename = ft_strdup(arr_token[index]->value);
-			redir->has_filename = true;
-		}
-		else
-			redir->args = ft_push_arr_str(redir->args, arr_token[index]->value);
-		index++;
-	}
-	if (redir->type == TOKEN_RED_OUT
-		|| redir->type == TOKEN_APPEND_OUT)
-		cmd->redir_out = push_redir(cmd->redir_out, redir);
-	else
-		cmd->redir_in = push_redir(cmd->redir_in, redir);
-	return (index);
+	if (cmd->has_cmd || cmd->has_pipe)
+		return (push_cmd(arr_cmd, cmd));
+	return (arr_cmd);
 }
 
 t_cmd	**parse_cmd_and_files(t_token **arr_token)
@@ -143,41 +44,22 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 	arr_cmd = init_arr_cmd(1);
 	while (arr_token[i] != NULL)
 	{
-		if (arr_token[i]->type == TOKEN_WORD)
+		if (is_word_or_quotes(arr_token[i]->type))
 			i = parse_word(arr_token[i]->value, cmd, i);
-		else if (arr_token[i]->type == TOKEN_DOUBLE_QUOTES)
-			i = parse_word(arr_token[i]->value, cmd, i);
-		else if (arr_token[i]->type == TOKEN_SINGLE_QUOTE)
-			i = parse_word(arr_token[i]->value, cmd, i);
+		else if (is_red_out(arr_token[i]->type))
+			i = parse_redir(arr_token, cmd, i);
+		else if (is_red_in(arr_token[i]->type))
+			i = parse_redir(arr_token, cmd, i);
 		else if (arr_token[i]->type == TOKEN_VARIABLE)
 			i = parse_word(arr_token[i]->value, cmd, i);
 		else if (arr_token[i]->type == TOKEN_PIPE)
 			i = parse_pipe(&arr_cmd, &cmd, i);
-		else if (arr_token[i]->type == TOKEN_RED_OUT
-				|| arr_token[i]->type == TOKEN_APPEND_OUT)
-			i = init_redir_out(arr_token, cmd, i);
-		else if (arr_token[i]->type == TOKEN_RED_IN
-				|| arr_token[i]->type == TOKEN_APPEND_IN)
-			i = init_redir_out(arr_token, cmd, i);
-
-		// 	init_redir_out(((t_token *)tmp->content)->type, tmp);
-		// else if (((t_token *)tmp->content)->type == TOKEN_APPEND_OUT)
-		// {
-
-		// }
-		// else if (((t_token *)tmp->content)->type == TOKEN_APPEND_IN)
-		// {
-
-		// }
-		// else if (((t_token *)tmp->content)->type == TOKEN_EOF)
-		// {
-
-		// }
 		else
+		{
+			arr_cmd = push_last_cmd(arr_cmd, cmd);
 			i++;
+		}
 	}
-	if (cmd->has_cmd)
-		arr_cmd = push_cmd(arr_cmd, cmd);
 	return (arr_cmd);
 }
 
@@ -185,63 +67,16 @@ int	main(void)
 {
 	t_mini	mini;
 	t_cmd	**arr_cmd;
-	size_t	size;
 
 	initialize(&mini);
 	while (1)
 	{
-		size_t i = 0;
 		mini.saved_out = STDOUT_FILENO;
 		mini.saved_in = STDIN_FILENO;
 		get_line(&mini);
 		mini.arr_token = get_token_list(&mini);
 		arr_cmd = parse_cmd_and_files(mini.arr_token);
-		size = ft_arrlen((void **)arr_cmd);
-		while (i < size)
-		{
-			size_t	j = 0;
-			size_t	k = 0;
-			printf("cmd->cmd: %s\n", arr_cmd[i]->cmd);
-			while(j < ft_arrlen((void **)arr_cmd[i]->tokens))
-			{
-				printf("cmd->tokens[%zu]: %s\n", j, arr_cmd[i]->tokens[j]);
-				j++;
-			}
-			printf("cmd->has_pipe: %d\n", arr_cmd[i]->has_pipe);
-			printf("cmd->has_cmd: %d\n", arr_cmd[i]->has_cmd);
-			while (k < ft_arrlen((void **)arr_cmd[i]->redir_out))
-			{
-				// printf("size: %zu\n", ft_arrlen((void **)arr_cmd[i]->redir_out));
-				printf("cmd->redir_out->filename: %s\n", arr_cmd[i]->redir_out[k]->filename);
-				printf("cmd->redir_out->has_filename: %d\n", arr_cmd[i]->redir_out[k]->has_filename);
-				printf("cmd->redir_out->type: %u\n", arr_cmd[i]->redir_out[k]->type);
-				size_t b = 0;
-				while (b < ft_arrlen((void **)arr_cmd[i]->redir_out[k]->args))
-				{
-					printf("cmd->redir_out->args[%zu]: %s\n", b, arr_cmd[i]->redir_out[k]->args[b]);
-					b++;
-				}
-				k++;
-			}
-			k = 0;
-			while (k < ft_arrlen((void **)arr_cmd[i]->redir_in))
-			{
-				// printf("size: %zu\n", ft_arrlen((void **)arr_cmd[i]->redir_out));
-				printf("cmd->redir_in->filename: %s\n", arr_cmd[i]->redir_in[k]->filename);
-				printf("cmd->redir_in->has_filename: %d\n", arr_cmd[i]->redir_in[k]->has_filename);
-				printf("cmd->redir_in->type: %u\n", arr_cmd[i]->redir_in[k]->type);
-				size_t b = 0;
-				while (b < ft_arrlen((void **)arr_cmd[i]->redir_in[k]->args))
-				{
-					printf("cmd->redir_in->args[%zu]: %s\n", b, arr_cmd[i]->redir_in[k]->args[b]);
-					b++;
-				}
-				k++;
-			}
-			// printf("cmd->", redir_in);
-			i++;
-			printf("\n");
-		}
+		print_arr_cmd(arr_cmd);
 		free_arr_cmd(arr_cmd);
 	}
 

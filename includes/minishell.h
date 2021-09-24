@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 16:34:34 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:11:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,36 @@ void	free_cmd(t_cmd *cmd);
 void	free_arr_cmd(t_cmd **arr);
 t_cmd	**push_cmd(t_cmd **arr, t_cmd *cmd);
 
+/*
+** remove
+*/
+int	parse_word(char *str, t_cmd *cmd, int index);
+int	parse_pipe(t_cmd ***arr_cmd, t_cmd **cmd, int index);
+
+/*
+** arr_redir_utils.c
+*/
+t_redir	*init_s_redir(void);
+t_redir	**init_arr_redir(size_t size);
+void	free_redir(t_redir *redir);
+void	free_arr_redir(t_redir **arr);
+t_redir	**push_redir(t_redir **arr, t_redir *redir);
+
+/*
+** parse_redir.c
+*/
+bool	is_null_word_quote(t_token	**arr_token, int index);
+t_redir	*fabric_redir(t_etoken type);
+int		parse_redir(t_token **arr_token, t_cmd *cmd, int index);
+bool	is_word_or_quotes(t_etoken type);
+
+
 t_token	**get_token_list(t_mini *mini);
 bool	is_special(char c);
+
+/*
+** remove
+*/
+void	print_arr_cmd(t_cmd **arr_cmd); //remove
 
 #endif
