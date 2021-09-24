@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:50:49 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/22 23:08:12 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 22:21:33 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,27 @@ char	**init_arr_empty_str(size_t size)
 
 	new_arr = (char **)ft_calloc(size + 2, sizeof(char *));
 	return (new_arr);
+}
+
+char	*str_join_sep(char **arr_str, char *sep)
+{
+	size_t	i;
+	size_t	size;
+	char	*new_str;
+
+	i = 0;
+	size = ft_arrlen((void **)arr_str);
+	new_str = NULL;
+	while (i < size)
+	{
+		if (new_str == NULL)
+			new_str = ft_strdup(arr_str[i]);
+		else
+		{
+			new_str = ft_strjoin(new_str, sep);
+			new_str = ft_strjoin(new_str, arr_str[i]);
+		}
+		i++;
+	}
+	return (new_str);
 }

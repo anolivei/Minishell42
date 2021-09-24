@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 21:11:25 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:59:43 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <fcntl.h>
 # include "lexer.h"
 
 /*
@@ -119,13 +120,13 @@ typedef struct s_mini
 	int		saved_in;
 	int		actual_out;
 	int		actual_in;
-	t_cmd	*lst_cmds; // initial line splitted in (| > <)
+	// t_cmd	*lst_cmds; // initial line splitted in (| > <)
 	char	**path; // PATH splitted in (:)
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
 	char	**tokens; // commands splitted in (' ')
-	bool	is_builtin;
+	bool	is_builtin; //desconsiderar
 	int		out_fd; //desconsiderar
 	int		in_fd;//desconsiderar
 	char	*commands[50]; // desconsiderar
@@ -246,6 +247,7 @@ size_t	ft_arrlen(void **arr);
 char	**ft_push_arr_str(char **arr, char *str);
 char	**init_arr_str(char *str);
 char	**init_arr_empty_str(size_t size);
+char	*str_join_sep(char **arr_str, char *sep);
 
 /*
 ** split_cmd.c
@@ -259,8 +261,8 @@ t_cmd	**push_cmd(t_cmd **arr, t_cmd *cmd);
 /*
 ** remove
 */
-int	parse_word(char *str, t_cmd *cmd, int index);
-int	parse_pipe(t_cmd ***arr_cmd, t_cmd **cmd, int index);
+int		parse_word(char *str, t_cmd *cmd, int index);
+int		parse_pipe(t_cmd ***arr_cmd, t_cmd **cmd, int index);
 
 /*
 ** arr_redir_utils.c
