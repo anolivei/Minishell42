@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 16:54:26 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,24 @@ void	exec_process(t_mini *mini, int in, int out)
 {
 	pid_t	pid;
 
-	if (mini->is_builtin && mini->tokens[0])
-		run_builtin(mini);
-	else
+	pid = fork();
+	run_signals(2);
+	if (pid < 0)
 	{
-		pid = fork();
-		run_signals(2);
-		if (pid < 0)
-		{
-			printf("Fork error\n");
-			g_ret_number = 127;
-		}
-		else if (pid == 0)
-		{
-			file_descriptor_handler(in, out);
-			g_ret_number = 127;
-			ft_execve_pipe(mini, 0, "");
-			exit(g_ret_number);
-		}
-		else
-			waitpid(pid, &g_ret_number, WUNTRACED);
-		if (WIFEXITED(g_ret_number))
-			g_ret_number = WEXITSTATUS(g_ret_number);
+		printf("Fork error\n");
+		g_ret_number = 127;
 	}
+	else if (pid == 0)
+	{
+		file_descriptor_handler(in, out);
+		g_ret_number = 127;
+		ft_execve_pipe(mini, 0, "");
+		exit(g_ret_number);
+	}
+	else
+		waitpid(pid, &g_ret_number, WUNTRACED);
+	if (WIFEXITED(g_ret_number))
+		g_ret_number = WEXITSTATUS(g_ret_number);
 }
 
 void	ft_execve_pipe(t_mini *mini, int i, char *command)

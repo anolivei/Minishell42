@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 15:40:22 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 17:23:01 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,33 @@ int	get_last_fd_out(t_redir **arr_redir)
 	return (last_fd);
 }
 
+void	merge_tokens(t_cmd *cmd)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd->redir_out[i] != NULL)
+	{
+		while (cmd->redir_out[i]->args[j] != NULL)
+		{
+			cmd->tokens = ft_push_arr_str(cmd->tokens,
+					cmd->redir_out[i]->args[j]);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+}
+
 void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 {
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	(void)mini;
 	while (arr_cmd != NULL && arr_cmd[i] != NULL)
 	{
@@ -130,15 +152,13 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 		{
 			arr_cmd[i]->join = create_str_args_redir(arr_cmd[i]->redir_out);
 			mini->actual_out = get_last_fd_out(arr_cmd[i]->redir_out);
+			merge_tokens(arr_cmd[i]);
 			dup2(mini->actual_out, STDOUT_FILENO);
 		}
 		if (arr_cmd[i]->is_builtin)
-		{
 			run_builtin(mini, arr_cmd[i]);
-		}
-		// else
-		// 	exec_process(mini, in_fd, in_out);
-		// tmp_fd = create_tmp_fd(arr_cmd[i]->redir_out);
+		else
+			ft_execve(mini, arr_cmd[i]);
 		i++;
 	}
 }

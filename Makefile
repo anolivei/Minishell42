@@ -6,7 +6,7 @@
 #    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/26 10:34:41 by wbertoni         ###   ########.fr        #
+#    Updated: 2021/09/26 17:23:36 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC =	$(SRC_DIR)/lexer/token.c \
 		$(SRC_DIR)/parse_word_pipe.c \
 		$(SRC_DIR)/arr_redir_utils.c \
 		$(SRC_DIR)/parse_redir.c \
+		$(SRC_DIR)/ft_execve.c \
 		$(SRC_DIR)/no_commit.c
 		# $(SRC_DIR)/run_pipe.c \
 		# $(SRC_DIR)/ft_execve.c

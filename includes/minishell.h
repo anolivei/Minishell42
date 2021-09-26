@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 10:57:10 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 17:23:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,11 @@ bool	is_word_or_quotes(t_etoken type);
 
 t_token	**get_token_list(t_mini *mini);
 bool	is_special(char c);
+
+/*
+** remove
+*/
+void	ft_execve(t_mini *min, t_cmd *cmd);
 
 /*
 ** remove
