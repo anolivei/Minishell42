@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 15:02:01 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 15:48:37 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	ft_echo(t_cmd *cmd)
 		ft_putchar_fd('\n', 1);
 	else if (ft_arrlen((void **)cmd->tokens) > 1)
 	{
-		if (!ft_strncmp(cmd->tokens[1], "-n", 3))
+		if (ft_strncmp(cmd->tokens[1], "-n", 2))
 			has_flag = true;
-		if (!has_flag)
+		if (has_flag)
 			echo_str = str_join_sep(&cmd->tokens[1], " ");
 		else
 		{
