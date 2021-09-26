@@ -134,7 +134,6 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 			dup2(mini->actual_out, STDOUT_FILENO);
 			if (arr_cmd[i]->is_builtin)
 			{
-				printf("aqui\n");
 				run_builtin(mini, arr_cmd[i]);
 			}
 			// else

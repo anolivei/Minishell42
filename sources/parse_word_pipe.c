@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 20:50:56 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/23 20:51:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 15:21:39 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	parse_word(char *str, t_cmd *cmd, int index)
 		cmd->cmd = ft_strdup(str);
 		cmd->tokens = init_arr_str(str);
 		cmd->has_cmd = true;
+		is_builtin(cmd);
 	}
 	else
 		cmd->tokens = ft_push_arr_str(cmd->tokens, str);

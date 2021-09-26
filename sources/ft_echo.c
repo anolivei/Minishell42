@@ -22,7 +22,7 @@ void	ft_echo(t_cmd *cmd)
 		ft_putchar_fd('\n', 1);
 	else if (ft_arrlen((void **)cmd->tokens) > 1)
 	{
-		if (ft_strncmp(cmd->tokens[1], "-n", 1))
+		if (!ft_strncmp(cmd->tokens[1], "-n", 3))
 			has_flag = true;
 		if (!has_flag)
 			echo_str = str_join_sep(&cmd->tokens[1], " ");
