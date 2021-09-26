@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 21:06:46 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:37:19 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,31 @@
 void	ft_echo(t_struct *mini)
 {
 	bool	has_flag;
-	int		i;
 	int		j;
+	int		n;
 
 	if (mini->tokens[0][0] != '|')
-		i = 1;
+		n = 1;
 	else
-		i = 2;
+		n = 2;
 	has_flag = false;
 	j = 0;
+	n = 1;
 	if (mini->tokens[1])
 	{
-		if (!ft_strncmp(mini->tokens[i], "-n", 2)
-			&& ft_strlen(mini->tokens[i]) == 2)
+		while (mini->tokens[n])
 		{
-			has_flag = true;
-			i++;
+			if (!ft_strncmp(mini->tokens[1], "-n", 2)
+				&& ft_strlen(mini->tokens[1]) == 2)
+			{
+				has_flag = true;
+				n++;
+			}
+			print_echo(mini, mini->tokens[n], has_flag);
+			n++;
 		}
-		print_echo(mini, mini->tokens[i], has_flag);
+		if (!has_flag)
+			ft_putstr_fd("\n", mini->out_fd);
 	}
 	else
 		ft_putstr_fd("\n", mini->out_fd);
@@ -49,6 +56,6 @@ void	print_echo(t_struct *mini, char *mini_tokens_i, bool has_flag)
 		g_ret_number = 0;
 		j++;
 	}
-	if (!has_flag)
-		ft_putstr_fd("\n", mini->out_fd);
+	ft_putstr_fd(" ", mini->out_fd);
+	has_flag = 1;
 }

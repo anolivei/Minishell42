@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/20 01:24:41 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:24:36 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(void)
 	while (1)
 	{
 		mini.out_fd = STDOUT_FILENO;
+		mini.in_fd = STDIN_FILENO;
 		get_line(&mini);
 		if (mini.line_read)
 		{

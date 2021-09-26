@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 01:31:43 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:23:39 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,13 +177,14 @@ char	*clean_quotes(char *string, int i, int j, char q);
 /*
 ** redirect.c
 */
-int		redirect(t_struct *mini, int j);
+int		redirect_out(t_struct *mini, int j);
+int		redirect_in(t_struct *mini, int j);
 
 /*
 ** run_pipe.c
 */
 void	run_commands(t_struct *mini);
-void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out);
+void	run_commands_aux(t_struct *mini, int j);
 void	exec_process(t_struct *mini, int in, int out);
 void	ft_execve_pipe(t_struct *mini, int i, char *command);
 void	spaces_in_pipe(t_struct *mini, int i, char *command);

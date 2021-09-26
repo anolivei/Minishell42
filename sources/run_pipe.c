@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 00:58:21 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/22 21:26:20 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 void	run_commands(t_struct *mini)
 {
 	int		j;
-	int		in_fd;
 	int		fd[2];
 
 	j = 0;
-	in_fd = STDIN_FILENO;
 	while (j < mini->split.qtt_pipe)
 	{
 		if (pipe(fd) < 0)
@@ -28,23 +26,23 @@ void	run_commands(t_struct *mini)
 			g_ret_number = 127;
 		}
 		mini->out_fd = fd[1];
-		run_commands_aux(mini, j, in_fd, mini->out_fd);
+		run_commands_aux(mini, j);
 		close(mini->out_fd);
-		if (in_fd != 0)
-			close(in_fd);
-		in_fd = fd[0];
+		if (mini->in_fd != 0)
+			close(mini->in_fd);
+		mini->in_fd = fd[0];
 		j++;
 		j = j + mini->is_append;
 	}
-	run_commands_aux(mini, j, in_fd, mini->out_fd);
+	run_commands_aux(mini, j);
 }
 
-void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
+void	run_commands_aux(t_struct *mini, int j)
 {
 	int	i;
 
-	in_out = 0;
-	j = redirect(mini, j);
+	j = redirect_out(mini, j);
+	j = redirect_in(mini, j);
 	mini->tokens = ft_split(mini->commands[j], ' ');
 	i = 0;
 	while (mini->tokens[i])
@@ -54,7 +52,7 @@ void	run_commands_aux(t_struct *mini, int j, int in_fd, int in_out)
 	}
 	if (mini->tokens[0])
 		is_builtin(mini->tokens[0], mini);
-	exec_process(mini, in_fd, mini->out_fd);
+	exec_process(mini, mini->in_fd, mini->out_fd);
 	free_char_array(mini->tokens);
 }
 
