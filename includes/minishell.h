@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 21:23:39 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 02:45:14 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_cd(t_struct *mini);
 ** ft_echo.c
 */
 void	ft_echo(t_struct *mini);
-void	print_echo(t_struct *mini, char *mini_tokens_i, bool has_flag);
+void	print_echo(t_struct *mini, char *mini_tokens_i);
 
 /*
 ** ft_env.c

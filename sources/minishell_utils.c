@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 01:26:26 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 02:32:04 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	extends_env_var(t_struct *mini, int i)
 		}
 		else if (mini->tokens[i][1] == QUOTE)
 			mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
+		else if (mini->tokens[i][1] == '?')
+			return (2);
 		else
 		{
 			free(mini->tokens[i]);

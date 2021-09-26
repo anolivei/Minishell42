@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 20:58:55 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 03:00:58 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	redirect_out(t_struct *mini, int j)
 	}
 	return (j);
 }
+
 static int	ft_find(char *haystack, char needle)
 {
 	int	i;
@@ -51,7 +52,6 @@ static int	ft_find(char *haystack, char needle)
 
 int	redirect_in(t_struct *mini, int j)
 {
-
 	int		flags;
 	char	*aux;
 	char	*file;
@@ -61,7 +61,7 @@ int	redirect_in(t_struct *mini, int j)
 	flags = O_WRONLY;
 	if (mini->commands[j] && mini->commands[j][0] == '<')
 	{
-		if(mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
+		if (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
 		{
 			//file = ft_strtrim(&mini->commands[j + 1][2], " ");
 			//mini->out_fd = open(file, flags |O_APPEND, 0777);

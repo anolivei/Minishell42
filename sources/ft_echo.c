@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 21:37:19 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 02:44:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_echo(t_struct *mini)
 				has_flag = true;
 				n++;
 			}
-			print_echo(mini, mini->tokens[n], has_flag);
+			print_echo(mini, mini->tokens[n]);
 			n++;
 		}
 		if (!has_flag)
@@ -45,17 +45,21 @@ void	ft_echo(t_struct *mini)
 		ft_putstr_fd("\n", mini->out_fd);
 }
 
-void	print_echo(t_struct *mini, char *mini_tokens_i, bool has_flag)
+void	print_echo(t_struct *mini, char *mini_tokens_i)
 {
 	int	j;
 
 	j = 0;
-	while (mini_tokens_i[j] != '\0')
+	if (!ft_strncmp(mini_tokens_i, "$?", 2))
+		ft_putnbr_fd(g_ret_number, mini->out_fd);
+	else
 	{
-		ft_putchar_fd(mini_tokens_i[j], mini->out_fd);
-		g_ret_number = 0;
-		j++;
+		while (mini_tokens_i[j] != '\0')
+		{
+			ft_putchar_fd(mini_tokens_i[j], mini->out_fd);
+			g_ret_number = 0;
+			j++;
+		}
+		ft_putstr_fd(" ", mini->out_fd);
 	}
-	ft_putstr_fd(" ", mini->out_fd);
-	has_flag = 1;
 }
