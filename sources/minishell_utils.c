@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 17:43:00 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 17:52:40 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ int	file_descriptor_handler(int in, int out)
 
 int	extends_env_var(t_struct *mini, int i)
 {
-	if (mini->tokens[i][0] == QUOTE || mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == QUOTE)
+	if (mini->tokens[i][0] == QUOTE
+		|| mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == QUOTE)
 	{
 		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
 		return (1);
 	}
-	if (mini->tokens[i][0] == DOUBLE_QUOTE || mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == DOUBLE_QUOTE)
+	if (mini->tokens[i][0] == DOUBLE_QUOTE
+		|| mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == DOUBLE_QUOTE)
 		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
 	if (mini->tokens[i][0] == '$')
 	{

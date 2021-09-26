@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 16:50:09 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 18:31:25 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,14 @@ void	run_commands(t_struct *mini)
 
 void	run_commands_aux(t_struct *mini, int j)
 {
-	int	i;
-
 	redirect_out(mini, j);
 	redirect_in(mini, j);
 	mini->tokens = ft_split(mini->commands[j], ' ');
-	i = 0;
-	while (mini->tokens[i])
+	mini->num_tokens = 0;
+	while (mini->tokens[mini->num_tokens])
 	{
-		extends_env_var(mini, i);
-		i++;
+		extends_env_var(mini, mini->num_tokens);
+		mini->num_tokens++;
 	}
 	if (mini->tokens[0])
 		is_builtin(mini->tokens[0], mini);

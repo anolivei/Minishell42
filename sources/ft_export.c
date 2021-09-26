@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 23:53:54 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:24:41 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 18:14:22 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_export(t_struct *mini)
 		env_aux = ft_split(mini->tokens[i], '=');
 		if (env_aux[1])
 			verify_if_env_exists(mini, env_aux, i);
-		else
+		else if (mini->tokens[i][ft_strlen(mini->tokens[1]) - 1] == '=')
 		{
 			env_aux[1] = ft_strdup("");
 			verify_if_env_exists(mini, env_aux, i);

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 16:03:52 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 18:31:05 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_split
 typedef struct s_struct
 {
 	bool	is_builtin;
+	bool	has_flag;
 	int		is_append;
 	int		last_redir;
 	int		out_fd;
@@ -86,6 +87,7 @@ typedef struct s_struct
 	char	*line_read;
 	char	*commands[50];
 	char	**tokens;
+	int		num_tokens;
 	char	**path;
 	t_env	env_aux;
 	t_env	env;
@@ -116,7 +118,8 @@ void	ft_cd(t_struct *mini);
 ** ft_echo.c
 */
 void	ft_echo(t_struct *mini);
-void	print_echo(t_struct *mini, char *mini_tokens_i);
+int		init_echo(t_struct *mini, int n);
+void	print_echo(t_struct *mini, char *mini_tokens_i, int n);
 
 /*
 ** ft_env.c
