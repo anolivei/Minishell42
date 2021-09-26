@@ -6,7 +6,7 @@
 #    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/23 21:08:48 by wbertoni         ###   ########.fr        #
+#    Updated: 2021/09/26 10:34:41 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ SRC =	$(SRC_DIR)/lexer/token.c \
 		$(SRC_DIR)/init_path.c \
 		$(SRC_DIR)/ft_exit.c \
 		$(SRC_DIR)/split_cmd.c \
-		$(SRC_DIR)/run_pipe.c \
 		$(SRC_DIR)/minishell_utils.c \
 		$(SRC_DIR)/signal.c \
 		$(SRC_DIR)/arr_str_utils.c \
@@ -44,6 +43,7 @@ SRC =	$(SRC_DIR)/lexer/token.c \
 		$(SRC_DIR)/arr_redir_utils.c \
 		$(SRC_DIR)/parse_redir.c \
 		$(SRC_DIR)/no_commit.c
+		# $(SRC_DIR)/run_pipe.c \
 		# $(SRC_DIR)/ft_execve.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))

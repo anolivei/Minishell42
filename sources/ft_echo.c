@@ -6,49 +6,73 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 15:02:01 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_mini *mini)
+void	ft_echo(t_cmd *cmd)
 {
 	bool	has_flag;
-	int		i;
-	int		j;
+	char	*echo_str;
 
-	if (mini->tokens[0][0] != '|')
-		i = 1;
-	else
-		i = 2;
 	has_flag = false;
-	j = 0;
-	if (mini->tokens[1])
+	if (ft_arrlen((void **)cmd->tokens) == 1)
+		ft_putchar_fd('\n', 1);
+	else if (ft_arrlen((void **)cmd->tokens) > 1)
 	{
-		if (!ft_strncmp(mini->tokens[i], "-n", 2)
-			&& ft_strlen(mini->tokens[i]) == 2)
-		{
+		if (ft_strncmp(cmd->tokens[1], "-n", 1))
 			has_flag = true;
-			i++;
+		if (!has_flag)
+			echo_str = str_join_sep(&cmd->tokens[1], " ");
+		else
+		{
+			echo_str = str_join_sep(&cmd->tokens[2], " ");
+			echo_str = ft_strjoin(echo_str, "\n");
 		}
-		print_echo(mini, mini->tokens[i], has_flag);
+		ft_putstr_fd(echo_str, 1);
 	}
-	else
-		ft_putstr_fd("\n", mini->out_fd);
 }
+	
 
-void	print_echo(t_mini *mini, char *mini_tokens_i, bool has_flag)
-{
-	int	j;
 
-	j = 0;
-	while (mini_tokens_i[j] != '\0')
-	{
-		ft_putchar_fd(mini_tokens_i[j], mini->out_fd);
-		g_ret_number = 0;
-		j++;
-	}
-	if (!has_flag)
-		ft_putstr_fd("\n", mini->out_fd);
-}
+
+// 	bool	has_flag;
+// 	// int		i;
+// 	// int		j;
+
+// 	// if (mini->tokens[0][0] != '|')
+// 	// 	i = 1;
+// 	// else
+// 	// 	i = 2;
+// 	has_flag = false;
+// 	// j = 0;
+// 	if (cmd->tokens != NULL && ft_arrlen((void **)cmd->tokens) > 1)
+// 	{
+// 		if (!ft_strncmp(cmd->tokens[1], "-n", 2)
+// 			&& ft_strlen(cmd->tokens[1]) == 2)
+// 		{
+// 			has_flag = true;
+// 			// i++;
+// 		}
+// 		print_echo(cmd->tokens[1], has_flag);
+// 	}
+// 	else
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// }
+
+// void	print_echo(char *mini_tokens_i, bool has_flag)
+// {
+// 	int	j;
+
+// 	j = 0;
+// 	while (!mini_tokens_i[j])
+// 	{
+// 		ft_putchar_fd(mini_tokens_i[j], STDOUT_FILENO);
+// 		g_ret_number = 0;
+// 		j++;
+// 	}
+// 	if (!has_flag)
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// }

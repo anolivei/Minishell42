@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 21:59:43 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 10:57:10 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,12 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char	*cmd;
+	bool	is_builtin;
 	char	**tokens;
 	t_redir	**redir_out;
 	t_redir	**redir_in;
+	char	*join;
+	int		last_fd;
 	bool	has_pipe;
 	bool	has_cmd;
 }	t_cmd;
@@ -139,8 +142,8 @@ typedef struct s_mini
 /*
 ** builtins.c
 */
-void	is_builtin(char *cmd, t_mini *mini);
-void	run_builtin(t_mini *mini);
+void	is_builtin(t_cmd *cmd);
+void	run_builtin(t_mini *mini, t_cmd *cmd);
 
 /*
 ** find_env.c
@@ -155,8 +158,8 @@ void	ft_cd(t_mini *mini);
 /*
 ** ft_echo.c
 */
-void	ft_echo(t_mini *mini);
-void	print_echo(t_mini *mini, char *mini_tokens_i, bool has_flag);
+void	ft_echo(t_cmd *cmd);
+void	print_echo(char *mini_tokens_i, bool has_flag);
 
 /*
 ** ft_env.c

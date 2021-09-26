@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/23 22:22:19 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 15:04:59 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,43 +63,64 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 	return (arr_cmd);
 }
 
-int	create_tmp_fd(t_redir **arr_redir)
+char	*create_str_args_redir(t_redir **arr_redir)
 {
-	size_t	size;
+	char	*join;
+	char	*tmp_join;
 	size_t	i;
-	int		tmp_fd;
-	char	*last_file;
+	size_t	size;
 
+	join = NULL;
 	i = 0;
 	size = ft_arrlen((void **)arr_redir);
-	while (arr_redir != NULL && i < size)
+	while (i < size)
 	{
-		last_file = arr_redir[i]->filename;
-		if (arr_redir[i]->type == TOKEN_RED_IN)
-			tmp_fd = open(arr_redir[i]->filename, O_WRONLY
-					| O_CREAT | O_TRUNC, 0777);
-		else
-			tmp_fd = open(arr_redir[i]->filename, O_CREAT
-					| O_WRONLY | O_APPEND, 0777);
-		close(tmp_fd);
-		if (i == size - 1 && ft_arrlen(((void **)arr_redir[i]->args)) > 0)
+		if (arr_redir[i]->args != NULL && join == NULL)
 		{
-			i = 0;
-			tmp_fd = open(arr_redir[i]->filename, O_WRONLY, 0777);
-			char *join = str_join_sep(arr_redir[i]->args, " ");
-			printf("join: %s\n", join);
-			write(tmp_fd, join, ft_strlen(join));
-			return (i);
+			join = str_join_sep(arr_redir[i]->args, " ");
+			join = ft_strjoin(join, " ");
+		}
+		else if (arr_redir[i]->args != NULL)
+		{
+			tmp_join = str_join_sep(arr_redir[i]->args, " ");
+			join = ft_strjoin(join, tmp_join);
+			join = ft_strjoin(join, " ");
+			free(tmp_join);
 		}
 		i++;
 	}
-	return (tmp_fd);
+	return (join);
+}
+
+int	get_last_fd_out(t_redir **arr_redir)
+{
+	size_t	size;
+	size_t	i;
+	int		last_fd;
+
+	i = 0;
+	size = ft_arrlen((void **)arr_redir);
+	last_fd = -1;
+	while (arr_redir != NULL && i < size)
+	{
+		if (arr_redir[i]->type == TOKEN_RED_OUT)
+			last_fd = open(arr_redir[i]->filename, O_WRONLY
+					| O_CREAT | O_TRUNC, 0777);
+		else
+			last_fd = open(arr_redir[i]->filename, O_CREAT
+					| O_WRONLY | O_APPEND, 0777);
+		if (i != size - 1)
+			close(last_fd);
+		else
+			return (last_fd);
+		i++;
+	}
+	return (last_fd);
 }
 
 void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 {
-	int	i;
-	int	tmp_fd;
+	int		i;
 
 	i = 0;
 	(void)mini;
@@ -107,8 +128,18 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 	{
 		if (arr_cmd[i]->redir_out != NULL)
 		{
-			tmp_fd = create_tmp_fd(arr_cmd[i]->redir_out);
-			close(tmp_fd);
+			arr_cmd[i]->join = create_str_args_redir(arr_cmd[i]->redir_out);
+			mini->actual_out = get_last_fd_out(arr_cmd[i]->redir_out);
+			printf("last_fd = %d\n", mini->actual_out);
+			dup2(mini->actual_out, STDOUT_FILENO);
+			if (arr_cmd[i]->is_builtin)
+			{
+				printf("aqui\n");
+				run_builtin(mini, arr_cmd[i]);
+			}
+			// else
+			// 	exec_process(mini, in_fd, in_out);
+			// tmp_fd = create_tmp_fd(arr_cmd[i]->redir_out);
 		}
 		i++;
 	}
@@ -120,10 +151,10 @@ int	main(void)
 	t_cmd	**arr_cmd;
 
 	initialize(&mini);
+	mini.saved_out = dup(STDOUT_FILENO);
+	mini.saved_in = dup(STDIN_FILENO);
 	while (1)
 	{
-		mini.saved_out = STDOUT_FILENO;
-		mini.saved_in = STDIN_FILENO;
 		get_line(&mini);
 		mini.arr_token = get_token_list(&mini);
 		if (mini.line_read)
@@ -132,6 +163,7 @@ int	main(void)
 			{
 				arr_cmd = parse_cmd_and_files(mini.arr_token);
 				execute_arr_cmd(arr_cmd, &mini);
+				dup2(mini.saved_out, STDOUT_FILENO);
 				print_arr_cmd(arr_cmd);
 				free_arr_cmd(arr_cmd);
 				// split_cmd(&mini, mini.line_read, 0);
