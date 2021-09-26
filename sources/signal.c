@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 20:10:52 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/19 21:40:36 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 17:44:18 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	run_signals(int sig)
 	}
 	if (sig == 3)
 	{
+		
 		printf("exit\n");
 		exit(0);
 	}

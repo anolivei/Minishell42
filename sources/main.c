@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 17:23:01 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 18:33:07 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 
 	i = 0;
 	cmd = init_cmd();
+	cmd->is_head = true;
 	arr_cmd = init_arr_cmd(1);
 	while (arr_token[i] != NULL)
 	{
@@ -118,6 +119,35 @@ int	get_last_fd_out(t_redir **arr_redir)
 	return (last_fd);
 }
 
+int	get_last_fd_in(t_redir **arr_redir)
+{
+	size_t	size;
+	size_t	i;
+	size_t	j;
+	int		last_fd;
+
+	last_fd = -1;
+	i = 0;
+	j = 0;
+	size = ft_arrlen((void **)arr_redir);
+	while (arr_redir != NULL && i < size)
+	{
+		if (arr_redir[i]->type == TOKEN_RED_IN)
+		{
+			last_fd = open(arr_redir[i]->filename, O_RDONLY, 0777);
+			while (j < ft_arrlen((void **)arr_redir[i]->args))
+			{
+				close(last_fd);
+				last_fd = open(arr_redir[i]->args[j], O_RDONLY, 0777);
+				j++;
+			}
+		}
+		j = 0;
+		i++;
+	}
+	return (last_fd);
+}
+
 void	merge_tokens(t_cmd *cmd)
 {
 	int	i;
@@ -148,6 +178,11 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 	(void)mini;
 	while (arr_cmd != NULL && arr_cmd[i] != NULL)
 	{
+		if (arr_cmd[i]->redir_in != NULL)
+		{
+			mini->actual_in = get_last_fd_in(arr_cmd[i]->redir_in);
+			dup2(mini->actual_in, STDIN_FILENO);
+		}
 		if (arr_cmd[i]->redir_out != NULL)
 		{
 			arr_cmd[i]->join = create_str_args_redir(arr_cmd[i]->redir_out);
@@ -182,6 +217,7 @@ int	main(void)
 				arr_cmd = parse_cmd_and_files(mini.arr_token);
 				execute_arr_cmd(arr_cmd, &mini);
 				dup2(mini.saved_out, STDOUT_FILENO);
+				dup2(mini.saved_in, STDIN_FILENO);
 				// print_arr_cmd(arr_cmd);
 				free_arr_cmd(arr_cmd);
 				// split_cmd(&mini, mini.line_read, 0);

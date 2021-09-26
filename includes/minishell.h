@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 17:23:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/26 17:50:53 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_cmd
 	int		last_fd;
 	bool	has_pipe;
 	bool	has_cmd;
+	bool	is_head;
 }	t_cmd;
 
 /*
@@ -117,14 +118,13 @@ typedef struct s_cmd
 
 typedef struct s_mini
 {
-	char	*line_read; // initial line
+	char	*line_read;
 	t_token	**arr_token;
 	int		saved_out;
 	int		saved_in;
 	int		actual_out;
 	int		actual_in;
-	// t_cmd	*lst_cmds; // initial line splitted in (| > <)
-	char	**path; // PATH splitted in (:)
+	char	**path;
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
@@ -283,7 +283,6 @@ bool	is_null_word_quote(t_token	**arr_token, int index);
 t_redir	*fabric_redir(t_etoken type);
 int		parse_redir(t_token **arr_token, t_cmd *cmd, int index);
 bool	is_word_or_quotes(t_etoken type);
-
 
 t_token	**get_token_list(t_mini *mini);
 bool	is_special(char c);
