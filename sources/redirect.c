@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 03:00:58 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 12:04:32 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +14,90 @@
 
 int	redirect_out(t_struct *mini, int j)
 {
+	int		flags;
 	char	*file;
 
-	mini->is_append = 0;
-	if (mini->commands[j + 1] && mini->commands[j + 1][0] == '>')
+	flags = O_WRONLY | O_CREAT;
+	while (mini->commands[j + 1] && mini->commands[j + 1][0] == '>')
 	{
-		if (mini->commands[j + 2] && mini->commands[j + 2][0] == '>')
+		if (mini->commands[j + 1] && mini->commands[j + 1][0] == '>')
 		{
-			file = ft_strtrim(&mini->commands[j + 2][2], " ");
-			mini->out_fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-			mini->is_append = 1;
+			if (mini->commands[j + 1] && mini->commands[j + 1][1] == '>')
+			{
+				file = ft_strtrim(&mini->commands[j + 1][2], " ");
+				mini->out_fd = open(file, flags | O_APPEND, 0777);
+				mini->is_append++;
+			}
+			else
+			{
+				file = ft_strtrim(&mini->commands[j + 1][1], " ");
+				mini->out_fd = open(file, flags, 0777);
+				mini->is_append++;
+			}
+			free (file);
 		}
-		else
-		{
-			file = ft_strtrim(&mini->commands[j + 1][2], " ");
-			mini->out_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-			mini->is_append = 2;
-		}
-		free (file);
+		j++;
 	}
 	return (j);
 }
 
-static int	ft_find(char *haystack, char needle)
+static void	read_until(t_struct *mini, char *end)
 {
-	int	i;
+	char	*line;
+	int		flags;
 
-	i = 0;
-	while (i < (int)ft_strlen(haystack))
+	flags = O_WRONLY | O_CREAT | O_TRUNC;
+	line = ft_strdup("");
+	mini->in_fd = open(end, flags, 0777);
+	while (ft_strncmp(line, end, ft_strlen(end)))
 	{
-		if (haystack[i] == needle)
-			return (i);
+		free(line);
+		line = readline("heredoc>");
+		ft_putendl_fd(line, mini->in_fd);
+	}
+	free(line);
+}
+
+static char	*new_comman(int i, char **str)
+{
+	char	*aux;
+
+	aux = ft_strdup("");
+	while (str[i] != NULL)
+	{
+		if (ft_strlen(aux) > 0)
+			aux = ft_strjoin(aux, " ");
+		aux = ft_strjoin(aux, str[i]);
 		i++;
 	}
-	return (i);
+	return (aux);
 }
 
 int	redirect_in(t_struct *mini, int j)
 {
 	int		flags;
-	char	*aux;
-	char	*file;
-	char	*new;
+	char	**file;
 
 	mini->is_append = 0;
-	flags = O_WRONLY;
+	flags = O_WRONLY | O_CREAT | O_TRUNC;
+	file = NULL;
 	if (mini->commands[j] && mini->commands[j][0] == '<')
 	{
 		if (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
 		{
-			//file = ft_strtrim(&mini->commands[j + 1][2], " ");
-			//mini->out_fd = open(file, flags |O_APPEND, 0777);
-			//mini->has_append = 2;
-			return (j + 2);
+			file = ft_split(&mini->commands[j + 1][1], ' ');
+			read_until (mini, file[0]);
+			mini->is_append++;
 		}
 		else
 		{
-			aux = ft_strtrim(&mini->commands[j][2], " ");
-			file = ft_substr(aux, 0, ft_find(aux, ' '));
-			mini->in_fd = open(file, O_RDWR, 0777);
-			new = ft_strdup(&mini->commands[j][ft_find(aux, ' ') + 2]);
-			free(mini->commands[j]);
-			mini->commands[j] = new ;
-			free (file);
-			free (aux);
-			mini->is_append = 1;
-			return (j);
+			file = ft_split(&mini->commands[j][1], ' ');
+			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
 		}
-		free (file);
+		free(mini->commands[j]);
+		mini->commands[j] = new_comman(1, file);
+		free_char_array2(file);
+		free(file);
 	}
 	return (j);
 }
