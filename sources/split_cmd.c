@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 12:03:14 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 15:30:07 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	count_pipe(t_struct *mini, char *in, int i)
 {
 	if (in[i] == '|' || in[i] == '<' || in[i] == '>')
 	{
-		if (in[i] == '|')
+		if (in[i] == '|' && mini->last_redir == 0)
 			mini->split.qtt_pipe++;
 		if (mini->split.q == 0 && (i > 0 || in[0] == '<' )
 			&& mini->split.len > 0)
@@ -72,6 +72,10 @@ int	count_pipe(t_struct *mini, char *in, int i)
 			mini->split.ini = i;
 			mini->split.len = 0;
 			mini->split.n_comand++;
+			if (in[i] == '>')
+				mini->last_redir = 1;
+			else
+				mini->last_redir = 0;
 			if (in[i] == in[i + 1])
 				i++;
 		}

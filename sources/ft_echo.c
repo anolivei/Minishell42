@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 12:16:53 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 16:50:54 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ void	ft_echo(t_struct *mini)
 	int		j;
 	int		n;
 
+	if (mini->tokens[0][0] != '|')
+		n = 1;
+	else
+		n = 2;
 	has_flag = false;
 	j = 0;
-	n = 1;
 	if (mini->tokens[1])
 	{
 		while (mini->tokens[n])

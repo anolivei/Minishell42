@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 21:24:36 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 16:02:31 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(void)
 	t_struct	mini;
 
 	initialize(&mini);
+	add_history("echo \"hello there\" > arq | sed \"s/hello/hi/\" | <arq sed \"s/there/robots/\"");
 	while (1)
 	{
 		mini.out_fd = STDOUT_FILENO;
@@ -40,6 +41,7 @@ int	main(void)
 
 void	initialize(t_struct *mini)
 {
+	mini->last_redir = 0;
 	g_ret_number = 0;
 	mini->tokens = (char **) NULL;
 	print_welcome_message();
@@ -63,9 +65,9 @@ void	get_line(t_struct *mini)
 	prompt = create_prompt();
 	run_signals(1);
 	mini->line_read = readline(prompt);
-	free(prompt);
 	if (mini->line_read && *mini->line_read)
 		add_history(mini->line_read);
+	free(prompt);
 }
 
 char	*create_prompt(void)

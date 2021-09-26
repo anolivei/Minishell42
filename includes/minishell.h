@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 02:45:14 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 16:03:52 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@
 /*
 ** Macros to define some prompt colors
 */
-# define CYAN "\033[1;36m"
-# define WHITE "\033[0m"
-# define GREEN "\033[1;32m"
+# define CYAN "\001\033[1;36m\002"
+# define WHITE "\001\033[0m\002"
+# define GREEN "\001\033[1;32m\002"
 
 /*
 ** Global variable to return in 'echo $?'
@@ -80,6 +80,7 @@ typedef struct s_struct
 {
 	bool	is_builtin;
 	int		is_append;
+	int		last_redir;
 	int		out_fd;
 	int		in_fd;
 	char	*line_read;

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 02:32:04 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 17:43:00 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int	file_descriptor_handler(int in, int out)
 
 int	extends_env_var(t_struct *mini, int i)
 {
-	if (mini->tokens[i][0] == QUOTE)
+	if (mini->tokens[i][0] == QUOTE || mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == QUOTE)
 	{
 		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
 		return (1);
 	}
-	if (mini->tokens[i][0] == DOUBLE_QUOTE)
+	if (mini->tokens[i][0] == DOUBLE_QUOTE || mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == DOUBLE_QUOTE)
 		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
 	if (mini->tokens[i][0] == '$')
 	{
@@ -63,7 +63,7 @@ char	*clean_quotes(char *string, int i, int j, char q)
 	line_read_aux = malloc(sizeof(char) * ft_strlen(string) + 1);
 	if (!line_read_aux)
 		exit(EXIT_FAILURE);
-	if (string[0] == '$')
+	if (string[0] == '$' && string[1] == QUOTE)
 		i++;
 	while (string[i])
 	{
@@ -78,6 +78,8 @@ char	*clean_quotes(char *string, int i, int j, char q)
 		}
 		i++;
 	}
+	if (string[i] == QUOTE || string[i] == DOUBLE_QUOTE)
+		j--;
 	line_read_aux[j] = '\0';
 	free(string);
 	string = line_read_aux;

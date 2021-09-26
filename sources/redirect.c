@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 12:04:32 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 15:52:57 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	read_until(t_struct *mini, char *end)
 	while (ft_strncmp(line, end, ft_strlen(end)))
 	{
 		free(line);
-		line = readline("heredoc>");
+		line = readline("heredoc> ");
 		ft_putendl_fd(line, mini->in_fd);
 	}
 	free(line);
@@ -78,7 +78,6 @@ int	redirect_in(t_struct *mini, int j)
 	int		flags;
 	char	**file;
 
-	mini->is_append = 0;
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	file = NULL;
 	if (mini->commands[j] && mini->commands[j][0] == '<')

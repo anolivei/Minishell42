@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 12:04:44 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 16:50:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	run_commands(t_struct *mini)
 	int		fd[2];
 
 	j = 0;
+	mini->is_append = 0;
 	while (j < mini->split.qtt_pipe - mini->is_append)
 	{
 		if (pipe(fd) < 0)
@@ -40,7 +41,6 @@ void	run_commands_aux(t_struct *mini, int j)
 {
 	int	i;
 
-	mini->is_append = 0;
 	redirect_out(mini, j);
 	redirect_in(mini, j);
 	mini->tokens = ft_split(mini->commands[j], ' ');
@@ -105,8 +105,9 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 			else
 				spaces_in_pipe(mini, 1, command);
 			i++;
+			g_ret_number = execve(mini->tokens[0], &mini->tokens[0],
+					mini->env.env);
 		}
-		g_ret_number = execve(mini->tokens[0], &mini->tokens[0], mini->env.env);
 		g_ret_number = 127;
 		printf("minishell: %s: command not found\n", mini->tokens[0]);
 	}
