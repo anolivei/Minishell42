@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 15:30:07 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 22:12:16 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	split_cmd(t_struct *mini, char *in, int i)
 	in = clean_spaces(in);
 	while (i < (int)ft_strlen(in))
 	{
-		if (mini->split.q == 0 && (in[i] == DOUBLE_QUOTE || in[i] == QUOTE))
+		if (mini->split.q == 0 && (in[i] == D_QUOTE || in[i] == QUOTE))
 			mini->split.q = in[i];
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 16:02:31 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 22:30:02 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(void)
 	t_struct	mini;
 
 	initialize(&mini);
-	add_history("echo \"hello there\" > arq | sed \"s/hello/hi/\" | <arq sed \"s/there/robots/\"");
 	while (1)
 	{
 		mini.out_fd = STDOUT_FILENO;

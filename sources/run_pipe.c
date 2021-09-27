@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 18:31:25 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 22:12:22 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ void	run_commands(t_struct *mini)
 
 void	run_commands_aux(t_struct *mini, int j)
 {
+	int	len;
+
 	redirect_out(mini, j);
 	redirect_in(mini, j);
 	mini->tokens = ft_split(mini->commands[j], ' ');
 	mini->num_tokens = 0;
 	while (mini->tokens[mini->num_tokens])
 	{
-		extends_env_var(mini, mini->num_tokens);
+		len = ft_strlen(mini->tokens[mini->num_tokens]) - 1;
+		extends_env_var(mini, mini->num_tokens, len);
 		mini->num_tokens++;
 	}
 	if (mini->tokens[0])
@@ -115,7 +118,7 @@ void	spaces_in_pipe(t_struct *mini, int i, char *command)
 {
 	char	*aux;
 
-	aux = ft_strtrim(mini->tokens[i], DOUBLE_QUOTE_S);
+	aux = ft_strtrim(mini->tokens[i], D_QUOTE_S);
 	free(mini->tokens[i]);
 	mini->tokens[i] = aux;
 	command = ft_strjoin(command, mini->tokens[i - 1]);

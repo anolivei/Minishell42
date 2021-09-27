@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 17:52:40 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 22:26:58 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,15 @@ int	file_descriptor_handler(int in, int out)
 	return (0);
 }
 
-int	extends_env_var(t_struct *mini, int i)
+int	extends_env_var(t_struct *mini, int i, int len)
 {
-	if (mini->tokens[i][0] == QUOTE
-		|| mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == QUOTE)
+	if (mini->tokens[i][0] == QUOTE || mini->tokens[i][len] == QUOTE)
 	{
-		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
+		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
 		return (1);
 	}
-	if (mini->tokens[i][0] == DOUBLE_QUOTE
-		|| mini->tokens[i][ft_strlen(mini->tokens[i]) - 1] == DOUBLE_QUOTE)
-		mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
+	if (mini->tokens[i][0] == D_QUOTE || mini->tokens[i][len] == D_QUOTE)
+		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
 	if (mini->tokens[i][0] == '$')
 	{
 		if (find_env(mini, &mini->tokens[i][1]))
@@ -46,9 +44,9 @@ int	extends_env_var(t_struct *mini, int i)
 			mini->tokens[i] = ft_strdup(mini->env.content[mini->env.index]);
 		}
 		else if (mini->tokens[i][1] == QUOTE)
-			mini->tokens[i] = clean_quotes(mini->tokens[i], 0, 0, 0);
+			mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
 		else if (mini->tokens[i][1] == '?')
-			return (2);
+			return (1);
 		else
 		{
 			free(mini->tokens[i]);
@@ -58,32 +56,31 @@ int	extends_env_var(t_struct *mini, int i)
 	return (0);
 }
 
-char	*clean_quotes(char *string, int i, int j, char q)
+char	*clean_quotes(t_struct *mini, char *string, int i, int j)
 {
-	char	*line_read_aux;
-
-	line_read_aux = malloc(sizeof(char) * ft_strlen(string) + 1);
-	if (!line_read_aux)
+	mini->quote = 0;
+	mini->token_aux = malloc(sizeof(char) * ft_strlen(string) + 1);
+	if (!mini->token_aux)
 		exit(EXIT_FAILURE);
 	if (string[0] == '$' && string[1] == QUOTE)
 		i++;
 	while (string[i])
 	{
-		if ((string[i] == QUOTE || string[i] == DOUBLE_QUOTE) && q == 0)
-			q = string[i];
+		if ((string[i] == QUOTE || string[i] == D_QUOTE) && mini->quote == 0)
+			mini->quote = string[i];
 		else
 		{
-			if (q == string[i])
-				q = 0;
+			if (mini->quote == string[i])
+				mini->quote = 0;
 			else
-				ft_memcpy(&line_read_aux[j++], &string[i], 1);
+				ft_memcpy(&mini->token_aux[j++], &string[i], 1);
 		}
 		i++;
 	}
-	if (string[i] == QUOTE || string[i] == DOUBLE_QUOTE)
+	if (string[i] == QUOTE || string[i] == D_QUOTE)
 		j--;
-	line_read_aux[j] = '\0';
+	mini->token_aux[j] = '\0';
 	free(string);
-	string = line_read_aux;
+	string = mini->token_aux;
 	return (string);
 }

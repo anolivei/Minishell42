@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 18:31:05 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 22:22:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 /*
 ** Macros to define quotes
 */
-# define DOUBLE_QUOTE '\"'
+# define D_QUOTE '\"'
 # define QUOTE '\''
-# define DOUBLE_QUOTE_S "\""
+# define D_QUOTE_S "\""
 # define QUOTE_S "\'"
 
 /*
@@ -88,6 +88,8 @@ typedef struct s_struct
 	char	*commands[50];
 	char	**tokens;
 	int		num_tokens;
+	char	*token_aux;
+	char	quote;
 	char	**path;
 	t_env	env_aux;
 	t_env	env;
@@ -175,8 +177,8 @@ char	*create_prompt(void);
 ** minishell_utils.c
 */
 int		file_descriptor_handler(int in, int out);
-int		extends_env_var(t_struct *mini, int i);
-char	*clean_quotes(char *string, int i, int j, char q);
+int		extends_env_var(t_struct *mini, int i, int len);
+char	*clean_quotes(t_struct *mini, char *string, int i, int j);
 
 /*
 ** redirect.c
