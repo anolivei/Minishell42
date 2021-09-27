@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/27 15:22:38 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:31:49 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,10 +254,6 @@ int	main(void)
 				// print_arr_cmd(arr_cmd);
 				free_arr_cmd(mini.arr_cmd);
 				mini.arr_cmd = NULL;
-				// split_cmd(&mini, mini.line_read, 0);
-				// if (mini.split.n_comand > 0)
-				// 	run_commands(&mini);
-				// free_char_array2(mini.commands);
 			}
 			free(mini.line_read);
 		}

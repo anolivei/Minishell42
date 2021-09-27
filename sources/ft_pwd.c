@@ -6,18 +6,18 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/22 17:29:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:33:07 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_mini *mini)
+void	ft_pwd()
 {
 	char	*buf;
 
 	buf = get_cwd_buf();
-	ft_putendl_fd(buf, mini->out_fd);
+	ft_putendl_fd(buf, STDOUT_FILENO);
 	if (buf == NULL)
 		g_ret_number = 1;
 	else
