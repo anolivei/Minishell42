@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/09/22 00:58:50 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/26 20:59:49 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ $(NAME): $(OBJ) $(LIBFT)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(OBJ_DIR)
 		@$(CC) $(CFLAGS) $(HEAD) -c $< -o $@
+		@echo "\033[1;32m[OK]\033[0m    \033[1;33mCompiling\033[0m $(<F)"
 
 $(LIBFT):
 		@make -C $(LIBFT_DIR)

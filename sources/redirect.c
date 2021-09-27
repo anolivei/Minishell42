@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 15:52:57 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/09/26 21:48:40 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,25 @@ int	redirect_out(t_struct *mini, int j)
 	return (j);
 }
 
-static void	read_until(t_struct *mini, char *end)
+static void	read_until(char *end)
 {
 	char	*line;
 	int		flags;
+	int		fd;
 
+	printf("looking for %s\n", end);
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	line = ft_strdup("");
-	mini->in_fd = open(end, flags, 0777);
-	while (ft_strncmp(line, end, ft_strlen(end)))
+	fd = open(end, flags, 0777);
+	while (ft_strncmp(line, end, ft_strlen(end))
+		|| ft_strlen(line) != ft_strlen(end))
 	{
 		free(line);
-		line = readline("heredoc> ");
-		ft_putendl_fd(line, mini->in_fd);
+		line = readline("> ");
+		if (ft_strlen(line) != ft_strlen(end))
+			ft_putendl_fd(line, fd);
 	}
+	close(fd);
 	free(line);
 }
 
@@ -80,21 +85,22 @@ int	redirect_in(t_struct *mini, int j)
 
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	file = NULL;
-	if (mini->commands[j] && mini->commands[j][0] == '<')
+	if (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
 	{
-		if (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
+		if (mini->commands[j + 1][1] == '<')
 		{
-			file = ft_split(&mini->commands[j + 1][1], ' ');
-			read_until (mini, file[0]);
+			file = ft_split(&mini->commands[j + 1][2], ' ');
+			read_until (file[0]);
+			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
 			mini->is_append++;
 		}
 		else
 		{
-			file = ft_split(&mini->commands[j][1], ' ');
+			file = ft_split(&mini->commands[j + 1][1], ' ');
 			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
 		}
-		free(mini->commands[j]);
-		mini->commands[j] = new_comman(1, file);
+		free(mini->commands[j + 1]);
+		mini->commands[j + 1] = new_comman(1, file);
 		free_char_array2(file);
 		free(file);
 	}

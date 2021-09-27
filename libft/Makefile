@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 20:08:14 by anolivei          #+#    #+#              #
-#    Updated: 2021/05/26 23:12:33 by anolivei         ###   ########.fr        #
+#    Updated: 2021/09/26 21:16:06 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC  =	ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 OBJ = $(subst .c,.o,$(SRC))
 
 all: $(NAME)
+	@echo "\033[1;32m[OK]\033[0m    \033[1;33mCompiling\033[0m $(<F)"
 
 $(NAME):
 	@gcc -Wall -Wextra -Werror -c $(SRC)
