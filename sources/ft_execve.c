@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 17:12:37 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/26 17:27:45 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:22:05 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_execve_with_path(t_mini *mini, t_cmd *cmd)
 		i++;
 	}
 	g_ret_number = 127;
-	printf("minishell: %s: command not found\n", mini->tokens[0]);
+	error_msg("command not found\n", "minishell", "");
 }
 
 void	ft_execve(t_mini *mini, t_cmd *cmd)
@@ -35,7 +35,7 @@ void	ft_execve(t_mini *mini, t_cmd *cmd)
 	pid_t	pid;
 
 	pid = fork();
-	run_signals(2);
+	run_signals(2, NULL);
 	if (pid < 0)
 	{
 		printf("Fork error\n");

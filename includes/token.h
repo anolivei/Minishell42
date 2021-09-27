@@ -24,5 +24,6 @@ typedef struct s_token
 t_token		*init_token(char *value, int type);
 char		*token_to_str(t_token *token);
 const char	*token_type_to_str(int type);
+void		free_arr_token(t_token **arr);
 
 #endif

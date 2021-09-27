@@ -6,13 +6,13 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 20:10:52 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 17:44:18 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:20:21 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_signals(int sig)
+void	run_signals(int sig, t_mini *mini)
 {
 	if (sig == 1)
 	{
@@ -26,7 +26,7 @@ void	run_signals(int sig)
 	}
 	if (sig == 3)
 	{
-		
+		ft_exit(mini);
 		printf("exit\n");
 		exit(0);
 	}

@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 17:50:53 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:21:40 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include "lexer.h"
+# include <errno.h>
 
 /*
 ** Macros to define quotes
@@ -120,6 +121,7 @@ typedef struct s_mini
 {
 	char	*line_read;
 	t_token	**arr_token;
+	t_cmd	**arr_cmd;
 	int		saved_out;
 	int		saved_in;
 	int		actual_out;
@@ -153,7 +155,7 @@ char	*find_env(t_mini *mini, char *needle);
 /*
 ** ft_cd.c
 */
-void	ft_cd(t_mini *mini);
+void	ft_cd(t_mini *mini, t_cmd *cmd);
 
 /*
 ** ft_echo.c
@@ -230,7 +232,7 @@ void	spaces_in_pipe(t_mini *mini, int i, char *command);
 /*
 ** signal.c
 */
-void	run_signals(int sig);
+void	run_signals(int sig, t_mini *mini);
 void	restore_prompt(int sig);
 void	ctrl_c(int sig);
 void	back_slash(int sig);
@@ -288,9 +290,17 @@ t_token	**get_token_list(t_mini *mini);
 bool	is_special(char c);
 
 /*
-** remove
+** ft_execve.c
 */
 void	ft_execve(t_mini *min, t_cmd *cmd);
+
+/*
+** error_msg.c
+*/
+int	error_msg(char *msg, char *prefix, char *sufix);
+
+
+void	free_mini(t_mini *mini);
 
 /*
 ** remove

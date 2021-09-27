@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 18:33:07 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:22:38 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,15 @@ int	get_last_fd_in(t_redir **arr_redir)
 		if (arr_redir[i]->type == TOKEN_RED_IN)
 		{
 			last_fd = open(arr_redir[i]->filename, O_RDONLY, 0777);
+			if (last_fd < 0)
+				return (error_msg(NULL, "minishell", arr_redir[i]->filename));
 			while (j < ft_arrlen((void **)arr_redir[i]->args))
 			{
 				close(last_fd);
 				last_fd = open(arr_redir[i]->args[j], O_RDONLY, 0777);
+				if (last_fd < 0)
+					return (error_msg(NULL, "minishell",
+							arr_redir[i]->filename));
 				j++;
 			}
 		}
@@ -181,6 +186,8 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 		if (arr_cmd[i]->redir_in != NULL)
 		{
 			mini->actual_in = get_last_fd_in(arr_cmd[i]->redir_in);
+			if (mini->actual_in < 0)
+				return ;
 			dup2(mini->actual_in, STDIN_FILENO);
 		}
 		if (arr_cmd[i]->redir_out != NULL)
@@ -198,10 +205,35 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 	}
 }
 
+void	free_mini(t_mini *mini)
+{
+	if (mini->line_read != NULL)
+	{
+		free(mini->line_read);
+		mini->line_read = NULL;
+	}
+	if (mini->arr_token != NULL)
+	{
+		free_arr_token(mini->arr_token);
+		mini->arr_token = NULL;
+	}
+	if (mini->path)
+	{
+		free_char_array(mini->path);
+		mini->path = NULL;
+	}
+	if (mini->arr_cmd)
+	{
+		free_arr_cmd(mini->arr_cmd);
+		mini->arr_cmd = NULL;
+	}
+	dup2(mini->saved_out, STDOUT_FILENO);
+	dup2(mini->saved_in, STDIN_FILENO);
+}
+
 int	main(void)
 {
 	t_mini	mini;
-	t_cmd	**arr_cmd;
 
 	initialize(&mini);
 	mini.saved_out = dup(STDOUT_FILENO);
@@ -214,12 +246,14 @@ int	main(void)
 		{
 			if (ft_strlen(mini.line_read) != 0)
 			{
-				arr_cmd = parse_cmd_and_files(mini.arr_token);
-				execute_arr_cmd(arr_cmd, &mini);
+				// arr_cmd = parse_cmd_and_files(mini.arr_token);
+				mini.arr_cmd = parse_cmd_and_files(mini.arr_token);
+				execute_arr_cmd(mini.arr_cmd, &mini);
 				dup2(mini.saved_out, STDOUT_FILENO);
 				dup2(mini.saved_in, STDIN_FILENO);
 				// print_arr_cmd(arr_cmd);
-				free_arr_cmd(arr_cmd);
+				free_arr_cmd(mini.arr_cmd);
+				mini.arr_cmd = NULL;
 				// split_cmd(&mini, mini.line_read, 0);
 				// if (mini.split.n_comand > 0)
 				// 	run_commands(&mini);
@@ -228,7 +262,7 @@ int	main(void)
 			free(mini.line_read);
 		}
 		else
-			run_signals(3);
+			run_signals(3, &mini);
 	}
 }
 
@@ -253,6 +287,8 @@ void	initialize(t_mini *mini)
 	extern char **environ;
 	g_ret_number = 0;
 	mini->tokens = (char **) NULL;
+	mini->arr_cmd = NULL;
+	mini->arr_token = NULL;
 	print_welcome_message();
 	create_env(mini, environ);
 	// create_env(mini, __environ);
@@ -273,7 +309,7 @@ void	get_line(t_mini *mini)
 	char	*prompt;
 
 	prompt = create_prompt();
-	run_signals(1);
+	run_signals(1, NULL);
 	mini->line_read = readline(prompt);
 	free(prompt);
 	if (mini->line_read && *mini->line_read)

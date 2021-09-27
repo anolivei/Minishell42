@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_pipe.c                                         :+:      :+:    :+:   */
+/*   ignore_run_pipe.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 16:54:26 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:22:13 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	exec_process(t_mini *mini, int in, int out)
 	pid_t	pid;
 
 	pid = fork();
-	run_signals(2);
+	run_signals(2, NULL);
 	if (pid < 0)
 	{
 		printf("Fork error\n");

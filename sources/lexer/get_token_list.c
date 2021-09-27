@@ -11,10 +11,10 @@ void	free_arr_token(t_token **arr)
 	{
 		if (arr[i]->value != NULL)
 			free(arr[i]->value);
-		// free(arr[i]);
 		i++;
 	}
 	free(arr);
+	arr = NULL;
 }
 
 t_token	**init_arr_token(size_t size)
