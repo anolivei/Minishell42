@@ -6,13 +6,13 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/27 15:33:07 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:56:37 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd()
+void	ft_pwd(void)
 {
 	char	*buf;
 

@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/27 15:33:41 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:56:58 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ void	add_env(t_mini *mini, char *new_key, char *new_content);
 /*
 ** ft_pwd.c
 */
-void	ft_pwd();
+void	ft_pwd(void);
 char	*get_cwd_buf(void);
 
 /*

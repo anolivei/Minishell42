@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/26 22:51:31 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/27 15:12:40 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/27 15:56:50 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	run_builtin(t_mini *mini, t_cmd *cmd)
 	if (!ft_strncmp(cmd->cmd, "exit", 4))
 		ft_exit(mini);
 	if (!ft_strncmp(cmd->cmd, "pwd", 3))
-		ft_pwd(mini);
+		ft_pwd();
 	if (!ft_strncmp(cmd->cmd, "echo", 4))
 		ft_echo(cmd);
 	if (!ft_strncmp(cmd->cmd, "cd", 2))

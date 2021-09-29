@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/27 15:31:49 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/09/29 19:34:25 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,34 +173,63 @@ void	merge_tokens(t_cmd *cmd)
 	}
 }
 
+void	true_exec(t_cmd *cmd, t_mini *mini, bool old_pipe)
+{
+	int		fd[2];
+
+	if (cmd->has_pipe == true)
+	{
+		pipe(fd);
+		mini->actual_in = fd[0];
+		mini->actual_out = fd[1];
+		dup2(mini->actual_out, STDOUT_FILENO);
+		close(mini->actual_out);
+		// close(mini->actual_in);
+	}
+	if (old_pipe)
+	{
+		dup2(mini->actual_in, STDIN_FILENO);
+		close(mini->actual_in);
+		dup2(mini->saved_out, STDOUT_FILENO);
+	}
+	if (cmd->redir_in != NULL)
+	{
+		mini->actual_in = get_last_fd_in(cmd->redir_in);
+		if (mini->actual_in < 0)
+			return ;
+		dup2(mini->actual_in, STDIN_FILENO);
+	}
+	if (cmd->redir_out != NULL)
+	{
+		cmd->join = create_str_args_redir(cmd->redir_out);
+		mini->actual_out = get_last_fd_out(cmd->redir_out);
+		merge_tokens(cmd);
+		dup2(mini->actual_out, STDOUT_FILENO);
+	}
+	if (cmd->is_builtin)
+		run_builtin(mini, cmd);
+	else
+		ft_execve(mini, cmd);
+}
+
 void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 {
 	int		i;
 	int		j;
+	bool	old_pipe;
 
 	i = 0;
 	j = 0;
+	old_pipe = false;
 	(void)mini;
 	while (arr_cmd != NULL && arr_cmd[i] != NULL)
 	{
-		if (arr_cmd[i]->redir_in != NULL)
-		{
-			mini->actual_in = get_last_fd_in(arr_cmd[i]->redir_in);
-			if (mini->actual_in < 0)
-				return ;
-			dup2(mini->actual_in, STDIN_FILENO);
-		}
-		if (arr_cmd[i]->redir_out != NULL)
-		{
-			arr_cmd[i]->join = create_str_args_redir(arr_cmd[i]->redir_out);
-			mini->actual_out = get_last_fd_out(arr_cmd[i]->redir_out);
-			merge_tokens(arr_cmd[i]);
-			dup2(mini->actual_out, STDOUT_FILENO);
-		}
-		if (arr_cmd[i]->is_builtin)
-			run_builtin(mini, arr_cmd[i]);
-		else
-			ft_execve(mini, arr_cmd[i]);
+		if (i > 0 && arr_cmd[i - 1]->has_pipe == true)
+			old_pipe = true;
+		true_exec(arr_cmd[i], mini, old_pipe);
+		dup2(mini->saved_out, STDOUT_FILENO);
+		if (!old_pipe)
+			dup2(mini->saved_in, STDIN_FILENO);
 		i++;
 	}
 }
@@ -246,12 +275,11 @@ int	main(void)
 		{
 			if (ft_strlen(mini.line_read) != 0)
 			{
-				// arr_cmd = parse_cmd_and_files(mini.arr_token);
 				mini.arr_cmd = parse_cmd_and_files(mini.arr_token);
 				execute_arr_cmd(mini.arr_cmd, &mini);
-				dup2(mini.saved_out, STDOUT_FILENO);
-				dup2(mini.saved_in, STDIN_FILENO);
-				// print_arr_cmd(arr_cmd);
+				// dup2(mini.saved_out, STDOUT_FILENO);
+				// dup2(mini.saved_in, STDIN_FILENO);
+				print_arr_cmd(mini.arr_cmd);
 				free_arr_cmd(mini.arr_cmd);
 				mini.arr_cmd = NULL;
 			}
@@ -261,22 +289,6 @@ int	main(void)
 			run_signals(3, &mini);
 	}
 }
-
-		// if (mini.line_read)
-		// {
-		// 	if (ft_strlen(mini.line_read) != 0)
-		// 	{
-		// 		split_cmd(&mini, mini.line_read, 0);
-		// 		if (mini.split.n_comand > 0)
-		// 			run_commands(&mini);
-		// 		free_char_array2(mini.commands);
-		// 	}
-		// 	free(mini.line_read);
-		// }
-		// else
-		// 	run_signals(3);
-	// }
-// }
 
 void	initialize(t_mini *mini)
 {
