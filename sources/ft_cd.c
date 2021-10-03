@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 17:34:55 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:48:57 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_cd(t_struct *mini)
 	char	*token_aux;
 	bool	unset;
 
-	token_aux = NULL;
 	unset = there_is_home(mini);
 	if (mini->tokens[1])
 	{
@@ -29,7 +28,7 @@ int	ft_cd(t_struct *mini)
 	else
 	{
 		if (unset == true)
-				token_aux = ft_strdup(mini->home);
+			token_aux = ft_strdup(mini->home);
 		else
 		{
 			g_ret_number = 1;
@@ -39,8 +38,7 @@ int	ft_cd(t_struct *mini)
 	}
 	g_ret_number = chdir(token_aux);
 	if (g_ret_number == -1)
-		printf("minishell: cd: %s: No such file or directory\n",
-			mini->tokens[1]);
+		printf("minishell: cd: %s: %s", mini->tokens[1], ERROR_DIR);
 	free(token_aux);
 	return (0);
 }

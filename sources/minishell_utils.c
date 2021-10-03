@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 01:26:19 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 18:23:03 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	file_descriptor_handler(int in, int out)
 
 int	extends_env_var(t_struct *mini, int i, int len)
 {
+	char	*aux;
+
 	if (mini->tokens[i][0] == QUOTE || mini->tokens[i][len] == QUOTE)
 	{
 		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
@@ -52,6 +54,14 @@ int	extends_env_var(t_struct *mini, int i, int len)
 			free(mini->tokens[i]);
 			mini->tokens[i] = NULL;
 		}
+	}
+	if (mini->tokens[i][0] == '~')
+	{
+		aux = ft_strdup(&mini->tokens[i][1]);
+		free(mini->tokens[i]);
+		mini->tokens[i] = NULL;
+		mini->tokens[i] = ft_strjoin(ft_strdup(mini->home), aux);
+		free (aux);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 17:33:14 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:43:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 ** Macros to define some messages error
 */
 # define ERROR_PIPE "minishell: syntax error near unexpected token `|'\n"
+# define ERROR_DIR "No such file or directory\n"
 
 /*
 ** Global variable to return in 'echo $?'
@@ -121,7 +122,7 @@ char	*find_env(t_struct *mini, char *needle);
 /*
 ** ft_cd.c
 */
-int	ft_cd(t_struct *mini);
+int		ft_cd(t_struct *mini);
 bool	there_is_home(t_struct *mini);
 /*
 ** ft_echo.c
