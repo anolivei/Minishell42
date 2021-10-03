@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 02:12:52 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:04:41 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	initialize(t_struct *mini)
 	print_welcome_message();
 	create_env(mini, __environ);
 	init_path(mini);
+	mini->home = ft_strdup(find_env(mini, "HOME"));
 }
 
 void	print_welcome_message(void)

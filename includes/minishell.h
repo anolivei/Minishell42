@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 02:08:11 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:33:14 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_struct
 	char	quote;
 	char	**path;
 	char	*name_file;
+	char	*home;
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
@@ -120,8 +121,8 @@ char	*find_env(t_struct *mini, char *needle);
 /*
 ** ft_cd.c
 */
-void	ft_cd(t_struct *mini);
-
+int	ft_cd(t_struct *mini);
+bool	there_is_home(t_struct *mini);
 /*
 ** ft_echo.c
 */
