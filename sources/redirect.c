@@ -6,13 +6,13 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 00:26:01 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 02:14:50 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	redirect_out(t_struct *mini, int j)
+void	redirect_out(t_struct *mini, int j)
 {
 	int		flags;
 	char	*file;
@@ -38,7 +38,6 @@ int	redirect_out(t_struct *mini, int j)
 		}
 		j++;
 	}
-	return (j);
 }
 
 static void	read_until(char *end)
@@ -77,7 +76,7 @@ static char	*new_comman(int i, char **str)
 	return (aux);
 }
 
-int	redirect_in(t_struct *mini, int j)
+void	redirect_in(t_struct *mini, int j)
 {
 	char	**file;
 
@@ -89,18 +88,19 @@ int	redirect_in(t_struct *mini, int j)
 			file = ft_split(&mini->commands[j + 1][2], ' ');
 			read_until (file[0]);
 			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
+			mini->name_file = ft_strdup(file[0]);
 			mini->is_append++;
 		}
 		else
 		{
 			file = ft_split(&mini->commands[j + 1][1], ' ');
-			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
+			mini->in_fd = open(file[0], O_RDONLY , 0777);
+			if (mini->in_fd == -1 && mini->split.n_comand == 1)
+				printf("minishell: %s: No such File or directory\n",file[0]);
 		}
-		mini->name_file = ft_strdup(file[0]);
 		free(mini->commands[j + 1]);
 		mini->commands[j + 1] = new_comman(1, file);
 		free_char_array2(file);
 		free(file);
 	}
-	return (j);
 }

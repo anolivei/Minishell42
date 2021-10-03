@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 01:27:09 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 02:09:40 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,24 @@ void	run_commands(t_struct *mini)
 
 void	run_commands_aux(t_struct *mini, int j)
 {
-	redirect_out(mini, j);
-	redirect_in(mini, j);
-	tokenizer(mini, j);
-	if (mini->tokens[0])
-		is_builtin(mini->tokens[0], mini);
-	exec_process(mini, mini->in_fd, mini->out_fd);
-	free_char_array(mini->tokens);
+	if (mini->split.n_comand == 1)
+	{
+		redirect_out(mini, -1);
+		redirect_in(mini, -1);
+	}
+	else
+	{
+		redirect_out(mini, j);
+		redirect_in(mini, j);
+	}
+	if (mini->commands[0][0] != '>')
+	{
+		tokenizer(mini, j);
+		if (mini->tokens[0])
+			is_builtin(mini->tokens[0], mini);
+		exec_process(mini, mini->in_fd, mini->out_fd);
+		free_char_array(mini->tokens);
+	}
 	if (mini->name_file)
 		unlink(mini->name_file);
 }

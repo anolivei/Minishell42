@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 01:29:30 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 02:08:11 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,8 @@ char	*clean_quotes(t_struct *mini, char *string, int i, int j);
 /*
 ** redirect.c
 */
-int		redirect_out(t_struct *mini, int j);
-int		redirect_in(t_struct *mini, int j);
+void	redirect_out(t_struct *mini, int j);
+void	redirect_in(t_struct *mini, int j);
 
 /*
 ** run_pipe.c
