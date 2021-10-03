@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 21:00:46 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/26 09:55:14 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 19:24:33 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ int	parse_redir(t_token **arr_token, t_cmd *cmd, int index)
 {
 	t_redir	*redir;
 
-	if (cmd->redir_out == NULL)
+	if (cmd->redir_out == NULL && (arr_token[index]->type == TOKEN_APPEND_OUT
+		|| arr_token[index]->type == TOKEN_RED_OUT))
 		cmd->redir_out = init_arr_redir(0);
-	else if (cmd->redir_in == NULL)
+	else if (cmd->redir_in == NULL && (arr_token[index]->type == TOKEN_APPEND_IN
+		|| arr_token[index]->type == TOKEN_RED_IN))
 		cmd->redir_in = init_arr_redir(0);
 	redir = fabric_redir(arr_token[index]->type);
 	index++;

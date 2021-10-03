@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 18:35:32 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 19:07:54 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,35 +62,6 @@ t_cmd	**parse_cmd_and_files(t_token **arr_token)
 		}
 	}
 	return (arr_cmd);
-}
-
-char	*create_str_args_redir(t_redir **arr_redir)
-{
-	char	*join;
-	char	*tmp_join;
-	size_t	i;
-	size_t	size;
-
-	join = NULL;
-	i = 0;
-	size = ft_arrlen((void **)arr_redir);
-	while (i < size)
-	{
-		if (arr_redir[i]->args != NULL && join == NULL)
-		{
-			join = str_join_sep(arr_redir[i]->args, " ");
-			join = ft_strjoin(join, " ");
-		}
-		else if (arr_redir[i]->args != NULL)
-		{
-			tmp_join = str_join_sep(arr_redir[i]->args, " ");
-			join = ft_strjoin(join, tmp_join);
-			join = ft_strjoin(join, " ");
-			free(tmp_join);
-		}
-		i++;
-	}
-	return (join);
 }
 
 int	get_last_fd_out(t_redir **arr_redir)
@@ -197,12 +168,17 @@ void	true_exec(t_cmd *cmd, t_mini *mini, bool old_pipe)
 		mini->actual_in = get_last_fd_in(cmd->redir_in);
 		if (mini->actual_in >= 0)
 			dup2(mini->actual_in, STDIN_FILENO);
+		else
+			return ;
 	}
 	if (cmd->redir_out != NULL)
 	{
 		mini->actual_out = get_last_fd_out(cmd->redir_out);
-		merge_tokens(cmd);
-		dup2(mini->actual_out, STDOUT_FILENO);
+		if (mini->actual_out >= 0)
+		{
+			merge_tokens(cmd);
+			dup2(mini->actual_out, STDOUT_FILENO);
+		}
 	}
 	if (cmd->is_builtin)
 		run_builtin(mini, cmd);
