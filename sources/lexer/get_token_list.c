@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+void	free_token(t_token *token)
+{
+	if (token->value != NULL)
+	{
+		free(token->value);
+		token->value = NULL;
+		free(token);
+		token = NULL;
+	}
+}
+
 void	free_arr_token(t_token **arr)
 {
 	int	i;
@@ -9,8 +20,7 @@ void	free_arr_token(t_token **arr)
 		return ;
 	while (arr[i] != NULL)
 	{
-		if (arr[i]->value != NULL)
-			free(arr[i]->value);
+		free_token(arr[i]);
 		i++;
 	}
 	free(arr);
@@ -43,6 +53,7 @@ t_token	**push_token(t_token **arr, t_token *token)
 	}
 	new_token[i] = token;
 	free(arr);
+	arr = NULL;
 	return (new_token);
 }
 
@@ -67,5 +78,7 @@ t_token	**get_token_list(t_mini *mini)
 		arr = push_token(arr, token);
 		token = lexer_next_token(lexer);
 	}
+	free(lexer);
+	free_token(token);
 	return (arr);
 }

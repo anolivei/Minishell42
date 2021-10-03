@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/29 19:34:25 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 18:35:32 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,13 +195,11 @@ void	true_exec(t_cmd *cmd, t_mini *mini, bool old_pipe)
 	if (cmd->redir_in != NULL)
 	{
 		mini->actual_in = get_last_fd_in(cmd->redir_in);
-		if (mini->actual_in < 0)
-			return ;
-		dup2(mini->actual_in, STDIN_FILENO);
+		if (mini->actual_in >= 0)
+			dup2(mini->actual_in, STDIN_FILENO);
 	}
 	if (cmd->redir_out != NULL)
 	{
-		cmd->join = create_str_args_redir(cmd->redir_out);
 		mini->actual_out = get_last_fd_out(cmd->redir_out);
 		merge_tokens(cmd);
 		dup2(mini->actual_out, STDOUT_FILENO);
@@ -270,20 +268,23 @@ int	main(void)
 	while (1)
 	{
 		get_line(&mini);
-		mini.arr_token = get_token_list(&mini);
 		if (mini.line_read)
 		{
 			if (ft_strlen(mini.line_read) != 0)
 			{
+				mini.arr_token = get_token_list(&mini);
 				mini.arr_cmd = parse_cmd_and_files(mini.arr_token);
 				execute_arr_cmd(mini.arr_cmd, &mini);
 				// dup2(mini.saved_out, STDOUT_FILENO);
 				// dup2(mini.saved_in, STDIN_FILENO);
-				print_arr_cmd(mini.arr_cmd);
+				// print_arr_cmd(mini.arr_cmd);
 				free_arr_cmd(mini.arr_cmd);
 				mini.arr_cmd = NULL;
 			}
 			free(mini.line_read);
+			free_arr_cmd(mini.arr_cmd);
+			free_arr_token(mini.arr_token);
+			mini.arr_token = NULL;
 		}
 		else
 			run_signals(3, &mini);

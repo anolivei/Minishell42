@@ -17,6 +17,7 @@ void	ft_echo(t_cmd *cmd)
 	char	*echo_str;
 	char	*tmp;
 
+	echo_str = NULL;
 	if (ft_arrlen((void **)cmd->tokens) == 1)
 		ft_putchar_fd('\n', 1);
 	else if (ft_arrlen((void **)cmd->tokens) > 1)
@@ -29,6 +30,8 @@ void	ft_echo(t_cmd *cmd)
 			echo_str = ft_strjoin(tmp, "\n");
 		}
 		ft_putstr_fd(echo_str, 1);
+		if (echo_str != NULL)
+			free(echo_str);
 	}
 }
 	

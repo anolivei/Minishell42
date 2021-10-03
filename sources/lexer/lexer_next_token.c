@@ -6,26 +6,26 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 12:52:16 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/23 14:19:21 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:37:06 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token	*lexer_check_char_redir_output(t_lexer *lexer)
+static t_token	*lexer_check_char_redir_input(t_lexer *lexer)
 {
 	if (lexer_peek(lexer, 1) == '<')
-		return (lexer_advance_twice_with(lexer, init_token("<<",
+		return (lexer_advance_twice_with(lexer, init_token(ft_strdup("<<"),
 					TOKEN_APPEND_IN)));
-	return (lexer_advance_with(lexer, init_token("<", TOKEN_RED_IN)));
+	return (lexer_advance_with(lexer, init_token(ft_strdup("<"), TOKEN_RED_IN)));
 }
 
-static t_token	*lexer_check_char_redir_input(t_lexer *lexer)
+static t_token	*lexer_check_char_redir_output(t_lexer *lexer)
 {
 	if (lexer_peek(lexer, 1) == '>')
 		return (lexer_advance_twice_with(lexer,
-				init_token(">>", TOKEN_APPEND_OUT)));
-	return (lexer_advance_with(lexer, init_token(">", TOKEN_RED_OUT)));
+				init_token(ft_strdup(">>"), TOKEN_APPEND_OUT)));
+	return (lexer_advance_with(lexer, init_token(ft_strdup(">"), TOKEN_RED_OUT)));
 }
 
 static t_token	*lexer_check_char(t_lexer *lexer)
@@ -40,11 +40,11 @@ static t_token	*lexer_check_char(t_lexer *lexer)
 	else if (lexer->c == '$')
 		return (lexer_advance_with(lexer, lexer_parse_variable(lexer)));
 	else if (lexer->c == '\0')
-		return (init_token(0, TOKEN_EOF));
+		return (init_token(ft_strdup("0"), TOKEN_EOF));
 	else if (lexer->c == '>')
-		return (lexer_check_char_redir_input(lexer));
-	else if (lexer->c == '<')
 		return (lexer_check_char_redir_output(lexer));
+	else if (lexer->c == '<')
+		return (lexer_check_char_redir_input(lexer));
 	else
 		return (lexer_advance_with_word(lexer, lexer_parse_word(lexer)));
 }
@@ -56,5 +56,5 @@ t_token	*lexer_next_token(t_lexer *lexer)
 	quoted = false;
 	while (lexer->c != '\0')
 		return (lexer_check_char(lexer));
-	return (init_token(0, TOKEN_EOF));
+	return (init_token(ft_strdup("0"), TOKEN_EOF));
 }

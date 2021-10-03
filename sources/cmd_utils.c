@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 18:52:52 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/23 20:54:09 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:58:23 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ void	free_cmd(t_cmd *cmd)
 		free_char_array(cmd->tokens);
 		cmd->tokens = NULL;
 	}
+	if (cmd->redir_in != NULL)
+	{
+		free_arr_redir(cmd->redir_in);
+		cmd->redir_in = NULL;
+	}
+	if (cmd->redir_out != NULL)
+	{
+		free_arr_redir(cmd->redir_out);
+		cmd->redir_out = NULL;
+	}
 	//dar free no redir
 }
 
@@ -62,8 +72,13 @@ void	free_arr_cmd(t_cmd **arr)
 	i = 0;
 	while (i < size)
 	{
-		free_cmd(arr[i]);
-		i++;
+		if (arr[i] != NULL)
+		{
+			free_cmd(arr[i]);
+			free(arr[i]);
+			arr[i] = NULL;
+			i++;
+		}
 	}
 	free(arr);
 	arr = NULL;

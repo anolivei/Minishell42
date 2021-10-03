@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/27 15:56:58 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 17:09:12 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ typedef struct s_cmd
 	char	**tokens;
 	t_redir	**redir_out;
 	t_redir	**redir_in;
-	char	*join;
 	int		last_fd;
 	bool	has_pipe;
 	bool	has_cmd;

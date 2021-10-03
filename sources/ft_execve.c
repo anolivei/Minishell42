@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 17:12:37 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/09/27 15:22:05 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/03 18:22:18 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	ft_execve_with_path(t_mini *mini, t_cmd *cmd)
 	i = 0;
 	while (mini->path && mini->path[i] != NULL)
 	{
-		command = ft_strdup(mini->path[i]);
+		// command = ft_strdup(mini->path[i]);
 		command = ft_strjoin(mini->path[i], cmd->cmd);
 		g_ret_number = execve(command, cmd->tokens, mini->env.env);
 		free(command);
 		i++;
 	}
 	g_ret_number = 127;
-	error_msg("command not found\n", "minishell", "");
+	error_msg("command not found", "minishell", cmd->cmd);
 }
 
 void	ft_execve(t_mini *mini, t_cmd *cmd)

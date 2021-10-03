@@ -36,6 +36,7 @@ char	**ft_push_arr_str(char **arr, char *str)
 	while (i < size)
 	{
 		new_arr[i] = ft_strdup(arr[i]);
+		free(arr[i]);
 		i++;
 	}
 	new_arr[i] = ft_strdup(str);
