@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 18:11:11 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 18:29:35 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_split_struct(t_struct *mini)
 	mini->split.len = 0;
 	mini->split.qtt_pipe = 0;
 	mini->split.q = 0;
+	mini->last_redir = 0;
 }
 
 char	*clean_spaces(char *in)
