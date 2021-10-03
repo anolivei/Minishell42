@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/10/02 23:59:05 by anolivei         ###   ########.fr        #
+#    Updated: 2021/10/03 20:19:57 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/minishell_utils.c \
 		$(SRC_DIR)/signal.c \
 		$(SRC_DIR)/redirect.c \
-		$(SRC_DIR)/token.c
+		$(SRC_DIR)/token.c \
+		$(SRC_DIR)/extends_env.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 
