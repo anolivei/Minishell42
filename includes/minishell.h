@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 22:22:56 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 00:25:24 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_struct
 	char	*token_aux;
 	char	quote;
 	char	**path;
+	char	*name_file;
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
@@ -210,5 +211,10 @@ void	split_cmd(t_struct *mini, char *in, int i);
 void	init_split_struct(t_struct *mini);
 char	*clean_spaces(char *in);
 int		count_pipe(t_struct *mini, char *in, int i);
+
+/*
+** token.c
+*/
+void	tokenizer(t_struct *mini, int j);
 
 #endif

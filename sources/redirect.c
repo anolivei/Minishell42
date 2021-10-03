@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 21:48:40 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 00:26:01 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	redirect_out(t_struct *mini, int j)
 			else
 			{
 				file = ft_strtrim(&mini->commands[j + 1][1], " ");
-				mini->out_fd = open(file, flags, 0777);
+				mini->out_fd = open(file, flags | O_TRUNC, 0777);
 				mini->is_append++;
 			}
 			free (file);
@@ -47,7 +47,6 @@ static void	read_until(char *end)
 	int		flags;
 	int		fd;
 
-	printf("looking for %s\n", end);
 	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	line = ft_strdup("");
 	fd = open(end, flags, 0777);
@@ -80,10 +79,8 @@ static char	*new_comman(int i, char **str)
 
 int	redirect_in(t_struct *mini, int j)
 {
-	int		flags;
 	char	**file;
 
-	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	file = NULL;
 	if (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
 	{
@@ -99,6 +96,7 @@ int	redirect_in(t_struct *mini, int j)
 			file = ft_split(&mini->commands[j + 1][1], ' ');
 			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
 		}
+		mini->name_file = ft_strdup(file[0]);
 		free(mini->commands[j + 1]);
 		mini->commands[j + 1] = new_comman(1, file);
 		free_char_array2(file);
