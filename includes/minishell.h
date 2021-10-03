@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 00:25:24 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 01:29:30 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@
 # define CYAN "\001\033[1;36m\002"
 # define WHITE "\001\033[0m\002"
 # define GREEN "\001\033[1;32m\002"
+
+/*
+** Macros to define some messages error
+*/
+# define ERROR_PIPE "minishell: syntax error near unexpected token `|'\n"
 
 /*
 ** Global variable to return in 'echo $?'

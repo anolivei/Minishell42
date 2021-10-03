@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 00:26:31 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 01:27:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ void	run_commands_aux(t_struct *mini, int j)
 	exec_process(mini, mini->in_fd, mini->out_fd);
 	free_char_array(mini->tokens);
 	if (mini->name_file)
-	{
 		unlink(mini->name_file);
-		free(mini->name_file);
-	}
 }
 
 void	exec_process(t_struct *mini, int in, int out)
