@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 17:48:57 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 19:38:12 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,14 @@
 int	ft_cd(t_struct *mini)
 {
 	char	*token_aux;
-	bool	unset;
+	bool	home;
 
-	unset = there_is_home(mini);
+	home = there_is_home(mini);
 	if (mini->tokens[1])
-	{
-		if (mini->tokens[1][0] == '~')
-			token_aux = ft_strjoin(ft_strdup(mini->home), &mini->tokens[1][1]);
-		else
-			token_aux = ft_strdup(mini->tokens[1]);
-	}
+		token_aux = ft_strdup(mini->tokens[1]);
 	else
 	{
-		if (unset == true)
+		if (home == true)
 			token_aux = ft_strdup(mini->home);
 		else
 		{

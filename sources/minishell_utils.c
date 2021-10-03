@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 18:23:03 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 20:15:33 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,8 @@ int	file_descriptor_handler(int in, int out)
 
 int	extends_env_var(t_struct *mini, int i, int len)
 {
-	char	*aux;
-
-	if (mini->tokens[i][0] == QUOTE || mini->tokens[i][len] == QUOTE)
-	{
-		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
+	if (verify_quotes(mini, i, len))
 		return (1);
-	}
-	if (mini->tokens[i][0] == D_QUOTE || mini->tokens[i][len] == D_QUOTE)
-		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
 	if (mini->tokens[i][0] == '$')
 	{
 		if (find_env(mini, &mini->tokens[i][1]))
@@ -55,14 +48,20 @@ int	extends_env_var(t_struct *mini, int i, int len)
 			mini->tokens[i] = NULL;
 		}
 	}
-	if (mini->tokens[i][0] == '~')
+	if (mini->tokens[i] && mini->tokens[i][0] == '~')
+		extends_home(mini, i);
+	return (0);
+}
+
+int	verify_quotes(t_struct *mini, int i, int len)
+{
+	if (mini->tokens[i][0] == QUOTE || mini->tokens[i][len] == QUOTE)
 	{
-		aux = ft_strdup(&mini->tokens[i][1]);
-		free(mini->tokens[i]);
-		mini->tokens[i] = NULL;
-		mini->tokens[i] = ft_strjoin(ft_strdup(mini->home), aux);
-		free (aux);
+		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
+		return (1);
 	}
+	if (mini->tokens[i][0] == D_QUOTE || mini->tokens[i][len] == D_QUOTE)
+		mini->tokens[i] = clean_quotes(mini, mini->tokens[i], 0, 0);
 	return (0);
 }
 
@@ -93,4 +92,15 @@ char	*clean_quotes(t_struct *mini, char *string, int i, int j)
 	free(string);
 	string = mini->token_aux;
 	return (string);
+}
+
+void	extends_home(t_struct *mini, int i)
+{
+	char	*aux;
+
+	aux = ft_strdup(&mini->tokens[i][1]);
+	free(mini->tokens[i]);
+	mini->tokens[i] = NULL;
+	mini->tokens[i] = ft_strjoin(ft_strdup(mini->home), aux);
+	free (aux);
 }
