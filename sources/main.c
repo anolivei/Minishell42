@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 17:04:41 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 22:20:49 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(void)
 				split_cmd(&mini, mini.line_read, 0);
 				if (mini.split.n_comand > 0 && mini.commands[0][0] != '|')
 					run_commands(&mini);
-				if (mini.commands[0][0] == '|')
+				if (mini.commands[0] && mini.commands[0][0] == '|')
 					printf(ERROR_PIPE);
 				free_char_array2(mini.commands);
 			}
