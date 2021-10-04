@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 19:38:12 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 21:20:59 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_cd(t_struct *mini)
 		else
 		{
 			g_ret_number = 1;
-			printf("bash: cd: HOME not set\n");
+			printf(ERROR_HOME);
 			return (1);
 		}
 	}

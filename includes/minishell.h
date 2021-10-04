@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 20:19:10 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 22:12:27 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 */
 # define ERROR_PIPE "minishell: syntax error near unexpected token `|'\n"
 # define ERROR_DIR "No such file or directory\n"
+# define ERROR_HOME "minishell: cd: HOME not set\n"
+# define ERROR_CMD "command not found\n"
 
 /*
 ** Global variable to return in 'echo $?'
@@ -195,10 +197,18 @@ char	*create_prompt(void);
 int		file_descriptor_handler(int in, int out);
 
 /*
-** redirect.c
+** redir_in.c
+*/
+void	redirect_in(t_struct *mini, int j);
+void	read_until(char *end);
+char	*new_comman(int i, char **str);
+
+/*
+** redir_out.c
 */
 void	redirect_out(t_struct *mini, int j);
-void	redirect_in(t_struct *mini, int j);
+void	simple_redir_out(t_struct *mini, int j, int flags);
+int		find_char(char *string, char needle);
 
 /*
 ** run_pipe.c

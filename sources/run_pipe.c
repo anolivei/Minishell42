@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 02:09:40 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/03 21:24:04 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 					mini->env.env);
 		}
 		g_ret_number = 127;
-		printf("minishell: %s: command not found\n", mini->tokens[0]);
+		printf("minishell: %s: %s", mini->tokens[0], ERROR_CMD);
 	}
 }
 
