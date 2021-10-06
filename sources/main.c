@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 19:07:54 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/05 22:29:57 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,8 @@ void	execute_arr_cmd(t_cmd **arr_cmd, t_mini *mini)
 			old_pipe = true;
 		true_exec(arr_cmd[i], mini, old_pipe);
 		dup2(mini->saved_out, STDOUT_FILENO);
-		if (!old_pipe)
-			dup2(mini->saved_in, STDIN_FILENO);
+		// if (!old_pipe)
+		dup2(mini->saved_in, STDIN_FILENO);
 		i++;
 	}
 }
