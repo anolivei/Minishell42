@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 21:24:04 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:59:49 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	run_commands_aux(t_struct *mini, int j)
 		tokenizer(mini, j);
 		if (mini->tokens[0])
 			is_builtin(mini->tokens[0], mini);
-		exec_process(mini, mini->in_fd, mini->out_fd);
+		if (mini->in_fd != -1)
+			exec_process(mini, mini->in_fd, mini->out_fd);
 		free_char_array(mini->tokens);
 	}
 	if (mini->name_file)

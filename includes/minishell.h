@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 22:12:27 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/06 20:27:13 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,7 @@ int		file_descriptor_handler(int in, int out);
 ** redir_in.c
 */
 void	redirect_in(t_struct *mini, int j);
+char	**double_redir(t_struct *mini, char **file, int j);
 void	read_until(char *end);
 char	*new_comman(int i, char **str);
 

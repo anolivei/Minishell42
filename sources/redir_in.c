@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
+/*   redir_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 22:08:00 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/06 20:26:58 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,36 @@ void	redirect_in(t_struct *mini, int j)
 	char	**file;
 
 	file = NULL;
-	if (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
+	while (mini->commands[j + 1] && mini->commands[j + 1][0] == '<')
 	{
 		if (mini->commands[j + 1][1] == '<')
-		{
-			file = ft_split(&mini->commands[j + 1][2], ' ');
-			read_until (file[0]);
-			mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
-			mini->name_file = ft_strdup(file[0]);
-			mini->is_append++;
-		}
+			double_redir(mini, file, j);
 		else
 		{
 			file = ft_split(&mini->commands[j + 1][1], ' ');
 			mini->in_fd = open(file[0], O_RDONLY, 0777);
-			if (mini->in_fd == -1 && mini->split.n_comand == 1)
+			if (mini->in_fd == -1 && mini->split.n_comand >= 1)
+			{
 				printf("minishell: %s: %s", file[0], ERROR_DIR);
+				free_char_array(file);
+				break ;
+			}
 		}
 		free(mini->commands[j + 1]);
 		mini->commands[j + 1] = new_comman(1, file);
-		free_char_array2(file);
-		free(file);
+		free_char_array(file);
+		j++;
 	}
+}
+
+char	**double_redir(t_struct *mini, char **file, int j)
+{
+	file = ft_split(&mini->commands[j + 1][2], ' ');
+	read_until (file[0]);
+	mini->in_fd = open(file[0], O_RDONLY | O_CREAT, 0777);
+	mini->name_file = ft_strdup(file[0]);
+	mini->is_append++;
+	return (file);
 }
 
 void	read_until(char *end)
