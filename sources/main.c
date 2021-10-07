@@ -6,7 +6,7 @@
 /*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:08:24 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/05 22:29:57 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/06 22:19:05 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	true_exec(t_cmd *cmd, t_mini *mini, bool old_pipe)
 	{
 		dup2(mini->actual_in, STDIN_FILENO);
 		close(mini->actual_in);
-		dup2(mini->saved_out, STDOUT_FILENO);
+		// dup2(mini->saved_out, STDOUT_FILENO);
 	}
 	if (cmd->redir_in != NULL)
 	{
