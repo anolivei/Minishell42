@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/06 20:27:13 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/07 23:20:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,15 @@ typedef struct s_split
 }			t_split;
 
 /*
+** Struct to help token.c
+*/
+typedef struct s_token
+{
+	char	*to_print;
+	char	*to_exec;
+}			t_token;
+
+/*
 ** Struct heart of minishell
 ** line_read -> initial line
 ** commands[50] -> initial line splitted in (| > <)
@@ -92,18 +101,19 @@ typedef struct s_struct
 	int		last_redir;
 	int		out_fd;
 	int		in_fd;
-	char	*line_read;
-	char	*commands[50];
-	char	**tokens;
 	int		num_tokens;
-	char	*token_aux;
 	char	quote;
-	char	**path;
+	char	*line_read;
 	char	*name_file;
 	char	*home;
+	char	*commands[50];
+	char	*token_aux;
+	char	**tokens;
+	char	**path;
 	t_env	env_aux;
 	t_env	env;
 	t_split	split;
+	t_token	token;
 }			t_struct;
 
 /*
@@ -240,5 +250,7 @@ int		count_pipe(t_struct *mini, char *in, int i);
 ** token.c
 */
 void	tokenizer(t_struct *mini, int j);
+void	tokenizer_clean_quotes(t_struct *mini, char *in);
+int		tokenizer_find_char(char *string, char needle);
 
 #endif

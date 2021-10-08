@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:22 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 21:20:59 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/07 23:18:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_cd(t_struct *mini)
 
 	home = there_is_home(mini);
 	if (mini->tokens[1])
-		token_aux = ft_strdup(mini->tokens[1]);
+		token_aux = ft_strdup(mini->token.to_print);
 	else
 	{
 		if (home == true)

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/09/26 18:37:33 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/07 23:18:17 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ void	ft_echo(t_struct *mini)
 			mini->has_flag = true;
 			n++;
 		}
-		while (mini->tokens[n])
-		{
-			print_echo(mini, mini->tokens[n], n);
-			n++;
-		}
+		print_echo(mini, mini->token.to_print, n);
 		if (!mini->has_flag)
 			ft_putstr_fd("\n", mini->out_fd);
 	}
