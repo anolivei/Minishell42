@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/05 00:04:26 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/07 23:18:17 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/08 00:18:59 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,7 @@ void	ft_echo(t_struct *mini)
 	j = 0;
 	if (mini->tokens[1])
 	{
-		if (!ft_strncmp(mini->tokens[1], "-n", 2)
-			&& ft_strlen(mini->tokens[1]) == 2)
-		{
-			mini->has_flag = true;
-			n++;
-		}
-		print_echo(mini, mini->token.to_print, n);
+		print_echo(mini, mini->token.to_print);
 		if (!mini->has_flag)
 			ft_putstr_fd("\n", mini->out_fd);
 	}
@@ -37,7 +31,6 @@ void	ft_echo(t_struct *mini)
 
 int	init_echo(t_struct *mini, int n)
 {
-	mini->has_flag = false;
 	if (mini->tokens[0][0] != '|')
 		n = 1;
 	else
@@ -45,7 +38,7 @@ int	init_echo(t_struct *mini, int n)
 	return (n);
 }
 
-void	print_echo(t_struct *mini, char *mini_tokens_i, int n)
+void	print_echo(t_struct *mini, char *mini_tokens_i)
 {
 	if (!ft_strncmp(mini_tokens_i, "$?", 2))
 		ft_putnbr_fd(g_ret_number, mini->out_fd);
@@ -53,7 +46,5 @@ void	print_echo(t_struct *mini, char *mini_tokens_i, int n)
 	{
 		ft_putstr_fd(mini_tokens_i, mini->out_fd);
 		g_ret_number = 0;
-		if (n != mini->num_tokens - 1)
-			ft_putstr_fd(" ", mini->out_fd);
 	}
 }

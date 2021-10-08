@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/07 23:20:09 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/08 00:20:25 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_token
 {
 	char	*to_print;
 	char	*to_exec;
+	char	quote;
 }			t_token;
 
 /*
@@ -149,7 +150,7 @@ bool	there_is_home(t_struct *mini);
 */
 void	ft_echo(t_struct *mini);
 int		init_echo(t_struct *mini, int n);
-void	print_echo(t_struct *mini, char *mini_tokens_i, int n);
+void	print_echo(t_struct *mini, char *mini_tokens_i);
 
 /*
 ** ft_env.c
