@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 13:14:11 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 15:10:21 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,11 +205,6 @@ void	get_line(t_struct *mini);
 char	*create_prompt(void);
 
 /*
-** minishell_utils.c
-*/
-int		file_descriptor_handler(int in, int out);
-
-/*
 ** redir_in.c
 */
 void	redirect_in(t_struct *mini, int j);
@@ -225,13 +220,19 @@ void	simple_redir_out(t_struct *mini, int j, int flags);
 int		find_char(char *string, char needle);
 
 /*
+** run_pipe_aux.c
+*/
+int		file_descriptor_handler(int in, int out);
+void	spaces_in_pipe(t_struct *mini, int i, char *command);
+
+/*
 ** run_pipe.c
 */
 void	run_commands(t_struct *mini);
 void	run_commands_aux(t_struct *mini, int j);
+void	action(t_struct *mini);
 void	exec_process(t_struct *mini, int in, int out);
 void	ft_execve_pipe(t_struct *mini, int i, char *command);
-void	spaces_in_pipe(t_struct *mini, int i, char *command);
 
 /*
 ** signal.c

@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 13:12:20 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 15:05:35 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ void	redirect_in(t_struct *mini, int j)
 			if (mini->in_fd == -1 && mini->split.n_comand >= 1)
 				printf("minishell: %s: %s", file[0], ERROR_DIR);
 		}
-		if (mini->split.n_comand == 1)
+		if (mini->split.n_comand == 1 || mini->line[0] == '|')
 		{
 			free(mini->line);
 			mini->line = new_comman(1, file);
 		}
+		mini->last_redir = 0;
 		free_char_array(file);
 	}
 }

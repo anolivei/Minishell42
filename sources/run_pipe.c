@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 13:32:09 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 15:07:08 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	run_commands(t_struct *mini)
 
 	j = 0;
 	mini->c = 0;
+	mini->last_redir = 0;
 	while (j < mini->split.qtt_pipe)
 	{
 		if (pipe(fd) < 0)
@@ -35,19 +36,6 @@ void	run_commands(t_struct *mini)
 		j++;
 	}
 	run_commands_aux(mini, j);
-}
-
-void	action(t_struct *mini)
-{
-	mini->line = ft_strdup(mini->commands[mini->c]);
-	if (mini->split.n_comand > 1 )
-		mini->c++;
-	while (mini->commands[mini->c] && mini->commands[mini->c][0] != '|')
-	{
-		redirect_out(mini, mini->c);
-		redirect_in(mini, mini->c);
-		mini->c++;
-	}
 }
 
 void	run_commands_aux(t_struct *mini, int j)
@@ -68,13 +56,26 @@ void	run_commands_aux(t_struct *mini, int j)
 	free(mini->token.to_exec);
 }
 
+void	action(t_struct *mini)
+{
+	mini->line = ft_strdup(mini->commands[mini->c]);
+	if (mini->split.n_comand > 1 )
+		mini->c++;
+	while (mini->commands[mini->c] && mini->commands[mini->c][0] != '|')
+	{
+		redirect_out(mini, mini->c);
+		redirect_in(mini, mini->c);
+		mini->c++;
+	}
+}
+
 void	exec_process(t_struct *mini, int in, int out)
 {
 	pid_t	pid;
 
 	if (mini->is_builtin && mini->tokens[0])
 		run_builtin(mini);
-	else
+	else if (mini->last_redir == 0)
 	{
 		pid = fork();
 		run_signals(2);
@@ -123,16 +124,4 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 		g_ret_number = 127;
 		printf("minishell: %s: %s", mini->tokens[0], ERROR_CMD);
 	}
-}
-
-void	spaces_in_pipe(t_struct *mini, int i, char *command)
-{
-	char	*aux;
-
-	aux = ft_strtrim(mini->tokens[i], D_QUOTE_S);
-	free(mini->tokens[i]);
-	mini->tokens[i] = aux;
-	command = ft_strjoin(command, mini->tokens[i - 1]);
-	g_ret_number = execve(command, &mini->tokens[i - 1], mini->env.env);
-	free(command);
 }

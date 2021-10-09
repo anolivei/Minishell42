@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 13:43:06 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 15:01:01 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	redirect_out(t_struct *mini, int j)
 		}
 		else
 			simple_redir_out(mini, j, flags);
+		mini->last_redir = 1;
 	}
 }
 
@@ -41,7 +42,7 @@ void	simple_redir_out(t_struct *mini, int j, int flags)
 	aux = ft_strtrim(&mini->commands[j][1], " ");
 	file = ft_substr(aux, 0, find_char(aux, ' '));
 	new = ft_strjoin(mini->line,
-			&mini->commands[j][find_char(aux, ' ') + 1]);
+			&mini->commands[j][find_char(aux, ' ') + ft_strlen(file)]);
 	mini->line = new;
 	mini->out_fd = open(file, flags | O_TRUNC, 0777);
 	free (aux);

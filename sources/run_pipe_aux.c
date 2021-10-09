@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*   run_pipe_aux.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/06 23:20:16 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 15:07:23 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,16 @@ int	file_descriptor_handler(int in, int out)
 		close(out);
 	}
 	return (0);
+}
+
+void	spaces_in_pipe(t_struct *mini, int i, char *command)
+{
+	char	*aux;
+
+	aux = ft_strtrim(mini->tokens[i], D_QUOTE_S);
+	free(mini->tokens[i]);
+	mini->tokens[i] = aux;
+	command = ft_strjoin(command, mini->tokens[i - 1]);
+	g_ret_number = execve(command, &mini->tokens[i - 1], mini->env.env);
+	free(command);
 }

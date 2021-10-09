@@ -6,7 +6,7 @@
 #    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/10/03 22:09:42 by anolivei         ###   ########.fr        #
+#    Updated: 2021/10/09 15:08:38 by anolivei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/ft_exit.c \
 		$(SRC_DIR)/split_cmd.c \
 		$(SRC_DIR)/run_pipe.c \
-		$(SRC_DIR)/minishell_utils.c \
+		$(SRC_DIR)/run_pipe_aux.c \
 		$(SRC_DIR)/signal.c \
 		$(SRC_DIR)/redir_in.c \
 		$(SRC_DIR)/redir_out.c \
