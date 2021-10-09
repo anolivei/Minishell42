@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/07 23:20:39 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 13:32:09 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	run_commands(t_struct *mini)
 	int		fd[2];
 
 	j = 0;
-	mini->is_append = 0;
-	while (j < mini->split.qtt_pipe - mini->is_append)
+	mini->c = 0;
+	while (j < mini->split.qtt_pipe)
 	{
 		if (pipe(fd) < 0)
 		{
@@ -37,18 +37,22 @@ void	run_commands(t_struct *mini)
 	run_commands_aux(mini, j);
 }
 
+void	action(t_struct *mini)
+{
+	mini->line = ft_strdup(mini->commands[mini->c]);
+	if (mini->split.n_comand > 1 )
+		mini->c++;
+	while (mini->commands[mini->c] && mini->commands[mini->c][0] != '|')
+	{
+		redirect_out(mini, mini->c);
+		redirect_in(mini, mini->c);
+		mini->c++;
+	}
+}
+
 void	run_commands_aux(t_struct *mini, int j)
 {
-	if (mini->split.n_comand == 1)
-	{
-		redirect_out(mini, -1);
-		redirect_in(mini, -1);
-	}
-	else
-	{
-		redirect_out(mini, j);
-		redirect_in(mini, j);
-	}
+	action(mini);
 	if (mini->commands[0][0] != '>')
 	{
 		tokenizer(mini, j);

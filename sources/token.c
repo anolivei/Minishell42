@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 23:58:10 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/08 00:23:16 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 13:34:31 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	tokenizer(t_struct *mini, int j)
 	int		i;
 	int		init;
 	char	*end;
-	char	*command;
 	char	*new;
 	int		posic;
 	char	*n_env;
@@ -80,28 +79,29 @@ void	tokenizer(t_struct *mini, int j)
 	i = 0;
 	init = 0;
 	len = 1;
+	j = 0;
 	mini->token.quote = 0;
 	end = ft_strdup("");
-	if (mini->commands[j])
+	if (mini->line)
 	{
-		command = ft_strdup(mini->commands[j]);
-		while ((int)ft_strlen(command) > i)
+		while ((int)ft_strlen(mini->line) > i)
 		{
-			if (mini->token.quote == 0 && (command[i] == QUOTE))
-				mini->token.quote = command[i];
+			if (mini->token.quote == 0 && (mini->line[i] == QUOTE))
+				mini->token.quote = mini->line[i];
 			else
 			{
-				if (mini->token.quote == command[i])
+				if (mini->token.quote == mini->line[i])
 					mini->token.quote = 0;
 				else
 				{
-					if (command[i] == '$' && mini->token.quote == 0)
+					if (mini->line[i] == '$' && mini->token.quote == 0
+						&& mini->line[i + 1] != '?')
 					{
-						new = ft_substr(command, init, len - 1);
+						new = ft_substr(mini->line, init, len - 1);
 						end = ft_strjoin(end, new);
 						free (new);
-						posic = tokenizer_find_char(&command[i + 1], ' ');
-						n_env = ft_substr(command, i + 1, posic);
+						posic = tokenizer_find_char(&mini->line[i + 1], ' ');
+						n_env = ft_substr(mini->line, i + 1, posic);
 						extend = find_env(mini, n_env);
 						if (extend)
 							end = ft_strjoin(end, extend);
@@ -115,7 +115,7 @@ void	tokenizer(t_struct *mini, int j)
 			len++;
 			i++;
 		}
-		new = ft_substr(command, init, len);
+		new = ft_substr(mini->line, init, len);
 		end = ft_strjoin(end, new);
 		posic = tokenizer_find_char(end, ' ');
 		mini->token.to_print = ft_strtrim(&end[posic], " ");
@@ -124,6 +124,6 @@ void	tokenizer(t_struct *mini, int j)
 		mini->tokens = ft_split(end, ' ');
 		free (new);
 		free (end);
-		free (command);
+		free (mini->line);
 	}
 }

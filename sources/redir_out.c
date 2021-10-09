@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/03 22:12:20 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 13:43:06 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,17 @@ void	redirect_out(t_struct *mini, int j)
 	char	*file;
 
 	flags = O_WRONLY | O_CREAT;
-	while (mini->commands[j + 1] && mini->commands[j + 1][0] == '>')
+	j = mini->c;
+	if (mini->commands[j] && mini->commands[j][0] == '>')
 	{
-		if (mini->commands[j + 1] && mini->commands[j + 1][0] == '>')
+		if (mini->commands[j] && mini->commands[j][1] == '>')
 		{
-			if (mini->commands[j + 1] && mini->commands[j + 1][1] == '>')
-			{
-				file = ft_strtrim(&mini->commands[j + 1][2], " ");
-				mini->out_fd = open(file, flags | O_APPEND, 0777);
-				mini->is_append++;
-				free (file);
-			}
-			else
-				simple_redir_out(mini, j, flags);
+			file = ft_strtrim(&mini->commands[j][2], " ");
+			mini->out_fd = open(file, flags | O_APPEND, 0777);
+			free (file);
 		}
-		j++;
+		else
+			simple_redir_out(mini, j, flags);
 	}
 }
 
@@ -42,13 +38,12 @@ void	simple_redir_out(t_struct *mini, int j, int flags)
 	char	*file;
 	char	*new;
 
-	aux = ft_strtrim(&mini->commands[j + 1][1], " ");
+	aux = ft_strtrim(&mini->commands[j][1], " ");
 	file = ft_substr(aux, 0, find_char(aux, ' '));
-	new = ft_strjoin(mini->commands[0],
-			&mini->commands[j + 1][find_char(aux, ' ') + 2]);
-	mini->commands[0] = new;
+	new = ft_strjoin(mini->line,
+			&mini->commands[j][find_char(aux, ' ') + 1]);
+	mini->line = new;
 	mini->out_fd = open(file, flags | O_TRUNC, 0777);
-	mini->is_append++;
 	free (aux);
 	free (file);
 }

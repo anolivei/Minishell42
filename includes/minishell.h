@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/08 00:20:25 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 13:14:11 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,9 @@ typedef struct s_struct
 	int		out_fd;
 	int		in_fd;
 	int		num_tokens;
+	int		c;
 	char	quote;
+	char	*line;
 	char	*line_read;
 	char	*name_file;
 	char	*home;
