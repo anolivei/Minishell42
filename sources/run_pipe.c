@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 17:45:02 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:56:45 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ void	run_commands_aux(t_struct *mini, int j)
 		if (mini->in_fd != -1)
 			exec_process(mini, mini->in_fd, mini->out_fd);
 		free_char_array(mini->tokens);
+		free(mini->token.to_print);
+		free(mini->token.to_exec);
 	}
 	if (mini->name_file)
 		unlink(mini->name_file);
-	free(mini->token.to_print);
-	free(mini->token.to_exec);
+
 }
 
 void	action(t_struct *mini)

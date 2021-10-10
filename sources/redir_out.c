@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 14:10:22 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:50:21 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	redirect_out(t_struct *mini, int j)
 		else
 			simple_redir_out(mini, j, flags);
 		mini->last_redir = 1;
+		if (mini->split.n_comand == 1)
+			free(mini->line);
 	}
 }
 
