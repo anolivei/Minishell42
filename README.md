@@ -17,8 +17,9 @@
   <a href="#links">Links</a> &#xa0; | &#xa0;
   <a href="#functions">Functions</a> &#xa0; | &#xa0;
   <a href="#starting">Starting</a> &#xa0; | &#xa0;
-  <a href="https://github.com/anolivei" target="_blank">Author</a>
+  <a href="https://github.com/anolivei" onclick="window.open('https:\/\/github.com/wblech'); return true;">Authors</a>
 </p>
+
 
 ## About ##
 
