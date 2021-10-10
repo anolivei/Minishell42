@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:53:25 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 20:31:03 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	run_commands_aux(t_struct *mini)
 		free(mini->token.to_exec);
 	}
 	if (mini->name_file)
+	{
 		unlink(mini->name_file);
+		free(mini->name_file);
+	}
 }
 
 void	action(t_struct *mini)

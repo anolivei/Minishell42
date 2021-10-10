@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 00:55:08 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:51:27 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 20:30:02 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	redirect_in(t_struct *mini, int j, char *aux)
 	{
 		file = NULL;
 		if (mini->commands[j][1] == '<')
-			double_redir(mini, file, j);
+			file = double_redir(mini, file, j);
 		else
 		{
 			file = ft_split(&mini->commands[j][1], ' ');
