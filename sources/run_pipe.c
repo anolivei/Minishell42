@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:25:12 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:53:25 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	run_commands_aux(t_struct *mini)
 	}
 	if (mini->name_file)
 		unlink(mini->name_file);
-
 }
 
 void	action(t_struct *mini)
@@ -66,7 +65,7 @@ void	action(t_struct *mini)
 	while (mini->commands[mini->c] && mini->commands[mini->c][0] != '|')
 	{
 		redirect_out(mini, mini->c);
-		redirect_in(mini, mini->c);
+		redirect_in(mini, mini->c, NULL);
 		mini->c++;
 	}
 	if (mini->error_name_file != NULL)

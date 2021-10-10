@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:37:12 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:51:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ char	*create_prompt(void);
 /*
 ** redir_in.c
 */
-void	redirect_in(t_struct *mini, int j);
+void	redirect_in(t_struct *mini, int j, char *aux);
 char	**double_redir(t_struct *mini, char **file, int j);
 void	read_until(char *end);
 char	*new_comman(int i, char **str);
