@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 02:54:29 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 14:08:31 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	exec_process(t_struct *mini, int in, int out)
 
 	if (mini->is_builtin && mini->tokens[0])
 		run_builtin(mini);
-	else if (mini->last_redir == 0)
+	else
 	{
 		pid = fork();
 		run_signals(2);

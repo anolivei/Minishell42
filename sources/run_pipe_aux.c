@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/18 16:36:17 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 02:54:24 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 13:22:10 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	spaces_in_pipe(t_struct *mini, int i, char *command)
 	char	*aux;
 
 	if (ft_strlen(mini->token.to_print) && mini->tokens[i]
-		&& (mini->tokens[i][0] == QUOTE || mini->tokens[i][0] == D_QUOTE) && ft_strncmp(mini->tokens[i - 1], "sed", 3))
+		&& (mini->tokens[i][0] == QUOTE || mini->tokens[i][0] == D_QUOTE)
+		&& ft_strncmp(mini->tokens[i - 1], "sed", 3))
 	{
 		aux = ft_strtrim(mini->token.to_print, D_QUOTE_S);
 		free_char_array2(&mini->tokens[i + 1]);

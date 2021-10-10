@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:04:28 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 21:12:20 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 14:10:22 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,9 @@ void	simple_redir_out(t_struct *mini, int j, int flags)
 {
 	char	*aux;
 	char	*file;
-	char	*new;
 
 	aux = ft_strtrim(&mini->commands[j][1], " ");
 	file = ft_substr(aux, 0, find_char(aux, ' '));
-	new = ft_strjoin(mini->line,
-			&mini->commands[j][find_char(aux, ' ') + (ft_strlen(file) - 1)]);
-	mini->line = new;
 	mini->out_fd = open(file, flags | O_TRUNC, 0777);
 	free (aux);
 	free (file);
