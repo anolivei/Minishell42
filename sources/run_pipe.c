@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 14:08:31 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:45:02 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	run_commands_aux(t_struct *mini, int j)
 	action(mini);
 	if (mini->commands[0][0] != '>')
 	{
-		tokenizer(mini, j);
+		tokenizer(mini);
 		if (mini->tokens[0])
 			is_builtin(mini->tokens[0], mini);
 		if (mini->in_fd != -1)

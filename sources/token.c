@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 23:58:10 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 15:44:10 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:49:48 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,78 +67,31 @@ void	tokenizer_clean_quotes(t_struct *mini, char *in)
 	mini->token.to_print = aux;
 }
 
-void	tokenizer(t_struct *mini, int j)
+void	tokenizer(t_struct *mini)
 {
-	int		i;
-	int		init;
-	char	*end;
-	char	*new;
-	int		posic;
-	char	*n_env;
-	char	*extend;
-	int		len;
+	t_token	*tk;
 
-	i = 0;
-	init = 0;
-	len = 1;
-	j = 0;
+	tk = init_tk();
 	mini->token.quote = 0;
-	end = ft_strdup("");
+	tk->end = ft_strdup("");
 	if (mini->line)
 	{
-		while ((int)ft_strlen(mini->line) > i)
+		while ((int)ft_strlen(mini->line) > tk->i)
 		{
-			if (mini->token.quote == 0 && (mini->line[i] == QUOTE))
-				mini->token.quote = mini->line[i];
+			if (mini->token.quote == 0 && (mini->line[tk->i] == QUOTE))
+				mini->token.quote = mini->line[tk->i];
 			else
 			{
-				if (mini->token.quote == mini->line[i])
+				if (mini->token.quote == mini->line[tk->i])
 					mini->token.quote = 0;
-				if (mini->line[i] == '~' && mini->token.quote == 0)
-				{
-					new = ft_substr(mini->line, init, len - 1);
-					end = ft_strjoin(end, new);
-					free (new);
-					extend = mini->home;
-					end = ft_strjoin(end, extend);
-					i++;
-					len = 1;
-					init = i ;
-				}
-				else if (mini->line[i] == '$' && mini->token.quote == 0)
-				{
-					new = ft_substr(mini->line, init, len - 1);
-					end = ft_strjoin(end, new);
-					free (new);
-					posic = tokenizer_find_char(&mini->line[i + 1], ' ');
-					n_env = ft_substr(mini->line, i + 1, posic);
-					if (mini->line[i + 1] != '?' && find_env(mini, n_env))
-						extend = ft_strdup(find_env(mini, n_env));
-					else if (mini->line[i + 1] == '?')
-						extend = ft_itoa(g_ret_number);
-					else
-						extend = NULL;
-					if (extend)
-						end = ft_strjoin(end, extend);
-					free(extend);
-					i += ft_strlen(n_env) + 1;
-					len = 1;
-					init = i ;
-					free (n_env);
-				}
+				if (mini->line[tk->i] == '~' && mini->token.quote == 0)
+					get_home_sign(mini, tk);
+				else if (mini->line[tk->i] == '$' && mini->token.quote == 0)
+					get_dollar_sign(mini, tk);
 			}
-			len++;
-			i++;
+			tk->len++;
+			tk->i++;
 		}
-		new = ft_substr(mini->line, init, len);
-		end = ft_strjoin(end, new);
-		posic = tokenizer_find_char(end, ' ');
-		mini->token.to_print = ft_strtrim(&end[posic], " ");
-		mini->token.to_exec = ft_substr(end, i + 1, posic);
-		tokenizer_clean_quotes(mini, mini->token.to_print);
-		mini->tokens = ft_split(end, ' ');
-		free (new);
-		free (end);
-		free (mini->line);
+		finish_tokenizer(mini, tk);
 	}
 }
