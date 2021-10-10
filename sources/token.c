@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 23:58:10 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 03:09:26 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 14:53:25 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	tokenizer_find_char(char *string, char needle)
 	{
 		if (string[i] == needle || string[i] == D_QUOTE || string[i] == QUOTE)
 			return (i);
+		if (string[i] == '?')
+			return (i + 1);
 		i++;
 	}
 	return (i);
@@ -92,7 +94,7 @@ void	tokenizer(t_struct *mini, int j)
 			{
 				if (mini->token.quote == mini->line[i])
 					mini->token.quote = 0;
-				if(mini->line[i] == '~' && mini->token.quote == 0)
+				if (mini->line[i] == '~' && mini->token.quote == 0)
 				{
 					new = ft_substr(mini->line, init, len - 1);
 					end = ft_strjoin(end, new);
@@ -107,27 +109,26 @@ void	tokenizer(t_struct *mini, int j)
 					init = i ;
 					free (n_env);
 				}
-				else
+				else if (mini->line[i] == '$' && mini->token.quote == 0)
 				{
-					if (mini->line[i] == '$' && mini->token.quote == 0)
-					{
-						new = ft_substr(mini->line, init, len - 1);
-						end = ft_strjoin(end, new);
-						free (new);
-						posic = tokenizer_find_char(&mini->line[i + 1], ' ');
-						n_env = ft_substr(mini->line, i + 1, posic);
-						if (mini->line[i + 1] != '?')
-							extend = ft_strdup(find_env(mini, n_env));
-						else
-							extend = ft_itoa(g_ret_number);
-						if (extend)
-							end = ft_strjoin(end, extend);
-						free(extend);
-						i += ft_strlen(n_env) + 1;
-						len = 1;
-						init = i ;
-						free (n_env);
-					}
+					new = ft_substr(mini->line, init, len - 1);
+					end = ft_strjoin(end, new);
+					free (new);
+					posic = tokenizer_find_char(&mini->line[i + 1], ' ');
+					n_env = ft_substr(mini->line, i + 1, posic);
+					if (mini->line[i + 1] != '?' && find_env(mini, n_env))
+						extend = ft_strdup(find_env(mini, n_env));
+					else if (mini->line[i + 1] == '?')
+						extend = ft_itoa(g_ret_number);
+					else
+						extend = NULL;
+					if (extend)
+						end = ft_strjoin(end, extend);
+					free(extend);
+					i += ft_strlen(n_env) + 1;
+					len = 1;
+					init = i ;
+					free (n_env);
 				}
 			}
 			len++;
