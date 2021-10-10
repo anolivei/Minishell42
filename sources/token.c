@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 23:58:10 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 14:53:25 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 15:44:10 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,11 @@ void	tokenizer(t_struct *mini, int j)
 					new = ft_substr(mini->line, init, len - 1);
 					end = ft_strjoin(end, new);
 					free (new);
-					posic = tokenizer_find_char(&mini->line[i + 1], ' ');
-					n_env = ft_substr(mini->line, i + 1, posic);
 					extend = mini->home;
-					if (extend)
-						end = ft_strjoin(end, extend);
-					i += ft_strlen(n_env) + 1;
+					end = ft_strjoin(end, extend);
+					i++;
 					len = 1;
 					init = i ;
-					free (n_env);
 				}
 				else if (mini->line[i] == '$' && mini->token.quote == 0)
 				{

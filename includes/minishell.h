@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 01:22:18 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 15:47:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,6 @@ typedef struct s_struct
 */
 void	is_builtin(char *cmd, t_struct *mini);
 void	run_builtin(t_struct *mini);
-
-/*
-** extends_env.c
-*/
-int		extends_env_var(t_struct *mini, int i, int len);
-int		verify_quotes(t_struct *mini, int i, int len);
-char	*clean_quotes(t_struct *mini, char *string, int i, int j);
-void	extends_home(t_struct *mini, int i);
 
 /*
 ** find_env.c
