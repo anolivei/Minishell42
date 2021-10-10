@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 15:47:56 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:09:29 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ typedef struct s_token
 	char	*to_print;
 	char	*to_exec;
 	char	quote;
+	char	*end;
+	char	*new;
+	int		i;
+	int		init;
+	int		len;
+	int		posic;
 }			t_token;
 
 /*
@@ -223,7 +229,7 @@ void	execve_error(t_struct *mini);
 ** run_pipe.c
 */
 void	run_commands(t_struct *mini);
-void	run_commands_aux(t_struct *mini, int j);
+void	run_commands_aux(t_struct *mini);
 void	action(t_struct *mini);
 void	exec_process(t_struct *mini, int in, int out);
 void	ft_execve_pipe(t_struct *mini, int i, char *command);
@@ -247,8 +253,18 @@ int		count_pipe(t_struct *mini, char *in, int i);
 /*
 ** token.c
 */
-void	tokenizer(t_struct *mini, int j);
+void	tokenizer(t_struct *mini);
 void	tokenizer_clean_quotes(t_struct *mini, char *in);
 int		tokenizer_find_char(char *string, char needle);
+
+/*
+** token_utils.c
+*/
+void	get_home_sign(t_struct *mini, t_token *tk);
+void	get_dollar_sign(t_struct *mini, t_token *tk);
+t_token	*init_tk(void);
+void	free_tk(t_token *tk);
+void	finish_tokenizer(t_struct *mini, t_token *tk);
+
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/25 15:06:33 by anolivei          #+#    #+#              #
-#    Updated: 2021/10/10 15:48:05 by anolivei         ###   ########.fr        #
+#    Updated: 2021/10/10 18:10:06 by wbertoni         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/signal.c \
 		$(SRC_DIR)/redir_in.c \
 		$(SRC_DIR)/redir_out.c \
+		$(SRC_DIR)/token_utils.c \
 		$(SRC_DIR)/token.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))

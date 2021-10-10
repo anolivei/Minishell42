@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 17:56:45 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:03:46 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ void	run_commands(t_struct *mini)
 			g_ret_number = 127;
 		}
 		mini->out_fd = fd[1];
-		run_commands_aux(mini, j);
+		run_commands_aux(mini);
 		close(mini->out_fd);
 		if (mini->in_fd != 0)
 			close(mini->in_fd);
 		mini->in_fd = fd[0];
 		j++;
 	}
-	run_commands_aux(mini, j);
+	run_commands_aux(mini);
 }
 
-void	run_commands_aux(t_struct *mini, int j)
+void	run_commands_aux(t_struct *mini)
 {
 	action(mini);
 	if (mini->commands[0][0] != '>')
