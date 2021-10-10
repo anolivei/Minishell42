@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 15:07:08 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 02:54:29 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,17 @@ void	action(t_struct *mini)
 	mini->line = ft_strdup(mini->commands[mini->c]);
 	if (mini->split.n_comand > 1 )
 		mini->c++;
+	mini->error_name_file = NULL;
 	while (mini->commands[mini->c] && mini->commands[mini->c][0] != '|')
 	{
 		redirect_out(mini, mini->c);
 		redirect_in(mini, mini->c);
 		mini->c++;
+	}
+	if (mini->error_name_file != NULL)
+	{
+		printf("minishell: %s: %s", mini->error_name_file, ERROR_DIR);
+		free(mini->error_name_file);
 	}
 }
 
@@ -102,10 +108,12 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 {
 	if (mini->tokens[0])
 	{
+		g_ret_number = execve(mini->tokens[0], &mini->tokens[0],
+				mini->env.env);
 		while (mini->path && mini->path[i] != NULL)
 		{
 			command = ft_strdup(mini->path[i]);
-			if (mini->tokens[0][0] == '|')
+			if (mini->tokens[0][0] == '|' && mini->tokens[1])
 			{
 				if (!mini->tokens[0][1])
 					spaces_in_pipe(mini, 2, command);
@@ -118,10 +126,7 @@ void	ft_execve_pipe(t_struct *mini, int i, char *command)
 			else
 				spaces_in_pipe(mini, 1, command);
 			i++;
-			g_ret_number = execve(mini->tokens[0], &mini->tokens[0],
-					mini->env.env);
 		}
-		g_ret_number = 127;
-		printf("minishell: %s: %s", mini->tokens[0], ERROR_CMD);
+		execve_error(mini);
 	}
 }

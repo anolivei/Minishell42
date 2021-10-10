@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 15:10:21 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 01:22:18 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_struct
 	char	*line;
 	char	*line_read;
 	char	*name_file;
+	char	*error_name_file;
 	char	*home;
 	char	*commands[50];
 	char	*token_aux;
@@ -224,6 +225,7 @@ int		find_char(char *string, char needle);
 */
 int		file_descriptor_handler(int in, int out);
 void	spaces_in_pipe(t_struct *mini, int i, char *command);
+void	execve_error(t_struct *mini);
 
 /*
 ** run_pipe.c

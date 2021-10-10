@@ -6,7 +6,7 @@
 /*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 21:59:47 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/09 13:33:19 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/09 19:08:41 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ int	count_pipe(t_struct *mini, char *in, int i)
 			else
 				mini->last_redir = 0;
 			if (in[i] == in[i + 1])
+			{
 				i++;
+				mini->split.len = 1;
+			}
 		}
 	}
 	return (i);
