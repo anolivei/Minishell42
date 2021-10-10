@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 12:18:46 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:03:46 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:25:12 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	action(t_struct *mini)
 	}
 	if (mini->error_name_file != NULL)
 	{
+		g_ret_number = 1;
 		printf("minishell: %s: %s", mini->error_name_file, ERROR_DIR);
 		free(mini->error_name_file);
 	}
