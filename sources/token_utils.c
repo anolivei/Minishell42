@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 17:39:26 by wbertoni          #+#    #+#             */
-/*   Updated: 2021/10/10 17:39:43 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:36:56 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	finish_tokenizer(t_struct *mini, t_token *tk)
 	tk->posic = tokenizer_find_char(tk->end, ' ');
 	mini->token.to_print = ft_strtrim(&(tk->end)[tk->posic], " ");
 	mini->token.to_exec = ft_substr(tk->end, tk->i + 1, tk->posic);
-	tokenizer_clean_quotes(mini, mini->token.to_print);
+	tokenizer_clean_quotes(mini, mini->token.to_print, 0, 0);
 	mini->tokens = ft_split(tk->end, ' ');
 	free_tk(tk);
 	free (mini->line);

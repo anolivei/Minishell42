@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 15:04:45 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:09:29 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:37:12 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int		count_pipe(t_struct *mini, char *in, int i);
 ** token.c
 */
 void	tokenizer(t_struct *mini);
-void	tokenizer_clean_quotes(t_struct *mini, char *in);
+void	tokenizer_clean_quotes(t_struct *mini, char *in, int i, int c);
 int		tokenizer_find_char(char *string, char needle);
 
 /*
@@ -265,6 +265,5 @@ void	get_dollar_sign(t_struct *mini, t_token *tk);
 t_token	*init_tk(void);
 void	free_tk(t_token *tk);
 void	finish_tokenizer(t_struct *mini, t_token *tk);
-
 
 #endif

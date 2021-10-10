@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 23:58:10 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 17:49:48 by wbertoni         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:36:27 by anolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,10 @@ int	tokenizer_find_char(char *string, char needle)
 	return (i);
 }
 
-void	tokenizer_clean_quotes(t_struct *mini, char *in)
+void	tokenizer_clean_quotes(t_struct *mini, char *in, int i, int c)
 {
-	int		i;
-	int		c;
 	char	*aux;
 
-	i = 0;
-	c = 0;
 	mini->token.quote = 0;
 	aux = ft_strtrim(in, " ");
 	mini->has_flag = false;
