@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anolivei <anolivei@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: wbertoni <wbertoni@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 23:58:10 by anolivei          #+#    #+#             */
-/*   Updated: 2021/10/10 18:36:27 by anolivei         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:57:20 by wbertoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,23 @@ int	tokenizer_find_char(char *string, char needle)
 	return (i);
 }
 
+int	fixing_for_norminette(t_struct *mini, char c, char *aux, int nbr)
+{
+	if (mini->token.quote == 0 && (c == QUOTE || c == D_QUOTE))
+		mini->token.quote = c;
+	else
+	{
+		if (mini->token.quote == c)
+			mini->token.quote = 0;
+		else
+		{
+			aux[nbr] = c;
+			nbr++;
+		}
+	}
+	return (nbr);
+}
+
 void	tokenizer_clean_quotes(t_struct *mini, char *in, int i, int c)
 {
 	char	*aux;
@@ -44,18 +61,7 @@ void	tokenizer_clean_quotes(t_struct *mini, char *in, int i, int c)
 		i++;
 	while (in[i])
 	{
-		if (mini->token.quote == 0 && (in[i] == QUOTE || in[i] == D_QUOTE))
-			mini->token.quote = in[i];
-		else
-		{
-			if (mini->token.quote == in[i])
-				mini->token.quote = 0;
-			else
-			{
-				aux[c] = in[i];
-				c++;
-			}
-		}
+		c = fixing_for_norminette(mini, in[i], aux, c);
 		i++;
 	}
 	aux[c] = '\0';
