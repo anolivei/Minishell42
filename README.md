@@ -95,6 +95,9 @@ $ git clone https://github.com/anolivei/Minishell42
 # Access
 $ cd Minishell42
 
+# Install the readline lib
+$ sudo apt-get install libreadline6-dev
+
 # Compile the project
 $ make
 
